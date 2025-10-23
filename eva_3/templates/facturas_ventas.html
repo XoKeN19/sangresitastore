@@ -1,0 +1,497 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturas de Ventas - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--soft-gray);
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 300;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--primary-gold) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--pure-white) !important;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-gold) !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-text {
+            color: var(--primary-gold) !important;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            margin: 0;
+            line-height: 1;
+        }
+        .navbar-text i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 80px 0 60px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-form .input-group {
+            box-shadow: var(--shadow-soft);
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            border: 2px solid var(--border-light);
+            border-right: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            outline: none;
+        }
+
+        .btn-search {
+            background: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            color: var(--dark-charcoal);
+            padding: 12px 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+        }
+
+        .btn-search:hover {
+            background: var(--secondary-gold);
+            border-color: var(--secondary-gold);
+            transform: translateY(-1px);
+        }
+
+        .btn-clear {
+            background: var(--text-gray);
+            border: 2px solid var(--text-gray);
+            color: var(--pure-white);
+            padding: 12px 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+            text-decoration: none;
+        }
+
+        .btn-clear:hover {
+            background: var(--danger-red);
+            border-color: var(--danger-red);
+            color: var(--pure-white);
+            transform: translateY(-1px);
+        }
+
+        .factura-card {
+            background: var(--pure-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .factura-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .factura-header {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-charcoal);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .factura-body {
+            padding: 25px;
+        }
+
+        .factura-number {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
+
+        .factura-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .factura-amount {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 0;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-completada {
+            background: #28a745;
+            color: var(--pure-white);
+        }
+
+        .status-pendiente {
+            background: #ffc107;
+            color: var(--dark-charcoal);
+        }
+
+        .status-cancelada {
+            background: #dc3545;
+            color: var(--pure-white);
+        }
+
+        .status-realizado {
+            background: #28a745;
+            color: var(--pure-white);
+        }
+
+        .status-cancelado {
+            background: #dc3545;
+            color: var(--pure-white);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .empty-state h3 {
+            color: var(--dark-charcoal);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: var(--text-gray);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .factura-card {
+                margin-bottom: 15px;
+            }
+            
+            .factura-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-arrow-left"></i> Volver al Panel
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if usuario_nombre %}
+                        <li class="nav-item">
+                            <span class="nav-link" style="color: var(--primary-gold);">
+                                <i class="fas fa-user"></i> {{ usuario_nombre }}
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header text-center">
+        <div class="container">
+            <h1><i class="fas fa-file-invoice"></i> Facturas de Ventas</h1>
+            <p>Gestión completa de todas las facturas de ventas</p>
+        </div>
+    </div>
+
+    <!-- Facturas List -->
+    <div class="container py-5">
+        <!-- Search by ID -->
+        <div class="search-section mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form method="GET" class="search-form">
+                        <div class="input-group">
+                            <input type="text" 
+                                   class="form-control search-input" 
+                                   name="numero" 
+                                   placeholder="Buscar por número de factura (ej: FV-000021 o 21)..." 
+                                   value="{{ numero_busqueda }}">
+                            <button class="btn btn-search" type="submit">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                            {% if numero_busqueda %}
+                                <a href="{% url 'facturas_ventas' %}" 
+                                   class="btn btn-clear">
+                                    <i class="fas fa-times"></i> Limpiar
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if facturas %}
+            <div class="row">
+                {% for factura in facturas %}
+                <div class="col-lg-6 col-xl-4">
+                    <div class="factura-card">
+                        <div class="factura-header">
+                            <h3 class="factura-number">{{ factura.numero_factura }}</h3>
+                            <p class="factura-date">{{ factura.fecha_venta|date:"d/m/Y H:i" }}</p>
+                        </div>
+                        <div class="factura-body">
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Cliente:</strong><br>
+                                    {{ factura.usuario.nombre }} {{ factura.usuario.apellido }}
+                                </div>
+                                <div class="col-6">
+                                    <strong>Estado del Pedido:</strong><br>
+                                    {% if factura.pedido.estado == 'pendiente' %}
+                                        <span class="status-badge status-pendiente">Pendiente</span>
+                                    {% elif factura.pedido.estado == 'realizado' %}
+                                        <span class="status-badge status-realizado">Realizado</span>
+                                    {% elif factura.pedido.estado == 'cancelado' %}
+                                        <span class="status-badge status-cancelado">Cancelado</span>
+                                    {% else %}
+                                        <span class="status-badge status-pendiente">{{ factura.pedido.estado|title }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Subtotal:</strong><br>
+                                    ${{ factura.subtotal|floatformat:0 }}
+                                </div>
+                                <div class="col-6">
+                                    <strong>IVA:</strong><br>
+                                    ${{ factura.iva|floatformat:0 }}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <span class="factura-amount">${{ factura.total|floatformat:0 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <a href="{% url 'detalle_factura' factura.id %}" class="btn-premium">
+                                    <i class="fas fa-eye"></i> Ver Detalles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-file-invoice"></i>
+                <h3>No hay facturas de ventas</h3>
+                <p>Aún no se han generado facturas de ventas.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

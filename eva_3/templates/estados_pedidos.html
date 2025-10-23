@@ -1,0 +1,659 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados de Pedidos - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+            --success-green: #28A745;
+            --warning-orange: #FFC107;
+            --danger-red: #DC3545;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--soft-gray);
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 300;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--primary-gold) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--pure-white) !important;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-gold) !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-text {
+            color: var(--primary-gold) !important;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            margin: 0;
+            line-height: 1;
+        }
+        .navbar-text i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%) !important;
+            color: var(--pure-white) !important;
+            padding: 80px 0 60px !important;
+            margin-top: 80px !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .page-header h1 {
+            font-size: 3rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 3px !important;
+            margin-bottom: 1rem !important;
+            position: relative;
+            z-index: 1;
+            color: #ffffff !important;
+        }
+
+        .page-header p {
+            font-size: 1.2rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 1px !important;
+            opacity: 0.9 !important;
+            position: relative;
+            z-index: 1;
+            color: #ffffff !important;
+        }
+
+        /* Statistics Cards */
+        .stats-card {
+            background: var(--pure-white);
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .stats-label {
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            margin-bottom: 30px;
+        }
+
+        .btn-filter {
+            background: var(--pure-white);
+            border: 2px solid var(--border-light);
+            color: var(--text-gray);
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter:hover,
+        .btn-filter.active {
+            background: var(--primary-gold);
+            border-color: var(--primary-gold);
+            color: var(--dark-charcoal);
+            transform: translateY(-2px);
+        }
+
+        /* Search Section */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-form .input-group {
+            box-shadow: var(--shadow-soft);
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            border: 2px solid var(--border-light);
+            border-right: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            outline: none;
+        }
+
+        .btn-search {
+            background: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            color: var(--dark-charcoal);
+            padding: 12px 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+        }
+
+        .btn-search:hover {
+            background: var(--secondary-gold);
+            border-color: var(--secondary-gold);
+            transform: translateY(-1px);
+        }
+
+        .btn-clear {
+            background: var(--text-gray);
+            border: 2px solid var(--text-gray);
+            color: var(--pure-white);
+            padding: 12px 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+            text-decoration: none;
+        }
+
+        .btn-clear:hover {
+            background: var(--danger-red);
+            border-color: var(--danger-red);
+            color: var(--pure-white);
+            transform: translateY(-1px);
+        }
+
+        /* Pedido Cards */
+        .pedido-card {
+            background: var(--pure-white);
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .pedido-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .pedido-header {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+            color: var(--dark-charcoal);
+            padding: 20px 25px;
+        }
+
+        .pedido-number {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .pedido-date {
+            font-size: 0.9rem;
+            margin: 5px 0 0 0;
+            opacity: 0.8;
+        }
+
+        .pedido-body {
+            padding: 25px;
+        }
+
+        .estado-badge {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .estado-pendiente {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .estado-realizado {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .estado-cancelado {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-action {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-realizar {
+            background: var(--success-green);
+            border: none;
+            color: white;
+        }
+
+        .btn-realizar:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancelar {
+            background: var(--danger-red);
+            border: none;
+            color: white;
+        }
+
+        .btn-cancelar:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-auto-cancel {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+            border: none;
+            color: var(--dark-charcoal);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .btn-auto-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--border-light);
+        }
+
+        .empty-state h3 {
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Alertas de Administración */
+        .alert {
+            border-radius: 0;
+            border: none;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .alert i {
+            margin-right: 10px;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-card {
+                margin-bottom: 15px;
+            }
+            
+            .pedido-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-arrow-left"></i> Volver al Panel
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if usuario_nombre %}
+                        <li class="nav-item">
+                            <span class="nav-link" style="color: var(--primary-gold);">
+                                <i class="fas fa-user"></i> {{ usuario_nombre }}
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header text-center">
+        <div class="container">
+            <h1><i class="fas fa-clipboard-list"></i> Estados de Pedidos</h1>
+            <p>Gestión completa del estado de todos los pedidos</p>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container py-5">
+        <!-- Mensajes de Administración -->
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'admin' in message.tags %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'info' %}info-circle{% else %}bell{% endif %}"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <!-- Statistics -->
+        <div class="row mb-5">
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <div class="stats-number">{{ total_pedidos }}</div>
+                    <div class="stats-label">Total Pedidos</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <div class="stats-number text-warning">{{ pendientes }}</div>
+                    <div class="stats-label">Pendientes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <div class="stats-number text-success">{{ realizados }}</div>
+                    <div class="stats-label">Realizados</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card text-center">
+                    <div class="stats-number text-danger">{{ cancelados }}</div>
+                    <div class="stats-label">Cancelados</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto Cancel Button -->
+        <div class="text-center mb-4">
+            <a href="{% url 'cancelar_pedidos_vencidos' %}" class="btn-auto-cancel">
+                <i class="fas fa-clock"></i> Cancelar Pedidos Vencidos (1+ semana)
+            </a>
+        </div>
+
+        <!-- Search by ID -->
+        <div class="search-section mb-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form method="GET" class="search-form">
+                        <div class="input-group">
+                            <input type="number" 
+                                   class="form-control search-input" 
+                                   name="id" 
+                                   placeholder="Buscar por ID de pedido..." 
+                                   value="{{ id_busqueda }}"
+                                   min="1">
+                            <button class="btn btn-search" type="submit">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                            {% if id_busqueda %}
+                                <a href="{% url 'estados_pedidos' %}{% if estado_filtro %}?estado={{ estado_filtro }}{% endif %}" 
+                                   class="btn btn-clear">
+                                    <i class="fas fa-times"></i> Limpiar
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons text-center">
+            <a href="{% url 'estados_pedidos' %}{% if id_busqueda %}?id={{ id_busqueda }}{% endif %}" class="btn btn-filter {% if not estado_filtro %}active{% endif %}">
+                Todos
+            </a>
+            <a href="{% url 'estados_pedidos' %}?estado=pendiente{% if id_busqueda %}&id={{ id_busqueda }}{% endif %}" class="btn btn-filter {% if estado_filtro == 'pendiente' %}active{% endif %}">
+                Pendientes
+            </a>
+            <a href="{% url 'estados_pedidos' %}?estado=realizado{% if id_busqueda %}&id={{ id_busqueda }}{% endif %}" class="btn btn-filter {% if estado_filtro == 'realizado' %}active{% endif %}">
+                Realizados
+            </a>
+            <a href="{% url 'estados_pedidos' %}?estado=cancelado{% if id_busqueda %}&id={{ id_busqueda }}{% endif %}" class="btn btn-filter {% if estado_filtro == 'cancelado' %}active{% endif %}">
+                Cancelados
+            </a>
+        </div>
+
+        <!-- Pedidos List -->
+        {% if pedidos %}
+            <div class="row">
+                {% for pedido in pedidos %}
+                <div class="col-lg-6 col-xl-4">
+                    <div class="pedido-card">
+                        <div class="pedido-header">
+                            <h3 class="pedido-number">Pedido #{{ pedido.id }}</h3>
+                            <p class="pedido-date">{{ pedido.fecha_pedido|date:"d/m/Y H:i" }}</p>
+                        </div>
+                        <div class="pedido-body">
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Cliente:</strong><br>
+                                    {{ pedido.usuario.nombre }}
+                                </div>
+                                <div class="col-6">
+                                    <strong>Total:</strong><br>
+                                    ${{ pedido.total|floatformat:0 }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <strong>Estado:</strong><br>
+                                    <span class="estado-badge estado-{{ pedido.estado }}">
+                                        {{ pedido.get_estado_display }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <strong>Método de Pago:</strong><br>
+                                    {{ pedido.metodo_pago }}
+                                </div>
+                            </div>
+                            {% if pedido.estado == 'pendiente' %}
+                            <div class="text-center">
+                                <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}" style="display: inline;" onsubmit="return confirmarRealizado()">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="accion" value="realizado">
+                                    <button type="submit" class="btn btn-action btn-realizar">
+                                        <i class="fas fa-check"></i> Marcar Realizado
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'cambiar_estado_pedido' pedido.id %}" style="display: inline;" onsubmit="return confirmarCancelacion()">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="accion" value="cancelado">
+                                    <button type="submit" class="btn btn-action btn-cancelar">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>No hay pedidos</h3>
+                <p>No se encontraron pedidos con los filtros seleccionados.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    <script>
+        function confirmarRealizado() {
+            return confirm('¿Confirmar que este pedido ha sido realizado?\n\n✓ El pedido se marcará como completado\n✓ Se generará una factura de venta\n✓ Esta acción no se puede deshacer');
+        }
+
+        function confirmarCancelacion() {
+            return confirm('¿Estás seguro de cancelar este pedido?\n\n⚠ Se restaurará el stock de los productos\n⚠ El pedido se marcará como cancelado\n⚠ Esta acción no se puede deshacer');
+        }
+    </script>
+</body>
+</html>

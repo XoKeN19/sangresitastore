@@ -1,0 +1,622 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Factura {{ factura.numero_factura }} - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--soft-gray);
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 300;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--primary-gold) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--pure-white) !important;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-gold) !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-text {
+            color: var(--primary-gold) !important;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            margin: 0;
+            line-height: 1;
+        }
+        .navbar-text i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 80px 0 60px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .invoice-container {
+            background: var(--pure-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            box-shadow: var(--shadow-strong);
+            margin: 40px 0;
+            overflow: hidden;
+        }
+
+        .invoice-header {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-charcoal);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .invoice-number {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .invoice-date {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .invoice-body {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 10px;
+        }
+
+        .info-card {
+            background: var(--soft-gray);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .info-label {
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--dark-charcoal);
+            margin-bottom: 15px;
+        }
+
+        .items-table {
+            background: var(--pure-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .items-table thead {
+            background: linear-gradient(135deg, var(--dark-charcoal), var(--light-charcoal));
+            color: var(--pure-white);
+        }
+
+        .items-table th {
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding: 20px 15px;
+            border: none;
+        }
+
+        .items-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .items-table tbody tr:hover {
+            background: var(--soft-gray);
+        }
+
+        .product-name {
+            font-weight: 400;
+            color: var(--dark-charcoal);
+            margin-bottom: 5px;
+        }
+
+        .product-details {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 300;
+        }
+
+        .price-cell {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            text-align: right;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, var(--soft-gray), var(--pure-white));
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            margin-top: 15px;
+            padding-top: 20px;
+            border-top: 2px solid var(--primary-gold);
+        }
+
+        .total-label {
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .total-value {
+            font-weight: 400;
+            color: var(--dark-charcoal);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 0;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-pendiente {
+            background: #ffc107;
+            color: var(--dark-charcoal);
+        }
+
+        .status-confirmado {
+            background: #17a2b8;
+            color: var(--pure-white);
+        }
+
+        .status-entregado {
+            background: #28a745;
+            color: var(--pure-white);
+        }
+
+        .status-cancelado {
+            background: #dc3545;
+            color: var(--pure-white);
+        }
+
+        .status-pendiente {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .status-realizado {
+            background: #28a745;
+            color: var(--pure-white);
+        }
+
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        .btn-secondary-premium {
+            background: transparent;
+            border: 2px solid var(--text-gray);
+            color: var(--text-gray);
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--text-gray);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-secondary-premium:hover {
+            color: var(--pure-white);
+            border-color: var(--text-gray);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+        }
+
+        .btn-secondary-premium:hover::before {
+            left: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .invoice-header {
+                padding: 30px 20px;
+            }
+            
+            .invoice-body {
+                padding: 30px 20px;
+            }
+            
+            .invoice-number {
+                font-size: 2rem;
+            }
+            
+            .items-table th,
+            .items-table td {
+                padding: 15px 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-arrow-left"></i> Volver al Panel
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'facturas_ventas' %}">
+                            <i class="fas fa-list"></i> Todas las Facturas
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if usuario_nombre %}
+                        <li class="nav-item">
+                            <span class="nav-link" style="color: var(--primary-gold);">
+                                <i class="fas fa-user"></i> {{ usuario_nombre }}
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header text-center">
+        <div class="container">
+            <h1><i class="fas fa-file-invoice"></i> Detalle de Factura</h1>
+            <p>Información completa de la factura {{ factura.numero_factura }}</p>
+        </div>
+    </div>
+
+    <!-- Invoice Detail -->
+    <div class="container">
+        <div class="invoice-container">
+            <!-- Invoice Header -->
+            <div class="invoice-header">
+                <h1 class="invoice-number">{{ factura.numero_factura }}</h1>
+                <p class="invoice-date">{{ factura.fecha_venta|date:"d/m/Y H:i" }}</p>
+                {% if pedido %}
+                <span class="status-badge status-{{ pedido.estado }}">
+                    Estado del Pedido: {{ pedido.get_estado_display }}
+                </span>
+                {% else %}
+                <span class="status-badge status-pendiente">
+                    Estado del Pedido: Pendiente
+                </span>
+                {% endif %}
+            </div>
+
+            <!-- Invoice Body -->
+            <div class="invoice-body">
+                <!-- Customer Information -->
+                <h3 class="section-title"><i class="fas fa-user"></i> Información del Cliente</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <div class="info-label">Nombre Completo</div>
+                            <div class="info-value">{{ factura.usuario.nombre }} {{ factura.usuario.apellido }}</div>
+                            
+                            <div class="info-label">Número de Cliente</div>
+                            <div class="info-value">#{{ factura.usuario.numero_cliente }}</div>
+                            
+                            <div class="info-label">Email</div>
+                            <div class="info-value">{{ factura.usuario.email }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <div class="info-label">Teléfono</div>
+                            <div class="info-value">{{ factura.usuario.telefono }}</div>
+                            
+                            <div class="info-label">Dirección</div>
+                            <div class="info-value">{{ factura.usuario.direccion }}</div>
+                            
+                            <div class="info-label">Fecha de Registro</div>
+                            <div class="info-value">{{ factura.usuario.fecha_registro|date:"d/m/Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Information -->
+                <h3 class="section-title"><i class="fas fa-shopping-cart"></i> Información del Pedido</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <div class="info-label">Número de Pedido</div>
+                            <div class="info-value">#{{ factura.pedido.id }}</div>
+                            
+                            <div class="info-label">Método de Pago</div>
+                            <div class="info-value">{{ factura.metodo_pago }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <div class="info-label">Fecha del Pedido</div>
+                            <div class="info-value">{{ factura.pedido.fecha_creacion|date:"d/m/Y H:i" }}</div>
+                            
+                            <div class="info-label">Estado del Pedido</div>
+                            <div class="info-value">{{ factura.pedido.estado|title }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Items Table -->
+                <h3 class="section-title"><i class="fas fa-list"></i> Productos del Pedido</h3>
+                <div class="table-responsive">
+                    <table class="table items-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Tipo</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items_pedido %}
+                            <tr>
+                                <td>
+                                    <div class="product-name">{{ item.producto.nombre }}</div>
+                                    <div class="product-details">
+                                        {% if item.tipo == 'videojuego' %}
+                                            {{ item.producto.plataforma }} - {{ item.producto.categoria }}
+                                        {% else %}
+                                            {{ item.producto.tipo_coleccionable }} - {{ item.producto.categoria }}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary">{{ item.tipo|title }}</span>
+                                </td>
+                                <td>{{ item.cantidad }}</td>
+                                <td class="price-cell">${{ item.precio_unitario|floatformat:0 }}</td>
+                                <td class="price-cell">${{ item.precio_total|floatformat:0 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Total Section -->
+                <div class="total-section">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal</span>
+                        <span class="total-value">${{ factura.subtotal|floatformat:0 }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">IVA (19%)</span>
+                        <span class="total-value">${{ factura.iva|floatformat:0 }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">Total</span>
+                        <span class="total-value">${{ factura.total|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'facturas_ventas' %}" class="btn-premium me-3">
+                        <i class="fas fa-arrow-left"></i> Volver a Facturas
+                    </a>
+                    <a href="{% url 'admin_panel' %}" class="btn-secondary-premium">
+                        <i class="fas fa-home"></i> Panel de Administración
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

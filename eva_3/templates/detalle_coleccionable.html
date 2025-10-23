@@ -1,0 +1,486 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ coleccionable.nombre }} - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--pure-white);
+        }
+
+        /* Navbar premium */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-charcoal) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Product Detail Section */
+        .product-detail {
+            padding: 80px 0 60px;
+            background: linear-gradient(135deg, var(--soft-gray) 0%, var(--pure-white) 100%);
+            min-height: 100vh;
+        }
+
+        .product-image {
+            border-radius: 0;
+            box-shadow: var(--shadow-strong);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .product-image:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .product-info {
+            background: var(--pure-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 40px;
+            box-shadow: var(--shadow-medium);
+            height: fit-content;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .product-description {
+            color: var(--text-gray);
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-custom {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 0;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-secondary {
+            background: var(--soft-gray);
+            color: var(--text-gray);
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: var(--pure-white);
+        }
+
+        .stock-info {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .stock-info .text-success {
+            color: #28a745 !important;
+            font-weight: 400;
+        }
+
+        .stock-info .text-danger {
+            color: #dc3545 !important;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        .btn-success {
+            background: transparent;
+            border: 2px solid #28a745;
+            color: #28a745;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-success::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #28a745;
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-success:hover {
+            color: var(--pure-white);
+            border-color: #28a745;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-success:hover::before {
+            left: 0;
+        }
+
+        /* Admin Section */
+        .admin-section {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 40px;
+            margin-top: 40px;
+            border-radius: 0;
+        }
+
+        .admin-section h3 {
+            color: var(--primary-gold);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section .btn {
+            margin: 0 10px 10px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .price-tag {
+                font-size: 2rem;
+            }
+            
+            .product-info {
+                padding: 30px 20px;
+            }
+            
+            .admin-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito' %}" onclick="return verificarSesion()">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                        </a>
+                    </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if usuario_nombre %}
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            <i class="fas fa-user"></i> {{ usuario_nombre }}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container product-detail">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                {% if coleccionable.imagen %}
+                    <img src="{{ coleccionable.imagen.url }}" class="img-fluid product-image" alt="{{ coleccionable.nombre }}">
+                {% else %}
+                    <div class="bg-dark d-flex align-items-center justify-content-center product-image" style="height: 500px;">
+                        <i class="fas fa-gem fa-5x" style="color: var(--primary-gold);"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <div class="product-info">
+                    <h1 class="product-title">{{ coleccionable.nombre }}</h1>
+                    
+                    <div class="mb-4">
+                        <span class="badge badge-custom me-2">{{ coleccionable.tipo_coleccionable }}</span>
+                        <span class="badge badge-secondary me-2">{{ coleccionable.categoria }}</span>
+                    </div>
+                    
+                    <p class="product-description">{{ coleccionable.descripcion }}</p>
+                    
+                    <div class="price-tag">${{ coleccionable.precio|floatformat:0 }}</div>
+                    
+                    <div class="stock-info">
+                        {% if coleccionable.stock > 0 %}
+                            <span class="text-success">
+                                <i class="fas fa-box"></i> En stock ({{ coleccionable.stock }} unidades disponibles)
+                            </span>
+                        {% else %}
+                            <span class="text-danger">
+                                <i class="fas fa-times"></i> Sin stock
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    {% if coleccionable.stock > 0 %}
+                        <form method="POST" action="{% url 'agregar_carrito' %}" class="mb-4">
+                            {% csrf_token %}
+                            <input type="hidden" name="producto_id" value="{{ coleccionable.id }}">
+                            <input type="hidden" name="tipo" value="coleccionable">
+                            <div class="row align-items-end">
+                                <div class="col-md-4 mb-3">
+                                    <label for="cantidad" class="form-label" style="color: var(--dark-charcoal); font-weight: 400; letter-spacing: 1px;">Cantidad:</label>
+                                    <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" max="{{ coleccionable.stock }}" style="border: 1px solid var(--border-light); border-radius: 0; padding: 12px 15px;">
+                                </div>
+                                <div class="col-md-8">
+                                    <button type="submit" class="btn-premium w-100">
+                                        <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1)); border: 1px solid #ffc107; border-radius: 0; color: var(--dark-charcoal);">
+                            <i class="fas fa-exclamation-triangle"></i> Producto agotado
+                        </div>
+                    {% endif %}
+                    
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{% url 'coleccionables' %}" class="btn-premium">
+                            <i class="fas fa-arrow-left"></i> Volver a Coleccionables
+                        </a>
+                        <a href="{% url 'inicio_publico' %}" class="btn-premium">
+                            <i class="fas fa-home"></i> Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información adicional - Solo para administradores -->
+        {% if es_admin %}
+        <div class="admin-section">
+            <h3><i class="fas fa-info-circle"></i> Información del Producto (Solo Admin)</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>Tipo:</strong><br>
+                    {{ coleccionable.tipo_coleccionable }}
+                </div>
+                <div class="col-md-3">
+                    <strong>Categoría:</strong><br>
+                    {{ coleccionable.categoria }}
+                </div>
+                <div class="col-md-3">
+                    <strong>Stock disponible:</strong><br>
+                    {{ coleccionable.stock }} unidades
+                </div>
+                <div class="col-md-3">
+                    <strong>Fecha de creación:</strong><br>
+                    {{ coleccionable.fecha_creacion|date:"d/m/Y" }}
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'editar_coleccionable' coleccionable.id %}" class="btn-premium">
+                    <i class="fas fa-edit"></i> Editar Producto
+                </a>
+                <a href="{% url 'admin_panel' %}" class="btn-premium">
+                    <i class="fas fa-arrow-left"></i> Volver al Panel
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function verificarSesion() {
+            {% if not usuario_nombre %}
+                alert('Debes iniciar sesión primero para acceder al carrito');
+                return false;
+            {% endif %}
+            return true;
+        }
+    </script>
+</body>
+</html>

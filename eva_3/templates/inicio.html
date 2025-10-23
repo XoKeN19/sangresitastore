@@ -1,0 +1,907 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>SangresitaStore - Tienda de Videojuegos</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex - v3.0 - FORZAR ACTUALIZACION */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        /* Reset y tipografía */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--pure-white);
+            overflow-x: hidden;
+        }
+
+        /* Navbar premium */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-charcoal) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section elegante */
+        .hero-section {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 120px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(212,175,55,0.05)"/><circle cx="10" cy="90" r="0.5" fill="rgba(212,175,55,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-section .lead {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        /* Botones premium */
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 8px 20px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        .btn-premium-outline {
+            background: transparent;
+            border: 2px solid var(--pure-white);
+            color: var(--pure-white);
+            padding: 15px 40px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+
+        .btn-premium-outline:hover {
+            background: var(--pure-white);
+            color: var(--dark-charcoal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Sistema de Cards Exacto como la Imagen de Referencia */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Badge Superior - Estilo Exacto de la Imagen */
+        .game-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 20;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-badge.best-seller {
+            background: #ff4757;
+            color: white;
+        }
+
+        .game-badge.new-release {
+            background: #2ed573;
+            color: white;
+        }
+
+        .game-badge.special-offer {
+            background: #ffa502;
+            color: white;
+        }
+
+        .game-badge.low-stock {
+            background: #ff6b9d;
+            color: white;
+        }
+
+        /* Contenedor de Imagen - Tamaño Exacto como la Imagen */
+        .game-image-container {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: #f8f9fa;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            transition: transform 0.3s ease;
+            filter: brightness(1.0) contrast(1.1);
+            display: block;
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.02);
+        }
+
+        /* Overlay de Texto - Estilo Exacto de la Imagen */
+        .game-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            padding: 1rem 1.2rem 1.2rem 1.2rem;
+            color: white;
+        }
+
+        .game-overlay-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            line-height: 1.2;
+        }
+
+        .game-overlay-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Contenido de la Card - Compacto como la Imagen */
+        .game-content {
+            padding: 1.2rem;
+            background: var(--pure-white);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-description {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .game-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            gap: 0.8rem;
+        }
+
+        .platform-tag {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .game-button {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .game-button:hover {
+            background: var(--secondary-gold);
+            transform: translateY(-1px);
+        }
+
+        /* Secciones */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 200;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--dark-charcoal);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--primary-gold);
+        }
+
+        .section-bg {
+            background: var(--soft-gray);
+        }
+
+        /* Footer premium */
+        .footer {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            padding: 60px 0 30px;
+        }
+
+        .footer h5 {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            color: var(--primary-gold);
+        }
+
+        .footer p, .footer li {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-gold);
+        }
+
+        /* Sección de Ubicación */
+        .location-section {
+            background: var(--pure-white);
+            padding: 80px 0;
+        }
+
+        .location-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--dark-charcoal);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .location-info h3 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--dark-charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .location-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .location-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .location-item strong {
+            font-size: 1rem;
+            color: var(--dark-charcoal);
+            font-weight: 600;
+        }
+
+        .location-item span {
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: 400px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Responsive para ubicación */
+        @media (max-width: 768px) {
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .location-title {
+                font-size: 2rem;
+            }
+            
+            .map-container {
+                height: 300px;
+            }
+        }
+
+        /* Animaciones suaves */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section .lead {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .game-image-container {
+                height: 180px;
+            }
+            
+            .game-content {
+                padding: 1rem;
+            }
+            
+            .game-overlay {
+                padding: 0.8rem 1rem 1rem 1rem;
+            }
+            
+            .game-overlay-title {
+                font-size: 1rem;
+            }
+            
+            .game-overlay-price {
+                font-size: 1.2rem;
+            }
+            
+            .game-badge {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+                top: 12px;
+                left: 12px;
+            }
+            
+            .game-button {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            
+            .platform-tag {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                padding: 0 0.5rem;
+            }
+            
+            .game-image-container {
+                height: 160px;
+            }
+            
+            .game-content {
+                padding: 0.8rem;
+            }
+            
+            .game-overlay {
+                padding: 0.6rem 0.8rem 0.8rem 0.8rem;
+            }
+            
+            .game-overlay-title {
+                font-size: 0.9rem;
+            }
+            
+            .game-overlay-price {
+                font-size: 1.1rem;
+            }
+            
+            .game-description {
+                font-size: 0.9rem;
+            }
+            
+            .game-badge {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+                top: 8px;
+                left: 8px;
+            }
+            
+            .game-button {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .platform-tag {
+                font-size: 0.7rem;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito' %}" onclick="return verificarSesion()">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                        </a>
+                    </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if usuario_nombre %}
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            <i class="fas fa-user"></i> {{ usuario_nombre }}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Elegante -->
+    <section class="hero-section">
+        <div class="container text-center hero-content">
+            <h1 class="fade-in-up">SangresitaStore
+                
+            </h1>
+            <p class="lead fade-in-up">Descubre los mejores videojuegos y coleccionables exclusivos</p>
+            <div class="fade-in-up">
+                <a href="{% url 'tienda' %}" class="btn btn-premium-outline me-3">Explorar Videojuegos</a>
+                <a href="{% url 'coleccionables' %}" class="btn btn-premium-outline">Ver Coleccionables</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videojuegos Recomendados -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Videojuegos Recomendados</h2>
+            <!-- CARDS COMPLETAMENTE PERSONALIZADAS - SIN BOOTSTRAP -->
+            <div class="games-grid">
+                {% for videojuego in videojuegos_recomendados %}
+                <div class="game-card">
+                    <!-- Badge dinámico -->
+                    {% if videojuego.badge %}
+                        <div class="game-badge {{ videojuego.badge }}">
+                            {% if videojuego.badge == 'best-seller' %}MÁS VENDIDO
+                            {% elif videojuego.badge == 'new-release' %}NUEVO LANZAMIENTO
+                            {% elif videojuego.badge == 'special-offer' %}OFERTA ESPECIAL
+                            {% elif videojuego.badge == 'low-stock' %}A PUNTO DE IRSE
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                <!-- Imagen del juego -->
+                <div class="game-image-container">
+                    {% if videojuego.imagen_recomendada %}
+                        <img src="{{ videojuego.imagen_recomendada.url }}" class="game-image" alt="{{ videojuego.nombre }}">
+                    {% elif videojuego.imagen %}
+                        <img src="{{ videojuego.imagen.url }}" class="game-image" alt="{{ videojuego.nombre }}">
+                        {% else %}
+                        <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #2c3e50, #34495e);">
+                            <i class="fas fa-gamepad fa-4x" style="color: var(--primary-gold);"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Overlay con título y precio -->
+                        <div class="game-overlay">
+                            <div class="game-overlay-title">{{ videojuego.nombre }}</div>
+                            <div class="game-overlay-price">${{ videojuego.precio }}</div>
+                        </div>
+                            </div>
+                    
+                    <!-- Contenido de la card -->
+                    <div class="game-content">
+                        <p class="game-description">{{ videojuego.descripcion|truncatewords:15 }}</p>
+                        
+                        <div class="game-footer">
+                            <span class="platform-tag">{{ videojuego.plataforma }}</span>
+                            <a href="{% url 'detalle_videojuego' videojuego.id %}" class="game-button">VER DETALLES</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Coleccionables Destacados -->
+    <section class="py-5 section-bg">
+        <div class="container">
+            <h2 class="section-title">Coleccionables Destacados</h2>
+            <!-- CARDS COMPLETAMENTE PERSONALIZADAS - SIN BOOTSTRAP -->
+            <div class="games-grid">
+                {% for coleccionable in coleccionables_destacados %}
+                <div class="game-card">
+                    <!-- Badge dinámico -->
+                    {% if coleccionable.badge %}
+                        <div class="game-badge {{ coleccionable.badge }}">
+                            {% if coleccionable.badge == 'best-seller' %}MÁS VENDIDO
+                            {% elif coleccionable.badge == 'new-release' %}NUEVO LANZAMIENTO
+                            {% elif coleccionable.badge == 'special-offer' %}OFERTA ESPECIAL
+                            {% elif coleccionable.badge == 'low-stock' %}A PUNTO DE IRSE
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Imagen del coleccionable -->
+                    <div class="game-image-container">
+                        {% if coleccionable.imagen_recomendada %}
+                            <img src="{{ coleccionable.imagen_recomendada.url }}" class="game-image" alt="{{ coleccionable.nombre }}">
+                        {% elif coleccionable.imagen %}
+                            <img src="{{ coleccionable.imagen.url }}" class="game-image" alt="{{ coleccionable.nombre }}">
+                        {% else %}
+                            <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">
+                                <i class="fas fa-gem fa-4x" style="color: var(--primary-gold);"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Overlay con título y precio -->
+                        <div class="game-overlay">
+                            <div class="game-overlay-title">{{ coleccionable.nombre }}</div>
+                            <div class="game-overlay-price">${{ coleccionable.precio }}</div>
+                        </div>
+                            </div>
+                    
+                    <!-- Contenido de la card -->
+                    <div class="game-content">
+                        <p class="game-description">{{ coleccionable.descripcion|truncatewords:15 }}</p>
+                        
+                        <div class="game-footer">
+                            <span class="platform-tag">{{ coleccionable.tipo_coleccionable }}</span>
+                            <a href="{% url 'detalle_coleccionable' coleccionable.id %}" class="game-button">VER DETALLES</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Ubicación -->
+    <section class="location-section">
+        <div class="container">
+            <h2 class="location-title">Ubicación</h2>
+            <div class="location-content">
+                <div class="location-info">
+                    <h3>Encuentra nuestra tienda física</h3>
+                    <p>Encuentra nuestra tienda física y descubre una amplia variedad de productos especiales para ti. ¡Estamos aquí para ayudarte!</p>
+                    
+                    <div class="location-details">
+                        <div class="location-item">
+                            <strong>Dirección</strong>
+                            <span>Mall plaza oriente rancagua piso 2</span>
+                        </div>
+                        <div class="location-item">
+                            <strong>Horario</strong>
+                            <span>Desde las 9:00 am - 7:00 pm</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.1234567890123!2d-70.12345678901234!3d-34.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966343401a01f4e1%3A0xfc4a0be9f53449b6!2sCentro%20Comercial%20Plaza%20Oriente!5e0!3m2!1ses-419!2scl!4v1761004390977!5m2!1ses-419!2scl"
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Premium -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SangresitaStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
+                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function verDetalle(tipo, id) {
+            if (tipo === 'videojuego') {
+                window.location.href = `/detalle-videojuego/${id}`;
+            } else {
+                window.location.href = `/detalle-coleccionable/${id}`;
+            }
+        }
+
+        function verificarSesion() {
+            {% if not usuario_nombre %}
+                alert('Debes iniciar sesión primero para acceder al carrito');
+                return false;
+            {% endif %}
+            return true;
+        }
+        
+        // Debug de sesión (remover en producción)
+        console.log('Usuario en sesión:', '{{ usuario_nombre }}');
+        console.log('Es admin:', '{{ es_admin }}');
+        
+        // Forzar recarga si hay problemas de sesión
+        if (window.location.search.includes('refresh=1')) {
+            window.location.href = window.location.pathname;
+        }
+        
+        // Forzar recarga de CSS para evitar cache
+        if (window.location.search.includes('nocache=1')) {
+            location.reload(true);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Videojuego - SangresitaStore Admin</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .edit-form {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+        }
+        .btn-success:hover {
+            background: linear-gradient(45deg, #20c997, #28a745);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                <i class="fas fa-gamepad"></i> SangresitaStore Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">Panel Admin</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="edit-form">
+                    <div class="text-center mb-4">
+                        <h2><i class="fas fa-edit"></i> Editar Videojuego</h2>
+                        <p class="text-muted">Modifica la información del videojuego</p>
+                    </div>
+
+                    <form method="POST" action="{% url 'gestionar_videojuego' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="editar">
+                        <input type="hidden" name="videojuego_id" value="{{ videojuego.id }}">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nombre" class="form-label">
+                                    <i class="fas fa-gamepad"></i> Nombre del Videojuego
+                                </label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" 
+                                       value="{{ videojuego.nombre }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="plataforma" class="form-label">
+                                    <i class="fas fa-desktop"></i> Plataforma
+                                </label>
+                                <input type="text" class="form-control" id="plataforma" name="plataforma" 
+                                       value="{{ videojuego.plataforma }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">
+                                <i class="fas fa-align-left"></i> Descripción
+                            </label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" 
+                                      rows="4" required>{{ videojuego.descripcion }}</textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="precio" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i> Precio
+                                </label>
+                                <input type="number" class="form-control" id="precio" name="precio" 
+                                       value="{{ videojuego.precio }}" step="0.01" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="stock" class="form-label">
+                                    <i class="fas fa-box"></i> Stock Actual
+                                </label>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-info me-2">{{ videojuego.stock }} unidades</span>
+                                    <button type="button" class="btn btn-sm btn-info stock-btn-crear" 
+                                            data-producto-tipo="videojuego"
+                                            data-formulario="editar">
+                                        <i class="fas fa-plus"></i> Agregar Stock
+                                    </button>
+                                </div>
+                                <input type="hidden" id="stock" name="stock" value="{{ videojuego.stock }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="estado" class="form-label">
+                                    <i class="fas fa-toggle-on"></i> Estado
+                                </label>
+                                <select class="form-control" id="estado" name="estado" required>
+                                    <option value="disponible" {% if videojuego.estado == 'disponible' %}selected{% endif %}>Disponible</option>
+                                    <option value="agotado" {% if videojuego.estado == 'agotado' %}selected{% endif %}>Agotado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="categoria" class="form-label">
+                                    <i class="fas fa-tags"></i> Categoría
+                                </label>
+                                <input type="text" class="form-control" id="categoria" name="categoria" 
+                                       value="{{ videojuego.categoria }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">
+                                <i class="fas fa-image"></i> Imagen del Videojuego
+                            </label>
+                            {% if videojuego.imagen %}
+                                <div class="mb-2">
+                                    <img src="{{ videojuego.imagen.url }}" alt="Imagen actual" 
+                                         class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                                    <p class="text-muted small">Imagen actual</p>
+                                </div>
+                            {% endif %}
+                            <input type="file" class="form-control" id="imagen" name="imagen" 
+                                   accept="image/*">
+                            <div class="form-text">Selecciona una nueva imagen (opcional). Si no seleccionas ninguna, se mantendrá la imagen actual.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="es_recomendado" 
+                                       name="es_recomendado" {% if videojuego.es_recomendado %}checked{% endif %}>
+                                <label class="form-check-label" for="es_recomendado">
+                                    <i class="fas fa-star"></i> Marcar como recomendado
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'admin_panel' %}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para agregar stock -->
+    <div class="modal fade" id="stockModal" tabindex="-1" aria-labelledby="stockModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="stockModalLabel">
+                        <i class="fas fa-plus-circle"></i> Agregar Stock
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{% url 'procesar_factura' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Producto:</strong></label>
+                            <p id="producto-nombre" class="form-control-plaintext fw-bold text-success"></p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Stock Actual:</strong></label>
+                            <p id="stock-actual" class="form-control-plaintext"></p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cantidad_comprada" class="form-label">
+                                <i class="fas fa-shopping-cart"></i> Cantidad a Agregar
+                            </label>
+                            <input type="number" class="form-control" id="cantidad_comprada" name="cantidad_comprada" 
+                                   min="1" required placeholder="Ingrese la cantidad comprada">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="proveedor" class="form-label">
+                                <i class="fas fa-truck"></i> Proveedor
+                            </label>
+                            <input type="text" class="form-control" id="proveedor" name="proveedor" 
+                                   required placeholder="Nombre del proveedor">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="precio_compra" class="form-label">
+                                <i class="fas fa-dollar-sign"></i> Precio de Compra (por unidad)
+                            </label>
+                            <input type="number" class="form-control" id="precio_compra" name="precio_compra" 
+                                   step="0.01" required placeholder="Precio pagado por unidad">
+                        </div>
+                        
+                        <!-- Total Estimado -->
+                        <div class="alert alert-info">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-calculator"></i> <strong>Total Estimado:</strong></span>
+                                <span id="total-estimado" class="h5 mb-0 text-primary">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="observaciones" class="form-label">
+                                <i class="fas fa-comment"></i> Observaciones
+                            </label>
+                            <textarea class="form-control" id="observaciones" name="observaciones" 
+                                      rows="2" placeholder="Observaciones adicionales (opcional)"></textarea>
+                        </div>
+                        
+                        <!-- Campos ocultos -->
+                        <input type="hidden" id="producto_id" name="producto_id">
+                        <input type="hidden" id="producto_tipo" name="producto_tipo">
+                        <input type="hidden" id="nombre_producto" name="nombre_producto">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Agregar Stock
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Función para agregar stock desde el panel de edición
+        document.addEventListener('DOMContentLoaded', function() {
+            const stockModal = new bootstrap.Modal(document.getElementById('stockModal'));
+            
+            // Función para calcular el total estimado
+            function calcularTotal() {
+                const cantidad = parseFloat(document.getElementById('cantidad_comprada').value) || 0;
+                const precio = parseFloat(document.getElementById('precio_compra').value) || 0;
+                const total = cantidad * precio;
+                document.getElementById('total-estimado').textContent = '$' + total.toFixed(0);
+            }
+            
+            // Agregar event listeners para calcular total en tiempo real
+            document.getElementById('cantidad_comprada').addEventListener('input', calcularTotal);
+            document.getElementById('precio_compra').addEventListener('input', calcularTotal);
+            
+            // Manejar botones de stock en formularios de edición
+            const stockButtonsCrear = document.querySelectorAll('.stock-btn-crear');
+            
+            stockButtonsCrear.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productoTipo = this.getAttribute('data-producto-tipo');
+                    
+                    // Obtener datos del formulario actual
+                    const form = this.closest('form');
+                    const nombreInput = form.querySelector('input[name="nombre"]');
+                    const stockInput = form.querySelector('input[name="stock"]');
+                    const videojuegoIdInput = form.querySelector('input[name="videojuego_id"]');
+                    
+                    // Obtener valores
+                    const nombreProducto = nombreInput.value;
+                    const stockActual = stockInput.value;
+                    const productoId = videojuegoIdInput.value;
+                    
+                    // Llenar el modal con los datos del formulario
+                    document.getElementById('producto-nombre').textContent = nombreProducto;
+                    document.getElementById('stock-actual').textContent = 'Stock actual: ' + stockActual + ' unidades';
+                    document.getElementById('nombre_producto').value = nombreProducto;
+                    document.getElementById('producto_id').value = productoId; // ID del videojuego actual
+                    document.getElementById('producto_tipo').value = productoTipo;
+                    
+                    // Limpiar otros campos
+                    document.getElementById('cantidad_comprada').value = '';
+                    document.getElementById('precio_compra').value = '';
+                    document.getElementById('proveedor').value = '';
+                    document.getElementById('observaciones').value = '';
+                    document.getElementById('total-estimado').textContent = '$0.00';
+                    
+                    stockModal.show();
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

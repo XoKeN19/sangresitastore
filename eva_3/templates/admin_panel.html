@@ -1,0 +1,1725 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--soft-gray);
+        }
+
+        /* Carrusel de Funciones Admin */
+        .admin-carousel-container {
+            background: var(--pure-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .admin-carousel-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-carousel-header h3 {
+            color: var(--dark-charcoal);
+            font-weight: 300;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-carousel-header p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .admin-functions-carousel {
+            position: relative;
+        }
+
+        .admin-functions-slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .admin-functions-slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .admin-functions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-function-card {
+            background: linear-gradient(135deg, var(--pure-white), #f8f9fa);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-function-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .admin-function-card:hover::before {
+            left: 100%;
+        }
+
+        .admin-function-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .admin-function-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-function-card:hover .admin-function-icon {
+            transform: scale(1.1);
+            color: var(--secondary-gold);
+        }
+
+        .admin-function-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-function-description {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        /* Navegación del Carrusel */
+        .carousel-navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary-gold);
+            transform: scale(1.2);
+        }
+
+        .carousel-dot:hover {
+            background: var(--secondary-gold);
+        }
+
+        .carousel-nav-btn {
+            background: var(--primary-gold);
+            border: none;
+            color: var(--dark-charcoal);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .carousel-nav-btn:hover {
+            background: var(--secondary-gold);
+            transform: scale(1.1);
+        }
+
+        .carousel-nav-btn:disabled {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .admin-functions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-functions-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .admin-function-card {
+                padding: 1.5rem;
+            }
+            
+            .admin-function-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--primary-gold);
+            padding: 1rem 0;
+            min-height: 70px;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--primary-gold) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--pure-white) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 120px 0 80px;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(212,175,55,0.05)"/><circle cx="10" cy="90" r="0.5" fill="rgba(212,175,55,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .admin-header .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .admin-header h1 {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .admin-header p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .admin-card {
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-medium);
+            border-radius: 0;
+            background: var(--pure-white);
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 0;
+            font-weight: 400;
+            letter-spacing: 1px;
+            padding: 15px 25px;
+            transition: all 0.3s ease;
+            color: var(--text-gray);
+            border: 1px solid var(--border-light);
+            margin-right: 10px;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background: var(--soft-gray);
+            color: var(--dark-charcoal);
+        }
+
+        /* Buttons */
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 10px 25px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        .btn-success-premium {
+            background: transparent;
+            border: 2px solid #28a745;
+            color: #28a745;
+            padding: 10px 25px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-success-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #28a745;
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-success-premium:hover {
+            color: var(--pure-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-success-premium:hover::before {
+            left: 0;
+        }
+
+        .btn-danger-premium {
+            background: transparent;
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            padding: 10px 25px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #dc3545;
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-danger-premium:hover {
+            color: var(--pure-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-danger-premium:hover::before {
+            left: 0;
+        }
+
+        .product-item {
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 25px;
+            margin-bottom: 20px;
+            background-color: var(--pure-white);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--dark-charcoal);
+            margin-bottom: 10px;
+        }
+
+        .product-info {
+            color: var(--text-gray);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+
+        /* Forms */
+        .form-control {
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 12px 15px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            outline: none;
+        }
+
+        .form-label {
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--dark-charcoal);
+            margin-bottom: 8px;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 0;
+            border: none;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .modal-header {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            border: none;
+        }
+
+        .modal-title {
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        /* Filtros y búsqueda */
+        .filters-section {
+            background: var(--pure-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box .form-control {
+            padding-right: 50px;
+        }
+        
+        .search-box .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            color: var(--dark-charcoal);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .stats-overview {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+            color: var(--dark-charcoal);
+            padding: 20px;
+            border-radius: 0;
+            margin-bottom: 30px;
+        }
+        
+        .stats-overview h5 {
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .pagination {
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .page-link {
+            color: var(--primary-gold);
+            border: 1px solid var(--border-light);
+            padding: 10px 15px;
+            margin: 0 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link:hover {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+        }
+        
+        .page-item.active .page-link {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            border-color: var(--primary-gold);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+        
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .results-info {
+            background: var(--soft-gray);
+            padding: 15px;
+            border-radius: 0;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Alertas de Administración */
+        .alert {
+            border-radius: 0;
+            border: none;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .alert i {
+            margin-right: 10px;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-header h1 {
+                font-size: 2.5rem;
+            }
+            
+        .product-item {
+                padding: 20px;
+            }
+            
+            .filters-section {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore Admin
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_publico' %}">Ver Tienda</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="container text-center">
+            <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
+            <p class="lead">Gestiona videojuegos y coleccionables de SangresitaStore</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Mensajes de Administración -->
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'admin' in message.tags %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% elif message.tags == 'info' %}info-circle{% else %}bell{% endif %}"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <!-- Estadísticas Generales -->
+        <div class="stats-overview">
+            <h5><i class="fas fa-chart-bar"></i> Resumen General</h5>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_productos }}</div>
+                    <div class="stat-label">Total Productos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_videojuegos }}</div>
+                    <div class="stat-label">Videojuegos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_coleccionables }}</div>
+                    <div class="stat-label">Coleccionables</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number text-danger">{{ total_sin_stock }}</div>
+                    <div class="stat-label">Sin Stock</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros y Búsqueda -->
+        <div class="filters-section">
+            <form method="GET" id="filtersForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="filter-group">
+                            <label for="busqueda"><i class="fas fa-search"></i> Buscar Productos</label>
+                            <div class="search-box">
+                                <input type="text" class="form-control" id="busqueda" name="busqueda" 
+                                       value="{{ busqueda }}" placeholder="Nombre, descripción, categoría...">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="filter-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado">
+                                <option value="">Todos</option>
+                                <option value="disponible" {% if estado_filtro == 'disponible' %}selected{% endif %}>Disponible</option>
+                                <option value="agotado" {% if estado_filtro == 'agotado' %}selected{% endif %}>Agotado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="filter-group">
+                            <label for="orden">Ordenar por</label>
+                            <select class="form-control" id="orden" name="orden">
+                                <option value="nombre" {% if orden == 'nombre' %}selected{% endif %}>Nombre A-Z</option>
+                                <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio Menor a Mayor</option>
+                                <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio Mayor a Menor</option>
+                                <option value="stock_asc" {% if orden == 'stock_asc' %}selected{% endif %}>Stock Menor a Mayor</option>
+                                <option value="stock_desc" {% if orden == 'stock_desc' %}selected{% endif %}>Stock Mayor a Menor</option>
+                                <option value="fecha_desc" {% if orden == 'fecha_desc' %}selected{% endif %}>Más Recientes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary-premium flex-fill">
+                                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+                                <a href="{% url 'admin_panel' %}" class="btn btn-secondary flex-fill">
+                                    <i class="fas fa-times"></i> Limpiar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Carrusel de Funciones Admin -->
+        <div class="admin-carousel-container">
+            <div class="admin-carousel-header">
+                <h3><i class="fas fa-cogs me-2"></i>Funciones de Administración</h3>
+                <p>Gestiona todos los aspectos de tu tienda de manera organizada</p>
+            </div>
+
+            <div class="admin-functions-carousel">
+                <!-- Slide 1: Gestión de Productos -->
+                <div class="admin-functions-slide active">
+                    <div class="admin-functions-grid">
+                        <div class="admin-function-card" onclick="showTab('videojuegos')">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <div class="admin-function-title">Videojuegos</div>
+                            <div class="admin-function-description">
+                                Gestiona tu catálogo de videojuegos, agrega nuevos títulos y controla el stock
+                            </div>
+                        </div>
+                        <div class="admin-function-card" onclick="showTab('coleccionables')">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="admin-function-title">Coleccionables</div>
+                            <div class="admin-function-description">
+                                Administra Funko Pops y otros coleccionables de tu tienda
+                            </div>
+                        </div>
+                        <div class="admin-function-card" onclick="window.location.href='{% url 'gestionar_recomendados' %}'">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="admin-function-title">Recomendados</div>
+                            <div class="admin-function-description">
+                                Configura los productos destacados que aparecen en el inicio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Facturas y Ventas -->
+                <div class="admin-functions-slide">
+                    <div class="admin-functions-grid">
+                        <div class="admin-function-card" onclick="showTab('facturas')">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div class="admin-function-title">Facturas de Compras</div>
+                            <div class="admin-function-description">
+                                Revisa y gestiona las facturas de compra de productos
+                            </div>
+                        </div>
+                        <div class="admin-function-card" onclick="showTab('ventas')">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="admin-function-title">Facturas de Ventas</div>
+                            <div class="admin-function-description">
+                                Consulta el historial de ventas y facturas generadas
+                            </div>
+                        </div>
+                        <div class="admin-function-card" onclick="showTab('pedidos')">
+                            <div class="admin-function-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="admin-function-title">Estados de Pedidos</div>
+                            <div class="admin-function-description">
+                                Gestiona el estado de los pedidos y controla el flujo de ventas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación del Carrusel -->
+            <div class="carousel-navigation">
+                <button class="carousel-nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-dots">
+                    <span class="carousel-dot active" onclick="currentSlide(1)"></span>
+                    <span class="carousel-dot" onclick="currentSlide(2)"></span>
+                </div>
+                <button class="carousel-nav-btn" id="nextBtn" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido de Tabs -->
+        <div class="tab-content" id="adminTabsContent">
+            <!-- Tab Videojuegos -->
+            <div class="tab-pane fade show active" id="videojuegos" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-plus"></i> Agregar Videojuego</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="gestionar-videojuego">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="accion" value="crear">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" name="nombre" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                            <label class="form-label">Precio</label>
+                                            <input type="number" class="form-control" name="precio" step="0.01" required>
+                                        </div>
+                                            <input type="hidden" name="stock" value="0">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Plataforma</label>
+                                            <input type="text" class="form-control" name="plataforma" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Categoría</label>
+                                            <input type="text" class="form-control" name="categoria" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="es_recomendado">
+                                            <label class="form-check-label">Es Recomendado</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-plus"></i> Agregar Videojuego
+                                    </button>
+                                </form>
+                                <div class="alert alert-warning mt-3 mb-0" style="font-size: 0.85rem;">
+                                    <i class="fas fa-info-circle"></i> 
+                                    <strong>Importante:</strong> Después de crear el producto, debes agregar el stock desde el listado usando el botón <strong>"Agregar Stock"</strong>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-list"></i> Lista de Videojuegos</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Información de resultados -->
+                                {% if videojuegos %}
+                                    <div class="results-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        Mostrando {{ videojuegos.start_index }}-{{ videojuegos.end_index }} de {{ videojuegos.paginator.count }} videojuegos
+                                        {% if busqueda %}
+                                            para "{{ busqueda }}"
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                
+                                {% for videojuego in videojuegos %}
+                                <div class="product-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <h6>{{ videojuego.nombre }}</h6>
+                                            <p class="text-muted mb-1">{{ videojuego.descripcion|truncatewords:10 }}</p>
+                                            <span class="badge bg-primary">{{ videojuego.plataforma }}</span>
+                                            {% if videojuego.es_recomendado %}
+                                                <span class="badge bg-warning">Recomendado</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <p class="mb-1"><strong>${{ videojuego.precio }}</strong></p>
+                                            <button class="btn btn-sm btn-info stock-btn" 
+                                                    data-producto-id="{{ videojuego.id }}" 
+                                                    data-producto-tipo="videojuego"
+                                                    data-producto-nombre="{{ videojuego.nombre }}"
+                                                    data-stock-actual="{{ videojuego.stock }}">
+                                                <i class="fas fa-plus"></i> Stock: {{ videojuego.stock }}
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="btn-group-vertical w-100" role="group">
+                                                <a href="{% url 'editar_videojuego' videojuego.id %}" class="btn btn-sm btn-success mb-1">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <form method="POST" action="gestionar-videojuego" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accion" value="eliminar">
+                                                    <input type="hidden" name="videojuego_id" value="{{ videojuego.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('¿Estás seguro de eliminar este videojuego?')">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="no-results">
+                                    <i class="fas fa-gamepad"></i>
+                                    <h5>No se encontraron videojuegos</h5>
+                                    <p>{% if busqueda %}No hay videojuegos que coincidan con "{{ busqueda }}"{% else %}No hay videojuegos registrados{% endif %}</p>
+                                </div>
+                                {% endfor %}
+                                
+                                <!-- Paginación -->
+                                {% if videojuegos.has_other_pages %}
+                                    <nav aria-label="Paginación de videojuegos">
+                                        <ul class="pagination">
+                                            {% if videojuegos.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ videojuegos.previous_page_number }}">
+                                                        <i class="fas fa-chevron-left"></i> Anterior
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            {% for num in videojuegos.paginator.page_range %}
+                                                {% if videojuegos.number == num %}
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ num }}</span>
+                                                    </li>
+                                                {% elif num > videojuegos.number|add:'-3' and num < videojuegos.number|add:'3' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ num }}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if videojuegos.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ videojuegos.next_page_number }}">
+                                                        Siguiente <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Coleccionables -->
+            <div class="tab-pane fade" id="coleccionables" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-plus"></i> Agregar Coleccionable</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="gestionar-coleccionable">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="accion" value="crear">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" name="nombre" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                            <label class="form-label">Precio</label>
+                                            <input type="number" class="form-control" name="precio" step="0.01" required>
+                                        </div>
+                                            <input type="hidden" name="stock" value="0">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Tipo (ej: Funko Pop)</label>
+                                            <input type="text" class="form-control" name="tipo_coleccionable" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Categoría</label>
+                                            <input type="text" class="form-control" name="categoria" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-plus"></i> Agregar Coleccionable
+                                    </button>
+                                </form>
+                                <div class="alert alert-warning mt-3 mb-0" style="font-size: 0.85rem;">
+                                    <i class="fas fa-info-circle"></i> 
+                                    <strong>Importante:</strong> Después de crear el producto, debes agregar el stock desde el listado usando el botón <strong>"Agregar Stock"</strong>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-list"></i> Lista de Coleccionables</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Información de resultados -->
+                                {% if coleccionables %}
+                                    <div class="results-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        Mostrando {{ coleccionables.start_index }}-{{ coleccionables.end_index }} de {{ coleccionables.paginator.count }} coleccionables
+                                        {% if busqueda %}
+                                            para "{{ busqueda }}"
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                
+                                {% for coleccionable in coleccionables %}
+                                <div class="product-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <h6>{{ coleccionable.nombre }}</h6>
+                                            <p class="text-muted mb-1">{{ coleccionable.descripcion|truncatewords:10 }}</p>
+                                            <span class="badge bg-success">{{ coleccionable.tipo_coleccionable }}</span>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <p class="mb-1"><strong>${{ coleccionable.precio }}</strong></p>
+                                            <button class="btn btn-sm btn-info stock-btn" 
+                                                    data-producto-id="{{ coleccionable.id }}" 
+                                                    data-producto-tipo="coleccionable"
+                                                    data-producto-nombre="{{ coleccionable.nombre }}"
+                                                    data-stock-actual="{{ coleccionable.stock }}">
+                                                <i class="fas fa-plus"></i> Stock: {{ coleccionable.stock }}
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="btn-group-vertical w-100" role="group">
+                                                <a href="{% url 'editar_coleccionable' coleccionable.id %}" class="btn btn-sm btn-success mb-1">
+                                                    <i class="fas fa-edit"></i> Editar
+                                                </a>
+                                                <form method="POST" action="gestionar-coleccionable" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accion" value="eliminar">
+                                                    <input type="hidden" name="coleccionable_id" value="{{ coleccionable.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('¿Estás seguro de eliminar este coleccionable?')">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="no-results">
+                                    <i class="fas fa-leaf"></i>
+                                    <h5>No se encontraron coleccionables</h5>
+                                    <p>{% if busqueda %}No hay coleccionables que coincidan con "{{ busqueda }}"{% else %}No hay coleccionables registrados{% endif %}</p>
+                                </div>
+                                {% endfor %}
+                                
+                                <!-- Paginación -->
+                                {% if coleccionables.has_other_pages %}
+                                    <nav aria-label="Paginación de coleccionables">
+                                        <ul class="pagination">
+                                            {% if coleccionables.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ coleccionables.previous_page_number }}">
+                                                        <i class="fas fa-chevron-left"></i> Anterior
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            {% for num in coleccionables.paginator.page_range %}
+                                                {% if coleccionables.number == num %}
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ num }}</span>
+                                                    </li>
+                                                {% elif num > coleccionables.number|add:'-3' and num < coleccionables.number|add:'3' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ num }}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if coleccionables.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ coleccionables.next_page_number }}">
+                                                        Siguiente <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Facturas de Compras -->
+            <div class="tab-pane fade" id="facturas" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-file-invoice"></i> Registro de Facturas de Compras</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if facturas %}
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Producto</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Proveedor</th>
+                                                    <th>Precio Compra</th>
+                                                    <th>Total</th>
+                                                    <th>Fecha</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for factura in facturas %}
+                                                <tr>
+                                                    <td><strong>#{{ factura.id }}</strong></td>
+                                                    <td>
+                                                        <div>
+                                                            <strong>{{ factura.nombre_producto }}</strong>
+                                                            {% if factura.videojuego %}
+                                                                <br><small class="text-muted">Videojuego</small>
+                                                            {% elif factura.coleccionable %}
+                                                                <br><small class="text-muted">Coleccionable</small>
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge bg-primary">{{ factura.cantidad_comprada }} unidades</span></td>
+                                                    <td>{{ factura.proveedor }}</td>
+                                                    <td>${{ factura.precio_compra }}</td>
+                                                    <td><strong>${{ factura.total_factura }}</strong></td>
+                                                    <td>{{ factura.fecha_compra|date:"d/m/Y H:i" }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">No hay facturas registradas</h5>
+                                        <p class="text-muted">Las facturas aparecerán aquí cuando agregues stock a los productos</p>
+                                    </div>
+                                {% endif %}
+                                
+                                <!-- Botón para ver todas las facturas de compras -->
+                                <div class="text-center mt-4">
+                                    <a href="{% url 'facturas_compras' %}" class="btn btn-primary-premium">
+                                        <i class="fas fa-eye"></i> Ver Todas las Facturas de Compras
+                                        <span class="badge bg-light text-dark ms-2">{{ facturas_compras_count }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Facturas de Ventas -->
+            <div class="tab-pane fade" id="ventas" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shopping-cart"></i> Registro de Facturas de Ventas</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if facturas_ventas %}
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Factura</th>
+                                                    <th>Cliente</th>
+                                                    <th>Pedido</th>
+                                                    <th>Subtotal</th>
+                                                    <th>IVA</th>
+                                                    <th>Total</th>
+                                                    <th>Estado</th>
+                                                    <th>Fecha</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for factura in facturas_ventas %}
+                                                <tr>
+                                                    <td><strong>{{ factura.numero_factura }}</strong></td>
+                                                    <td>
+                                                        <div>
+                                                            <strong>{{ factura.usuario.nombre }} {{ factura.usuario.apellido }}</strong>
+                                                            <br><small class="text-muted">Cliente #{{ factura.usuario.numero_cliente }}</small>
+                                                        </div>
+                                                    </td>
+                                                    <td>#{{ factura.pedido.id }}</td>
+                                                    <td>${{ factura.subtotal|floatformat:0 }}</td>
+                                                    <td>${{ factura.iva|floatformat:0 }}</td>
+                                                    <td><strong>${{ factura.total|floatformat:0 }}</strong></td>
+                                                    <td>
+                                                        {% if factura.estado == 'pendiente' %}
+                                                            <span class="badge bg-warning">{{ factura.estado|title }}</span>
+                                                        {% elif factura.estado == 'confirmado' %}
+                                                            <span class="badge bg-info">{{ factura.estado|title }}</span>
+                                                        {% elif factura.estado == 'entregado' %}
+                                                            <span class="badge bg-success">{{ factura.estado|title }}</span>
+                                                        {% elif factura.estado == 'cancelado' %}
+                                                            <span class="badge bg-danger">{{ factura.estado|title }}</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ factura.fecha_venta|date:"d/m/Y H:i" }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">No hay facturas de venta registradas</h5>
+                                        <p class="text-muted">Las facturas de venta aparecerán aquí cuando los clientes realicen compras</p>
+                                    </div>
+                                {% endif %}
+                                
+                                <!-- Botón para ver todas las facturas -->
+                                <div class="text-center mt-4">
+                                    <a href="{% url 'facturas_ventas' %}" class="btn btn-primary-premium">
+                                        <i class="fas fa-eye"></i> Ver Todas las Facturas de Ventas
+                                        <span class="badge bg-light text-dark ms-2">{{ facturas_ventas_count }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Estados de Pedidos -->
+            <div class="tab-pane fade" id="pedidos" role="tabpanel">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-clipboard-list"></i> Gestión de Estados de Pedidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-number">{{ total_pedidos|default:0 }}</div>
+                                            <div class="stats-label">Total Pedidos</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-number text-warning">{{ pendientes|default:0 }}</div>
+                                            <div class="stats-label">Pendientes</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-number text-success">{{ realizados|default:0 }}</div>
+                                            <div class="stats-label">Realizados</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="stats-card text-center">
+                                            <div class="stats-number text-danger">{{ cancelados|default:0 }}</div>
+                                            <div class="stats-label">Cancelados</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <a href="{% url 'estados_pedidos' %}" class="btn btn-primary-premium">
+                                        <i class="fas fa-cogs"></i> Gestionar Estados de Pedidos
+                                    </a>
+                                    <a href="{% url 'cancelar_pedidos_vencidos' %}" class="btn btn-warning-premium ms-3">
+                                        <i class="fas fa-clock"></i> Cancelar Pedidos Vencidos
+                                    </a>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-info-circle"></i> Información del Sistema</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success"></i> Los pedidos pendientes se cancelan automáticamente después de 1 semana</li>
+                                        <li><i class="fas fa-undo text-info"></i> Al cancelar un pedido, el stock se restaura automáticamente</li>
+                                        <li><i class="fas fa-chart-line text-primary"></i> Puedes filtrar pedidos por estado y ver estadísticas detalladas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar stock -->
+    <div class="modal fade" id="stockModal" tabindex="-1" aria-labelledby="stockModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="stockModalLabel">
+                        <i class="fas fa-plus-circle"></i> Agregar Stock al Producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="stockForm" method="POST" action="{% url 'procesar_factura' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Producto:</strong></label>
+                            <p id="producto-nombre" class="form-control-plaintext"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Stock Actual:</strong></label>
+                            <p id="stock-actual" class="form-control-plaintext"></p>
+                        </div>
+                        
+                        <hr>
+                        <h6 class="mb-3"><i class="fas fa-receipt"></i> Datos de la Compra</h6>
+                        
+                        <div class="mb-3">
+                            <label for="nombre_producto" class="form-label">Nombre del Producto *</label>
+                            <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" required>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="cantidad_comprada" class="form-label">Cantidad Comprada *</label>
+                                <input type="number" class="form-control" id="cantidad_comprada" name="cantidad_comprada" min="1" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="precio_compra" class="form-label">Precio de Compra (por unidad) *</label>
+                                <input type="number" class="form-control" id="precio_compra" name="precio_compra" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="proveedor" class="form-label">Proveedor *</label>
+                            <input type="text" class="form-control" id="proveedor" name="proveedor" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="codigo_paquete" class="form-label">Código de Paquete</label>
+                            <input type="text" class="form-control" id="codigo_paquete" name="codigo_paquete" placeholder="Ej: PKG-2025-001">
+                            <small class="text-muted">Código de identificación del paquete o lote de productos</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="observaciones" class="form-label">Observaciones</label>
+                            <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Notas adicionales sobre la compra..."></textarea>
+                        </div>
+                        
+                        <!-- Campos ocultos -->
+                        <input type="hidden" id="producto_id" name="producto_id">
+                        <input type="hidden" id="producto_tipo" name="producto_tipo">
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Total estimado:</strong> <span id="total-estimado">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Registrar Compra y Agregar Stock
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Carrusel de Funciones Admin
+        let currentSlideIndex = 1;
+        const totalSlides = 2;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.admin-functions-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Ocultar todas las slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Mostrar la slide actual
+            if (n > totalSlides) currentSlideIndex = 1;
+            if (n < 1) currentSlideIndex = totalSlides;
+
+            slides[currentSlideIndex - 1].classList.add('active');
+            dots[currentSlideIndex - 1].classList.add('active');
+
+            // Actualizar estado de botones
+            prevBtn.disabled = currentSlideIndex === 1;
+            nextBtn.disabled = currentSlideIndex === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlideIndex += direction);
+        }
+
+        function currentSlide(n) {
+            showSlide(currentSlideIndex = n);
+        }
+
+        function showTab(tabName) {
+            // Ocultar todas las tabs
+            const tabs = document.querySelectorAll('.tab-pane');
+            tabs.forEach(tab => {
+                tab.classList.remove('show', 'active');
+            });
+
+            // Mostrar la tab seleccionada
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('show', 'active');
+            }
+
+            // Actualizar botones de navegación
+            const navButtons = document.querySelectorAll('[data-bs-target]');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-bs-target') === '#' + tabName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Scroll suave hacia el contenido
+            targetTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Inicializar carrusel
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(currentSlideIndex);
+        });
+
+        // Manejar clic en botones de stock
+        document.addEventListener('DOMContentLoaded', function() {
+            const stockButtons = document.querySelectorAll('.stock-btn');
+            const stockModal = new bootstrap.Modal(document.getElementById('stockModal'));
+            
+            stockButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productoId = this.getAttribute('data-producto-id');
+                    const productoTipo = this.getAttribute('data-producto-tipo');
+                    const productoNombre = this.getAttribute('data-producto-nombre');
+                    const stockActual = this.getAttribute('data-stock-actual');
+                    
+                    // Llenar el modal con los datos del producto
+                    document.getElementById('producto-nombre').textContent = productoNombre;
+                    document.getElementById('stock-actual').textContent = stockActual + ' unidades';
+                    document.getElementById('nombre_producto').value = productoNombre;
+                    document.getElementById('producto_id').value = productoId;
+                    document.getElementById('producto_tipo').value = productoTipo;
+                    
+                    // Limpiar otros campos
+                    document.getElementById('cantidad_comprada').value = '';
+                    document.getElementById('precio_compra').value = '';
+                    document.getElementById('proveedor').value = '';
+                    document.getElementById('observaciones').value = '';
+                    document.getElementById('total-estimado').textContent = '$0.00';
+                    
+                    stockModal.show();
+                });
+            });
+            
+            // Calcular total estimado
+            const cantidadInput = document.getElementById('cantidad_comprada');
+            const precioInput = document.getElementById('precio_compra');
+            const totalSpan = document.getElementById('total-estimado');
+            
+            function calcularTotal() {
+                const cantidad = parseFloat(cantidadInput.value) || 0;
+                const precio = parseFloat(precioInput.value) || 0;
+                const total = cantidad * precio;
+                totalSpan.textContent = '$' + total.toFixed(2);
+            }
+            
+            cantidadInput.addEventListener('input', calcularTotal);
+            precioInput.addEventListener('input', calcularTotal);
+            
+            // Manejar botones de stock en formularios de creación
+            const stockButtonsCrear = document.querySelectorAll('.stock-btn-crear');
+            
+            stockButtonsCrear.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productoTipo = this.getAttribute('data-producto-tipo');
+                    const formulario = this.getAttribute('data-formulario');
+                    
+                    // Obtener datos del formulario actual
+                    const form = this.closest('form');
+                    const nombreInput = form.querySelector('input[name="nombre"]');
+                    const stockInput = form.querySelector('input[name="stock"]');
+                    
+                    // Verificar que el nombre esté lleno
+                    if (!nombreInput.value.trim()) {
+                        alert('Por favor, ingresa el nombre del producto antes de agregar stock');
+                        nombreInput.focus();
+                        return;
+                    }
+                    
+                    // Llenar el modal con los datos del formulario
+                    document.getElementById('producto-nombre').textContent = nombreInput.value;
+                    document.getElementById('stock-actual').textContent = 'Nuevo producto - Stock inicial: 0 unidades';
+                    document.getElementById('nombre_producto').value = nombreInput.value;
+                    document.getElementById('producto_id').value = ''; // No hay ID aún
+                    document.getElementById('producto_tipo').value = productoTipo;
+                    
+                    // Limpiar otros campos
+                    document.getElementById('cantidad_comprada').value = '';
+                    document.getElementById('precio_compra').value = '';
+                    document.getElementById('proveedor').value = '';
+                    document.getElementById('observaciones').value = '';
+                    document.getElementById('total-estimado').textContent = '$0.00';
+                    
+                    // Agregar campo oculto para indicar que es formulario de creación
+                    let campoFormulario = document.getElementById('es_formulario_creacion');
+                    if (!campoFormulario) {
+                        campoFormulario = document.createElement('input');
+                        campoFormulario.type = 'hidden';
+                        campoFormulario.name = 'es_formulario_creacion';
+                        campoFormulario.id = 'es_formulario_creacion';
+                        document.getElementById('stockForm').appendChild(campoFormulario);
+                    }
+                    campoFormulario.value = 'true';
+                    
+                    // Agregar campo oculto para el stock inicial
+                    let campoStockInicial = document.getElementById('stock_inicial_formulario');
+                    if (!campoStockInicial) {
+                        campoStockInicial = document.createElement('input');
+                        campoStockInicial.type = 'hidden';
+                        campoStockInicial.name = 'stock_inicial_formulario';
+                        campoStockInicial.id = 'stock_inicial_formulario';
+                        document.getElementById('stockForm').appendChild(campoStockInicial);
+                    }
+                    campoStockInicial.value = stockInput.value || '0';
+                    
+                    stockModal.show();
+                });
+            });
+        });
+        
+        // Auto-submit del formulario de filtros cuando cambian los selects
+        document.addEventListener('DOMContentLoaded', function() {
+            const estadoSelect = document.getElementById('estado');
+            const ordenSelect = document.getElementById('orden');
+            
+            if (estadoSelect) {
+                estadoSelect.addEventListener('change', function() {
+                    document.getElementById('filtersForm').submit();
+                });
+            }
+            
+            if (ordenSelect) {
+                ordenSelect.addEventListener('change', function() {
+                    document.getElementById('filtersForm').submit();
+                });
+            }
+            
+            // Limpiar búsqueda con Enter
+            const busquedaInput = document.getElementById('busqueda');
+            if (busquedaInput) {
+                busquedaInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('filtersForm').submit();
+                    }
+                });
+            }
+        });
+        
+    </script>
+
+</body>
+</html>

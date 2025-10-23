@@ -1,0 +1,801 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema Rolex */
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #1a1a1a;
+            --light-charcoal: #2c2c2c;
+            --pure-white: #ffffff;
+            --soft-gray: #f8f9fa;
+            --text-gray: #666666;
+            --border-light: #e5e5e5;
+            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
+            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-charcoal);
+            background-color: var(--pure-white);
+        }
+
+        /* Navbar premium */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-charcoal) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Header section */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            color: var(--pure-white);
+            padding: 80px 0 60px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(212,175,55,0.05)"/><circle cx="10" cy="90" r="0.5" fill="rgba(212,175,55,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        /* Filter section */
+        .filter-section {
+            background: var(--soft-gray);
+            padding: 30px;
+            border: 1px solid var(--border-light);
+            margin: 40px 0;
+        }
+
+        .filter-section h4 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal);
+            margin-bottom: 0;
+        }
+
+        .form-select {
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 12px 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            outline: none;
+        }
+
+        /* Product cards */
+        .product-card {
+            background: transparent;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gold);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+            border-color: var(--primary-gold);
+        }
+
+        .card-img-container {
+            height: 280px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, var(--soft-gray) 0%, var(--pure-white) 100%);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .product-card .card-img-top {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.4s ease;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .product-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        /* Overlay para mejor legibilidad del texto */
+        .card-img-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .card-img-overlay .card-title {
+            color: white;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card-img-overlay .price {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--dark-charcoal);
+        }
+
+        .card-text {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-badge {
+            background: var(--soft-gray);
+            color: var(--text-gray);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            display: inline-block;
+            min-width: 0;
+        }
+
+        .category-badge {
+            background: var(--primary-gold);
+            color: var(--dark-charcoal);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            display: inline-block;
+            min-width: 0;
+        }
+
+        .stock-info {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* Buttons */
+        .btn-premium {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 12px 30px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gold);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: var(--dark-charcoal);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-premium:hover::before {
+            left: 0;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+        }
+
+        .empty-state h3 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 0;
+            border: none;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .modal-header {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            border: none;
+        }
+
+        .modal-title {
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-body h4 {
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--dark-charcoal);
+        }
+
+        .modal-body .text-muted {
+            color: var(--text-gray) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .card-img-container {
+                height: 200px;
+            }
+            
+            .platform-badge,
+            .category-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .platform-badge,
+            .category-badge {
+                font-size: 0.65rem;
+                padding: 3px 6px;
+                max-width: 100px;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+                line-height: 1.3;
+            }
+            
+            .card-text {
+                font-size: 0.9rem;
+            }
+            
+            .price {
+                font-size: 1.2rem;
+            }
+            
+            .stock-info {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .platform-badge,
+            .category-badge {
+                font-size: 0.6rem;
+                padding: 2px 4px;
+                max-width: 80px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            padding: 60px 0 30px;
+        }
+
+        .footer h5 {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            color: var(--primary-gold);
+        }
+
+        .footer p, .footer li {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-gold);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'tienda' %}">Videojuegos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito' %}" onclick="return verificarSesion()">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                        </a>
+                    </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if usuario_nombre %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i> {{ usuario_nombre }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}"><i class="fas fa-box"></i> Mis Pedidos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container text-center page-header-content">
+            <h1>Videojuegos</h1>
+            <p>Descubre nuestra colección premium de videojuegos</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Filtros -->
+        <div class="filter-section">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4><i class="fas fa-filter"></i> Filtros</h4>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-2">
+                        <select class="form-select" onchange="filtrarPorPrecio(this.value)">
+                            <option value="nombre">Ordenar por nombre</option>
+                            <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                            <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Videojuegos -->
+        <div class="row">
+            {% for videojuego in videojuegos %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card product-card h-100">
+                    <div class="card-img-container position-relative">
+                        {% if videojuego.imagen %}
+                            <img src="{{ videojuego.imagen.url }}" class="card-img-top" alt="{{ videojuego.nombre }}">
+                        {% else %}
+                            <div class="card-img-top bg-dark d-flex align-items-center justify-content-center">
+                                <i class="fas fa-gamepad fa-3x" style="color: var(--primary-gold);"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-img-overlay d-flex flex-column justify-content-end">
+                            <h5 class="card-title">{{ videojuego.nombre }}</h5>
+                            <div class="price">${{ videojuego.precio }}</div>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <p class="card-text text-muted">{{ videojuego.descripcion|truncatewords:8 }}</p>
+                        <div class="mt-auto">
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="platform-badge" title="{{ videojuego.plataforma }}">{{ videojuego.plataforma }}</span>
+                                <span class="category-badge" title="{{ videojuego.categoria }}">{{ videojuego.categoria }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                {% if videojuego.estado == 'agotado' %}
+                                    <span class="stock-info text-danger fw-bold">
+                                        <i class="fas fa-times-circle"></i> SIN STOCK
+                                    </span>
+                                {% else %}
+                                    <span class="stock-info">
+                                        <i class="fas fa-box"></i> Stock: {{ videojuego.stock }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'detalle_videojuego' videojuego.id %}" class="btn btn-premium w-100">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>No hay videojuegos disponibles</h3>
+                    <p>Pronto agregaremos más juegos a nuestra tienda</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal de Detalles del Videojuego -->
+    <div class="modal fade" id="detalleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="modalImagen" src="" class="img-fluid rounded" alt="">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 id="modalNombre"></h4>
+                            <p id="modalDescripcion" class="text-muted"></p>
+                            <div class="mb-3">
+                                <span class="badge bg-primary" id="modalPlataforma"></span>
+                                <span class="badge bg-secondary" id="modalCategoria"></span>
+                            </div>
+                            <h3 class="text-primary" id="modalPrecio"></h3>
+                            <p class="text-success" id="modalStock"></p>
+                            <div class="mb-3">
+                                <label for="cantidad" class="form-label">Cantidad:</label>
+                                <input type="number" class="form-control" id="cantidad" value="1" min="1" max="10">
+                            </div>
+                            <button type="button" class="btn btn-primary w-100" onclick="agregarAlCarrito()">
+                                <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let videojuegoActual = null;
+
+        function verificarSesion() {
+            {% if not usuario_nombre %}
+                alert('Debes iniciar sesión primero para acceder al carrito');
+                return false;
+            {% endif %}
+            return true;
+        }
+
+        function filtrarPorPrecio(orden) {
+            const url = new URL(window.location);
+            url.searchParams.set('orden', orden);
+            window.location.href = url.toString();
+        }
+
+        function verDetalle(videojuegoId) {
+            // Buscar el videojuego en la lista
+            {% for videojuego in videojuegos %}
+            if ({{ videojuego.id }} === videojuegoId) {
+                videojuegoActual = {
+                    id: {{ videojuego.id }},
+                    nombre: "{{ videojuego.nombre }}",
+                    descripcion: "{{ videojuego.descripcion }}",
+                    precio: {{ videojuego.precio }},
+                    plataforma: "{{ videojuego.plataforma }}",
+                    categoria: "{{ videojuego.categoria }}",
+                    stock: {{ videojuego.stock }},
+                    imagen: "{% if videojuego.imagen %}{{ videojuego.imagen.url }}{% endif %}"
+                };
+                mostrarModal();
+                return;
+            }
+            {% endfor %}
+        }
+
+        function mostrarModal() {
+            if (!videojuegoActual) return;
+
+            document.getElementById('modalTitulo').textContent = videojuegoActual.nombre;
+            document.getElementById('modalNombre').textContent = videojuegoActual.nombre;
+            document.getElementById('modalDescripcion').textContent = videojuegoActual.descripcion;
+            document.getElementById('modalPrecio').textContent = '$' + videojuegoActual.precio;
+            document.getElementById('modalPlataforma').textContent = videojuegoActual.plataforma;
+            document.getElementById('modalCategoria').textContent = videojuegoActual.categoria;
+            document.getElementById('modalStock').textContent = 'Stock disponible: ' + videojuegoActual.stock;
+            
+            if (videojuegoActual.imagen) {
+                document.getElementById('modalImagen').src = videojuegoActual.imagen;
+            } else {
+                document.getElementById('modalImagen').src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2NjYyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5TaW4gaW1hZ2VuPC90ZXh0Pjwvc3ZnPg==';
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
+            modal.show();
+        }
+
+        function agregarAlCarrito() {
+            if (!videojuegoActual) return;
+
+            const cantidad = parseInt(document.getElementById('cantidad').value);
+            if (cantidad < 1 || cantidad > videojuegoActual.stock) {
+                alert('Cantidad inválida');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('producto_id', videojuegoActual.id);
+            formData.append('tipo', 'videojuego');
+            formData.append('cantidad', cantidad);
+
+            fetch('/agregar-carrito', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Producto agregado al carrito');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('detalleModal'));
+                    modal.hide();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al agregar producto al carrito');
+            });
+        }
+    </script>
+    {% csrf_token %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SangresitaStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
+                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
