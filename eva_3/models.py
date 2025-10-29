@@ -8,6 +8,7 @@ class Usuario(models.Model):
     telefono = models.CharField(max_length=20)
     direccion = models.TextField()
     es_admin = models.BooleanField(default=False)
+    is_owner = models.BooleanField(default=False)  # Solo el propietario principal puede eliminar superusuarios
     fecha_registro = models.DateTimeField(auto_now_add=True)
     numero_cliente = models.CharField(max_length=10, unique=True, blank=True, null=True)
 

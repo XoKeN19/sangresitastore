@@ -8,10 +8,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.mostrarInicioPublico, name='inicio_publico'),
     path('login', views.mostrarLogin, name='login'),
-    path('ingresar', views.insertarLogin),
+    path('ingresar', views.insertarLogin, name='insertarLogin'),
     path('cerrar-sesion', views.cerrarSesion, name='cerrar_sesion'),
     path('registro', views.mostrarRegistro, name='registro'),
-    path('crear-usuario', views.crearUsuario),
+    path('crear-usuario', views.crearUsuario, name='crearUsuario'),
     path('inicio', views.mostrarInicio, name='inicio'),
     path('tienda', views.mostrarTienda, name='tienda'),
     path('coleccionables', views.mostrarColeccionables, name='coleccionables'),
@@ -44,6 +44,10 @@ urlpatterns = [
     path('cambiar-contrasena', views.cambiarContrasena, name='cambiar_contrasena'),
     path('mis-pedidos', views.misPedidos, name='mis_pedidos'),
     path('detalle-pedido/<int:pedido_id>', views.detallePedidoUsuario, name='detalle_pedido_usuario'),
+    path('crear-superusuario', views.mostrarCrearSuperusuario, name='crear_superusuario'),
+    path('procesar-superusuario', views.crearSuperusuario, name='procesar_superusuario'),
+    path('listar-superusuarios', views.listarSuperusuarios, name='listar_superusuarios'),
+    path('eliminar-superusuario/<int:usuario_id>', views.eliminarSuperusuario, name='eliminar_superusuario'),
 ]
 
 # Configuración para servir archivos de medios en desarrollo

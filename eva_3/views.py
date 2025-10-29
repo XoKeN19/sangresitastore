@@ -1336,3 +1336,130 @@ def cambiarContrasena(request):
         print(f"Error al cambiar contraseña: {str(e)}")
         return redirect('perfil')
 
+def mostrarCrearSuperusuario(request):
+    """Vista para mostrar el formulario de crear superusuario"""
+    if 'usuario_id' not in request.session or not request.session.get('es_admin', False):
+        messages.error(request, 'No tienes permisos para acceder a esta página')
+        return redirect('login')
+    
+    context = {
+        'usuario_nombre': request.session.get('usuario_nombre'),
+        'es_admin': request.session.get('es_admin', False)
+    }
+    return render(request, 'crear_superusuario.html', context)
+
+def crearSuperusuario(request):
+    """Vista para procesar la creación de un superusuario"""
+    if 'usuario_id' not in request.session or not request.session.get('es_admin', False):
+        messages.error(request, 'No tienes permisos para realizar esta acción')
+        return redirect('login')
+    
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '').strip()
+        apellido = request.POST.get('apellido', '').strip()
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+        direccion = request.POST.get('direccion', '').strip()
+        
+        # Validaciones
+        if not all([nombre, apellido, email, password, telefono, direccion]):
+            messages.error(request, 'Todos los campos son obligatorios')
+            return redirect('crear_superusuario')
+        
+        if len(password) < 6:
+            messages.error(request, 'La contraseña debe tener al menos 6 caracteres')
+            return redirect('crear_superusuario')
+        
+        # Verificar si el email ya existe
+        if Usuario.objects.filter(email=email).exists():
+            messages.error(request, 'Ya existe un usuario con ese email')
+            return redirect('crear_superusuario')
+        
+        try:
+            # Crear el superusuario
+            superusuario = Usuario.objects.create(
+                nombre=nombre,
+                apellido=apellido,
+                email=email,
+                password=password,
+                telefono=telefono,
+                direccion=direccion,
+                es_admin=True  # Lo más importante: marcar como admin
+            )
+            messages.success(request, f'SuperUsuario {nombre} {apellido} creado exitosamente')
+            return redirect('listar_superusuarios')
+        except Exception as e:
+            messages.error(request, f'Error al crear el superusuario: {str(e)}')
+            return redirect('crear_superusuario')
+    
+    return redirect('crear_superusuario')
+
+def listarSuperusuarios(request):
+    """Vista para listar todos los superusuarios"""
+    if 'usuario_id' not in request.session or not request.session.get('es_admin', False):
+        messages.error(request, 'No tienes permisos para acceder a esta página')
+        return redirect('login')
+    
+    # Obtener el usuario actual
+    usuario_actual = Usuario.objects.get(id=request.session['usuario_id'])
+    
+    # Obtener todos los usuarios con privilegios administrativos
+    superusuarios = Usuario.objects.filter(es_admin=True).order_by('-fecha_registro')
+    
+    context = {
+        'usuario_nombre': request.session.get('usuario_nombre'),
+        'es_admin': request.session.get('es_admin', False),
+        'is_owner': usuario_actual.is_owner,  # Pasar si el usuario actual es owner
+        'superusuarios': superusuarios,
+        'total_superusuarios': superusuarios.count()
+    }
+    return render(request, 'listar_superusuarios.html', context)
+
+def eliminarSuperusuario(request, usuario_id):
+    """Vista para eliminar un superusuario (solo el owner puede hacerlo)"""
+    if 'usuario_id' not in request.session or not request.session.get('es_admin', False):
+        messages.error(request, 'No tienes permisos para acceder a esta página')
+        return redirect('login')
+    
+    try:
+        # Obtener el usuario actual
+        usuario_actual = Usuario.objects.get(id=request.session['usuario_id'])
+        
+        # Verificar que sea el owner
+        if not usuario_actual.is_owner:
+            messages.error(request, 'Solo el propietario principal puede eliminar SuperUsuarios')
+            return redirect('listar_superusuarios')
+        
+        # Obtener el usuario a eliminar
+        usuario_a_eliminar = Usuario.objects.get(id=usuario_id)
+        
+        # No permitir que el owner se elimine a sí mismo
+        if usuario_a_eliminar.id == usuario_actual.id:
+            messages.error(request, 'No puedes eliminarte a ti mismo')
+            return redirect('listar_superusuarios')
+        
+        # No permitir eliminar al owner
+        if usuario_a_eliminar.is_owner:
+            messages.error(request, 'No puedes eliminar al propietario principal')
+            return redirect('listar_superusuarios')
+        
+        # Verificar que sea un admin
+        if not usuario_a_eliminar.es_admin:
+            messages.error(request, 'Este usuario no es un SuperUsuario')
+            return redirect('listar_superusuarios')
+        
+        # Eliminar el superusuario
+        nombre_completo = f"{usuario_a_eliminar.nombre} {usuario_a_eliminar.apellido}"
+        usuario_a_eliminar.delete()
+        
+        messages.success(request, f'SuperUsuario {nombre_completo} eliminado exitosamente')
+        return redirect('listar_superusuarios')
+        
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuario no encontrado')
+        return redirect('listar_superusuarios')
+    except Exception as e:
+        messages.error(request, f'Error al eliminar el SuperUsuario: {str(e)}')
+        return redirect('listar_superusuarios')
+

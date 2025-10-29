@@ -1,0 +1,528 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperUsuarios - SangresitaStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #B8860B;
+            --dark-charcoal: #2C2C2C;
+            --light-gray: #F5F5F5;
+            --pure-white: #FFFFFF;
+            --border-light: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark-charcoal);
+        }
+
+        /* Navbar premium */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--dark-charcoal) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--dark-charcoal) !important;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: white;
+            padding: 100px 0 80px;
+            margin-top: 76px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .page-header p {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .main-container {
+            max-width: 1200px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+        }
+
+        .content-wrapper {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary-gold);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .stats-card h3 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        .stats-card p {
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .user-card {
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-gold);
+        }
+
+        .user-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--dark-charcoal);
+            font-weight: 500;
+        }
+
+        .user-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .badge-admin {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-owner {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 15px 20px;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer h5 {
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .footer p, .footer li {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-gold);
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            border-radius: 10px;
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--light-gray);
+            color: var(--primary-gold);
+        }
+
+        .no-users {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-users i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Premium -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">
+                SangresitaStore
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito' %}">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                        </a>
+                    </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if usuario_nombre %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i> {{ usuario_nombre }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{% url 'perfil' %}"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}"><i class="fas fa-box"></i> Mis Pedidos</a></li>
+                            {% if es_admin %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_superusuario' %}"><i class="fas fa-user-shield"></i> Crear SuperUsuario</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar_superusuarios' %}"><i class="fas fa-users-cog"></i> Lista de SuperUsuarios</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1><i class="fas fa-users-cog"></i> Lista de SuperUsuarios</h1>
+        <p>Usuarios con privilegios administrativos en el sistema</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Mensajes -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    <strong>
+                        {% if message.tags == 'error' or message.tags == 'danger' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% elif message.tags == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% endif %}
+                    </strong>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Stats Card -->
+        <div class="stats-card">
+            <h3>{{ total_superusuarios }}</h3>
+            <p><i class="fas fa-user-shield"></i> SuperUsuario{{ total_superusuarios|pluralize:"s" }} Registrado{{ total_superusuarios|pluralize:"s" }}</p>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Header con botón -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 style="margin: 0; color: var(--dark-charcoal); font-weight: 400;">
+                    <i class="fas fa-list"></i> Todos los SuperUsuarios
+                </h3>
+                <a href="{% url 'crear_superusuario' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Crear Nuevo
+                </a>
+            </div>
+
+            <!-- Lista de SuperUsuarios -->
+            {% if superusuarios %}
+                {% for usuario in superusuarios %}
+                <div class="user-card">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="user-avatar">
+                                {{ usuario.nombre|first|upper }}{{ usuario.apellido|first|upper }}
+                            </div>
+                            <div class="user-info">
+                                <h4>{{ usuario.nombre }} {{ usuario.apellido }}</h4>
+                                <p><i class="fas fa-envelope"></i> {{ usuario.email }}</p>
+                                <p><i class="fas fa-phone"></i> {{ usuario.telefono }}</p>
+                                <p><i class="fas fa-calendar"></i> Registrado: {{ usuario.fecha_registro|date:"d/m/Y" }}</p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            {% if usuario.is_owner %}
+                                <span class="badge-owner">
+                                    <i class="fas fa-crown"></i> OWNER
+                                </span>
+                            {% else %}
+                                <span class="badge-admin">
+                                    <i class="fas fa-shield-alt"></i> ADMIN
+                                </span>
+                            {% endif %}
+                            <p style="margin: 10px 0 0 0; font-size: 0.85rem; color: #999;">
+                                Cliente #{{ usuario.numero_cliente }}
+                            </p>
+                            {% if is_owner and not usuario.is_owner %}
+                                <form method="POST" action="{% url 'eliminar_superusuario' usuario.id %}" 
+                                      onsubmit="return confirm('¿Estás seguro de eliminar a {{ usuario.nombre }} {{ usuario.apellido }}?')"
+                                      style="margin-top: 10px;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-users">
+                    <i class="fas fa-users-slash"></i>
+                    <h4>No hay SuperUsuarios registrados</h4>
+                    <p>Crea el primer SuperUsuario para comenzar</p>
+                    <a href="{% url 'crear_superusuario' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus"></i> Crear SuperUsuario
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SangresitaStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
+                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
