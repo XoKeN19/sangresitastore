@@ -358,7 +358,13 @@
                         </div>
                         <div class="info-item">
                             <div class="info-label">Fecha del Pedido</div>
-                            <div class="info-value">{{ pedido.fecha_pedido|date:"d/m/Y H:i" }}</div>
+                            <div class="info-value">
+                                {% if pedido.fecha_pedido %}
+                                    {{ pedido.fecha_pedido|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    <span class="text-muted">No registrada</span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Estado</div>

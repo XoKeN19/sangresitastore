@@ -351,3 +351,10 @@ git push --force               # Puede sobrescribir historial
 
 **Guarda este archivo como referencia rápida** 📌
 
+
+
+
+
+
+
+

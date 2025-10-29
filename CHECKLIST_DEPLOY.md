@@ -1,4 +1,4 @@
-# ✅ Checklist de Despliegue a Render
+# ✅ Checklist de Despliegue a Railway
 
 Usa este checklist para asegurarte de completar todos los pasos necesarios.
 
@@ -9,7 +9,7 @@ Usa este checklist para asegurarte de completar todos los pasos necesarios.
 ### Instalaciones y Configuración
 - [ ] Git instalado en tu computadora
 - [ ] Cuenta de GitHub creada
-- [ ] Cuenta de Render creada
+- [ ] Cuenta de Railway creada
 - [ ] Archivos de configuración verificados:
   - [ ] requirements.txt existe
   - [ ] build.sh existe
@@ -25,7 +25,7 @@ Usa este checklist para asegurarte de completar todos los pasos necesarios.
 - [ ] Abrí terminal en la carpeta del proyecto
 - [ ] Ejecuté `git init`
 - [ ] Ejecuté `git add .`
-- [ ] Ejecuté `git commit -m "Initial commit - Proyecto Django para Render"`
+- [ ] Ejecuté `git commit -m "Initial commit - Proyecto Django para Railway"`
 - [ ] No hubo errores en el commit
 
 ### Crear Repositorio en GitHub
@@ -43,69 +43,57 @@ Usa este checklist para asegurarte de completar todos los pasos necesarios.
 
 ---
 
-## 🗄️ Base de Datos en Render
+## 🚂 Proyecto en Railway
 
-### Crear PostgreSQL
-- [ ] Entré a mi dashboard de Render
-- [ ] Click en "New +" → "PostgreSQL"
-- [ ] Configuré el nombre: `cowork-db`
-- [ ] Seleccioné región: Oregon
-- [ ] Seleccioné plan: Free
-- [ ] Click en "Create Database"
-- [ ] La base de datos se creó exitosamente
-- [ ] Copié la "Internal Database URL"
-- [ ] Guardé la URL en un lugar seguro
+### Crear Proyecto
+- [ ] Entré a mi dashboard de Railway
+- [ ] Click en "New Project"
+- [ ] Seleccioné "Deploy from GitHub repo"
+- [ ] Elegí mi repositorio `cowork-django`
+- [ ] Railway detectó Django automáticamente
 
----
-
-## 🌐 Web Service en Render
-
-### Crear Web Service
-- [ ] Click en "New +" → "Web Service"
-- [ ] Conecté mi cuenta de GitHub
-- [ ] Seleccioné el repositorio correcto
-- [ ] Configuré:
-  - [ ] Name: `cowork-app` (o el que elegí)
-  - [ ] Region: Oregon (misma que la DB)
-  - [ ] Branch: `main`
-  - [ ] Runtime: Python 3
-  - [ ] Build Command: `./build.sh`
-  - [ ] Start Command: `gunicorn cowork.wsgi:application`
-  - [ ] Plan: Free
+### Agregar PostgreSQL
+- [ ] En mi proyecto, click en "New"
+- [ ] Seleccioné "Database" → "Add PostgreSQL"
+- [ ] La base de datos se creó automáticamente
+- [ ] Railway conectó DATABASE_URL automáticamente
 
 ### Variables de Entorno
 - [ ] Generé una nueva SECRET_KEY
 - [ ] Agregué variable: `SECRET_KEY` = [mi clave generada]
 - [ ] Agregué variable: `DEBUG` = `False`
-- [ ] Agregué variable: `ALLOWED_HOSTS` = `.onrender.com`
-- [ ] Agregué variable: `DATABASE_URL` = [mi Internal DB URL]
+- [ ] Agregué variable: `ALLOWED_HOSTS` = `.railway.app`
 - [ ] Agregué variable: `PYTHON_VERSION` = `3.11.7`
 - [ ] Guardé todas las variables
 
 ### Desplegar
-- [ ] Click en "Create Web Service"
-- [ ] El build empezó automáticamente
-- [ ] Esperé a que termine el build (5-10 minutos)
-- [ ] El deploy fue exitoso (status: "Live")
+- [ ] Railway desplegó automáticamente
+- [ ] Esperé a que termine el build (3-5 minutos)
+- [ ] El deploy fue exitoso (status: "Active")
 - [ ] No hay errores en los logs
+
+### Generar Dominio
+- [ ] Fui a Settings → Domains
+- [ ] Click en "Generate Domain"
+- [ ] Obtuve mi URL: `https://mi-app.railway.app`
 
 ---
 
 ## 👤 Configuración Post-Deploy
 
 ### Crear Superusuario
-- [ ] En Render, fui a mi Web Service
-- [ ] Click en "Shell" en el menú
+- [ ] En Railway, fui a mi Web Service
+- [ ] Click en "..." (tres puntos) → "Terminal"
 - [ ] Ejecuté: `python manage.py createsuperuser`
 - [ ] Ingresé username, email y password
 - [ ] El superusuario se creó exitosamente
 
 ### Verificar Aplicación
-- [ ] Abrí la URL de mi app: `https://[mi-app].onrender.com`
+- [ ] Abrí la URL de mi app: `https://mi-app.railway.app`
 - [ ] La página de inicio carga correctamente
 - [ ] Los archivos estáticos (CSS) se ven bien
 - [ ] Probé el login
-- [ ] Accedí al admin: `https://[mi-app].onrender.com/admin`
+- [ ] Accedí al admin: `https://mi-app.railway.app/admin`
 - [ ] Pude loguearme con el superusuario
 
 ---
@@ -114,7 +102,7 @@ Usa este checklist para asegurarte de completar todos los pasos necesarios.
 
 ### Si necesitas subir imágenes/archivos
 - [ ] Decidí qué hacer con los archivos media:
-  - [ ] Los subiré manualmente via Shell de Render
+  - [ ] Los subiré manualmente via Terminal de Railway
   - [ ] Configuraré almacenamiento externo (Cloudinary/S3)
   - [ ] Los recrearé en producción
 
@@ -175,20 +163,20 @@ Si marcaste todas las casillas, ¡tu aplicación está desplegada exitosamente!
 ## 🆘 ¿Problemas?
 
 Si algo no funcionó, revisa:
-1. **DEPLOY_INSTRUCTIONS.md** - Instrucciones detalladas
-2. **RENDER_ENV_VARS.md** - Configuración de variables
-3. **Logs en Render** - Errores específicos
-4. **Documentación de Render** - https://render.com/docs
+1. **RAILWAY_DEPLOY.md** - Instrucciones detalladas
+2. **RAILWAY_RAPIDO.md** - Guía rápida
+3. **Logs en Railway** - Errores específicos
+4. **Documentación de Railway** - https://docs.railway.app
 
 ---
 
 ## 📊 Monitoreo
 
-Cosas a revistar regularmente:
-- [ ] Revisar logs de errores en Render
-- [ ] Verificar que la app está "Live"
-- [ ] Monitorear uso de la base de datos
-- [ ] Backup de datos importantes (la DB gratis expira en 90 días)
+Cosas a revisar regularmente:
+- [ ] Revisar logs de errores en Railway
+- [ ] Verificar que la app está "Active"
+- [ ] Monitorear uso del crédito (Dashboard → Usage)
+- [ ] Backup de datos importantes
 
 ---
 

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import JsonResponse
 from django.utils import timezone
-from datetime import datetime, timedelta
+from datetime import datetime
 from .models import Usuario, Videojuego, Coleccionable, Carrito, ItemCarrito, Pedido, FacturaCompra, FacturaVenta
 
 def mostrarLogin(request):
@@ -86,9 +86,9 @@ def crearUsuario(request):
 
 def mostrarInicioPublico(request):
     """Página inicial pública sin requerir login"""
-    # Mostrar 4 productos recomendados (disponibles y agotados)
-    videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True)[:4]
-    coleccionables_destacados = Coleccionable.objects.filter(es_recomendado=True)[:4]
+    # Mostrar 4 productos recomendados para que se vean las 4 cards
+    videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True, estado='disponible')[:4]
+    coleccionables_destacados = Coleccionable.objects.filter(estado='disponible')[:4]
     
     # Asegurar que la sesión esté activa
     if not request.session.session_key:
@@ -111,9 +111,9 @@ def mostrarInicio(request):
     if 'usuario_id' not in request.session:
         return redirect('inicio_publico')
     
-    # Mostrar 4 productos recomendados (disponibles y agotados)
-    videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True)[:4]
-    coleccionables_destacados = Coleccionable.objects.filter(es_recomendado=True)[:4]
+    # Mostrar 4 productos recomendados para que se vean las 4 cards
+    videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True, estado='disponible')[:4]
+    coleccionables_destacados = Coleccionable.objects.filter(estado='disponible')[:4]
     
     context = {
         'videojuegos_recomendados': videojuegos_recomendados,
@@ -226,43 +226,37 @@ def agregarAlCarrito(request):
             messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
             return redirect('detalle_videojuego', videojuego_id=producto_id)
     
-        elif producto_tipo == 'coleccionable':
-            producto = get_object_or_404(Coleccionable, id=producto_id)
-            
-            # Verificar stock disponible
-            if producto.stock < cantidad:
-                messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
-                return redirect('detalle_coleccionable', coleccionable_id=producto_id)
-            
-            # Buscar si ya existe en el carrito
-            try:
-                item = ItemCarrito.objects.get(carrito=carrito, coleccionable=producto)
-                # Verificar si al agregar más cantidad no excede el stock
-                if item.cantidad + cantidad > producto.stock:
-                    messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
-                    return redirect('detalle_coleccionable', coleccionable_id=producto_id)
-                item.cantidad += cantidad
-                item.save()
-            except ItemCarrito.DoesNotExist:
-                ItemCarrito.objects.create(
-                    carrito=carrito,
-                    coleccionable=producto,
-                    cantidad=cantidad,
-                    precio_unitario=producto.precio
-                )
-            
-            # Restar del stock
-            producto.stock -= cantidad
-            
-            # Cambiar estado a agotado si stock llega a 0
-            if producto.stock <= 0:
-                producto.stock = 0
-                producto.estado = 'agotado'
-            
-            producto.save()
-            
-            messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
+    elif producto_tipo == 'coleccionable':
+        producto = get_object_or_404(Coleccionable, id=producto_id)
+        
+        # Verificar stock disponible
+        if producto.stock < cantidad:
+            messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
             return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+        
+        # Buscar si ya existe en el carrito
+        try:
+            item = ItemCarrito.objects.get(carrito=carrito, coleccionable=producto)
+            # Verificar si al agregar más cantidad no excede el stock
+            if item.cantidad + cantidad > producto.stock:
+                messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
+                return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+            item.cantidad += cantidad
+            item.save()
+        except ItemCarrito.DoesNotExist:
+            ItemCarrito.objects.create(
+                carrito=carrito,
+                coleccionable=producto,
+                cantidad=cantidad,
+                precio_unitario=producto.precio
+            )
+        
+        # Restar del stock
+        producto.stock -= cantidad
+        producto.save()
+        
+        messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
+        return redirect('detalle_coleccionable', coleccionable_id=producto_id)
     
     return redirect('inicio')
 
@@ -281,6 +275,11 @@ def cambiarCantidadCarrito(request):
             if nueva_cantidad <= 0:
                 # Eliminar item del carrito y devolver stock
                 producto.stock += item.cantidad
+                
+                # Cambiar estado a disponible si el stock es mayor a 0
+                if producto.stock > 0 and producto.estado == 'agotado':
+                    producto.estado = 'disponible'
+                
                 producto.save()
                 item.delete()
                 messages.success(request, 'Producto eliminado del carrito')
@@ -290,6 +289,12 @@ def cambiarCantidadCarrito(request):
                 if diferencia > 0:  # Agregar más
                     if producto.stock >= diferencia:
                         producto.stock -= diferencia
+                        
+                        # Cambiar estado a agotado si stock llega a 0
+                        if producto.stock <= 0:
+                            producto.stock = 0
+                            producto.estado = 'agotado'
+                        
                         producto.save()
                         item.cantidad = nueva_cantidad
                         item.save()
@@ -298,6 +303,11 @@ def cambiarCantidadCarrito(request):
                         messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
                 else:  # Quitar cantidad
                     producto.stock += abs(diferencia)
+                    
+                    # Cambiar estado a disponible si el stock es mayor a 0
+                    if producto.stock > 0 and producto.estado == 'agotado':
+                        producto.estado = 'disponible'
+                    
                     producto.save()
                     item.cantidad = nueva_cantidad
                     item.save()
@@ -321,6 +331,11 @@ def eliminarDelCarrito(request):
             
             # Devolver stock
             producto.stock += item.cantidad
+            
+            # Cambiar estado a disponible si el stock es mayor a 0
+            if producto.stock > 0 and producto.estado == 'agotado':
+                producto.estado = 'disponible'
+            
             producto.save()
             
             # Eliminar item
@@ -433,6 +448,7 @@ def procesarDatosRetiro(request):
             nombre_completo = request.POST.get('nombre_completo')
             telefono = request.POST.get('telefono')
             email = request.POST.get('email')
+            direccion = request.POST.get('direccion', '')
             observaciones = request.POST.get('observaciones', '')
             
             # Asegurar que el usuario tenga número de cliente
@@ -448,7 +464,7 @@ def procesarDatosRetiro(request):
             pedido = Pedido.objects.create(
                 usuario=usuario,
                 total=total_con_iva,
-                direccion_envio=f"Retiro en tienda - {nombre_completo} - {telefono}",
+                direccion_envio=f"Retiro en tienda - {nombre_completo} - {telefono} - {direccion}",
                 metodo_pago='Retiro en Tienda'
             )
             
@@ -479,6 +495,7 @@ def procesarDatosRetiro(request):
                 'nombre_completo': nombre_completo,
                 'telefono': telefono,
                 'email': email,
+                'direccion': direccion,
                 'subtotal': float(subtotal),
                 'iva': float(iva),
                 'total': float(total_con_iva),
@@ -756,7 +773,6 @@ def procesarFactura(request):
             cantidad_comprada = int(request.POST.get('cantidad_comprada'))
             proveedor = request.POST.get('proveedor')
             precio_compra = float(request.POST.get('precio_compra'))
-            codigo_paquete = request.POST.get('codigo_paquete', '')
             observaciones = request.POST.get('observaciones', '')
             es_formulario_creacion = request.POST.get('es_formulario_creacion') == 'true'
             stock_inicial_formulario = int(request.POST.get('stock_inicial_formulario', 0))
@@ -769,7 +785,6 @@ def procesarFactura(request):
                     cantidad_comprada=cantidad_comprada,
                     proveedor=proveedor,
                     precio_compra=precio_compra,
-                    codigo_paquete=codigo_paquete,
                     observaciones=observaciones + f" [Stock inicial: {stock_inicial_formulario + cantidad_comprada} unidades]"
                 )
                 
@@ -787,7 +802,6 @@ def procesarFactura(request):
                     cantidad_comprada=cantidad_comprada,
                     proveedor=proveedor,
                     precio_compra=precio_compra,
-                    codigo_paquete=codigo_paquete,
                     observaciones=observaciones
                 )
                 
@@ -796,13 +810,19 @@ def procesarFactura(request):
                     factura.videojuego = producto
                 else:
                     factura.coleccionable = producto
+                
+                # Obtener código de paquete si existe
+                codigo_paquete = request.POST.get('codigo_paquete', '')
+                if codigo_paquete:
+                    factura.codigo_paquete = codigo_paquete
+                
                 factura.save()
                 
                 # Agregar stock al producto
                 producto.stock += cantidad_comprada
                 
-                # Cambiar estado a disponible si estaba agotado
-                if producto.estado == 'agotado' and producto.stock > 0:
+                # Cambiar estado a disponible si el stock es mayor a 0 y estaba agotado
+                if producto.stock > 0 and producto.estado == 'agotado':
                     producto.estado = 'disponible'
                 
                 producto.save()
@@ -821,20 +841,15 @@ def mostrarFacturas(request):
     
     facturas = FacturaCompra.objects.all().order_by('-fecha_compra')
     
-    # Filtrar por número de factura o ID si se especifica
+    # Filtrar por ID de factura si se especifica
     numero_busqueda = request.GET.get('numero', '')
     if numero_busqueda:
-        # Intentar buscar por ID primero
         try:
-            id_busqueda = int(numero_busqueda)
-            facturas = facturas.filter(id=id_busqueda)
+            numero = int(numero_busqueda)
+            facturas = facturas.filter(id=numero)
         except ValueError:
-            # Si no es un número, buscar por número de factura
-            if numero_busqueda.startswith('FC-'):
-                facturas = facturas.filter(numero_factura=numero_busqueda)
-            else:
-                # Buscar como texto en el número de factura
-                facturas = facturas.filter(numero_factura__icontains=numero_busqueda)
+            # Si no es un número válido, no filtrar nada
+            pass
     
     context = {
         'facturas': facturas,
@@ -997,6 +1012,9 @@ def cancelarPedidosVencidos(request):
     """Cancelar automáticamente pedidos pendientes de más de 1 semana"""
     if 'usuario_id' not in request.session or not request.session.get('es_admin'):
         return redirect('login')
+    
+    from datetime import datetime, timedelta
+    from django.utils import timezone
     
     # Calcular fecha límite (1 semana atrás)
     fecha_limite = timezone.now() - timedelta(days=7)

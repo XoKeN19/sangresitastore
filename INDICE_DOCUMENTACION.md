@@ -13,17 +13,17 @@ Guía rápida para saber qué archivo leer según lo que necesites.
 - Por dónde empezar
 
 ### 2️⃣ Si Tienes Prisa
-📄 **INICIO_RAPIDO.md**
-- Deploy en 10 minutos
+📄 **RAILWAY_RAPIDO.md** ⚡
+- Deploy en 15 minutos
 - Solo los pasos esenciales
 - Sin explicaciones extensas
 
 ### 3️⃣ Guía Completa y Detallada
-📄 **DEPLOY_INSTRUCTIONS.md** ⭐ PRINCIPAL
+📄 **RAILWAY_DEPLOY.md** ⭐ PRINCIPAL
 - Paso a paso completo
 - Explicaciones detalladas
 - Solución de problemas
-- Capturas y ejemplos
+- Ejemplos y tips
 
 ---
 
@@ -37,7 +37,7 @@ Guía rápida para saber qué archivo leer según lo que necesites.
 - Para principiantes en Git
 
 ### Variables de Entorno
-📄 **RENDER_ENV_VARS.md**
+Incluidas en **RAILWAY_DEPLOY.md**
 - Todas las variables explicadas
 - Cómo generarlas
 - Qué valor usar
@@ -71,15 +71,6 @@ Guía rápida para saber qué archivo leer según lo que necesites.
 python verificar_proyecto.py
 ```
 
-### Script de Deploy (Windows)
-📄 **deploy-render.bat**
-- Automatiza Git y GitHub
-- Solo para Windows
-- Requiere Git instalado
-
-```bash
-deploy-render.bat
-```
 
 ---
 
@@ -93,7 +84,6 @@ deploy-render.bat
 - ✅ **env.example** - Plantilla de variables
 
 ### Opcionales
-- 📄 **render.yaml** - Blueprint de Render (auto-config)
 - 📄 **README.md** - Documentación del proyecto
 
 ### Modificados
@@ -116,27 +106,25 @@ deploy-render.bat
 
 ### Para Principiantes
 ```
-1. LEEME_PRIMERO.md
+1. EMPIEZA_AQUI.md
 2. COMANDOS_GIT.md (si no sabes Git)
-3. DEPLOY_INSTRUCTIONS.md
-4. RENDER_ENV_VARS.md (cuando configures variables)
-5. CHECKLIST_DEPLOY.md (mientras despliegas)
-6. COMANDOS_UTILES.md (después del deploy)
+3. RAILWAY_DEPLOY.md
+4. CHECKLIST_DEPLOY.md (mientras despliegas)
+5. COMANDOS_UTILES.md (después del deploy)
 ```
 
 ### Para Experimentados
 ```
-1. INICIO_RAPIDO.md
-2. RENDER_ENV_VARS.md
-3. CHECKLIST_DEPLOY.md
-4. COMANDOS_UTILES.md
+1. RAILWAY_RAPIDO.md
+2. CHECKLIST_DEPLOY.md
+3. COMANDOS_UTILES.md
 ```
 
 ### Para Debugging
 ```
-1. DEPLOY_INSTRUCTIONS.md → Sección "Solución de Problemas"
+1. RAILWAY_DEPLOY.md → Sección "Solución de Problemas"
 2. COMANDOS_UTILES.md → Sección "Debug"
-3. Logs en Render
+3. Logs en Railway
 ```
 
 ---
@@ -145,29 +133,30 @@ deploy-render.bat
 
 | Necesito... | Lee esto... |
 |-------------|-------------|
-| Empezar | LEEME_PRIMERO.md |
-| Deploy rápido | INICIO_RAPIDO.md |
-| Guía completa | DEPLOY_INSTRUCTIONS.md |
+| Empezar | EMPIEZA_AQUI.md |
+| Deploy rápido | RAILWAY_RAPIDO.md |
+| Guía completa | RAILWAY_DEPLOY.md |
+| Migrar mis datos | MIGRAR_RAPIDO.md |
+| Migrar (detallado) | MIGRAR_DATOS.md |
 | Aprender Git | COMANDOS_GIT.md |
-| Configurar variables | RENDER_ENV_VARS.md |
 | No saltearme nada | CHECKLIST_DEPLOY.md |
 | Comandos útiles | COMANDOS_UTILES.md |
 | Verificar antes de deploy | verificar_proyecto.py |
-| Automatizar (Windows) | deploy-render.bat |
 | Entender el proyecto | README.md |
-| Configuración auto | render.yaml |
 
 ---
 
 ## 📊 Archivos por Categoría
 
 ### 📘 Guías (Lectura)
-- LEEME_PRIMERO.md
-- INICIO_RAPIDO.md
-- DEPLOY_INSTRUCTIONS.md
+- EMPIEZA_AQUI.md
+- RAILWAY_RAPIDO.md
+- RAILWAY_DEPLOY.md
+- MIGRAR_RAPIDO.md ⚡
+- MIGRAR_DATOS.md
 - COMANDOS_GIT.md
-- RENDER_ENV_VARS.md
 - COMANDOS_UTILES.md
+- RESUMEN_RAILWAY.md
 - README.md
 
 ### ✅ Checklists
@@ -175,7 +164,6 @@ deploy-render.bat
 
 ### 🔧 Scripts Ejecutables
 - verificar_proyecto.py
-- deploy-render.bat
 
 ### ⚙️ Configuración
 - requirements.txt
@@ -183,7 +171,6 @@ deploy-render.bat
 - .gitignore
 - runtime.txt
 - env.example
-- render.yaml
 - cowork/settings.py (modificado)
 
 ### 📚 Referencia
@@ -205,9 +192,9 @@ deploy-render.bat
 
 Si no sabes qué leer:
 
-1. **¿Primera vez?** → LEEME_PRIMERO.md
+1. **¿Primera vez?** → EMPIEZA_AQUI.md
 2. **¿Ya empezaste?** → CHECKLIST_DEPLOY.md
-3. **¿Tienes error?** → DEPLOY_INSTRUCTIONS.md (Troubleshooting)
+3. **¿Tienes error?** → RAILWAY_DEPLOY.md (Troubleshooting)
 4. **¿Después del deploy?** → COMANDOS_UTILES.md
 
 ---
@@ -216,11 +203,10 @@ Si no sabes qué leer:
 
 | Archivo | Tiempo de Lectura |
 |---------|-------------------|
-| LEEME_PRIMERO.md | 5 min |
-| INICIO_RAPIDO.md | 2 min |
-| DEPLOY_INSTRUCTIONS.md | 20 min |
+| EMPIEZA_AQUI.md | 3 min |
+| RAILWAY_RAPIDO.md | 5 min |
+| RAILWAY_DEPLOY.md | 20 min |
 | COMANDOS_GIT.md | 5 min |
-| RENDER_ENV_VARS.md | 10 min |
 | CHECKLIST_DEPLOY.md | N/A (interactivo) |
 | COMANDOS_UTILES.md | N/A (referencia) |
 | README.md | 3 min |
@@ -230,9 +216,8 @@ Si no sabes qué leer:
 ## ✨ Prioridad de Lectura
 
 ### 🔴 Prioridad Alta (Leer Antes de Deploy)
-1. LEEME_PRIMERO.md
-2. DEPLOY_INSTRUCTIONS.md
-3. RENDER_ENV_VARS.md
+1. EMPIEZA_AQUI.md
+2. RAILWAY_RAPIDO.md o RAILWAY_DEPLOY.md
 
 ### 🟡 Prioridad Media (Útil Durante Deploy)
 1. CHECKLIST_DEPLOY.md
@@ -240,8 +225,8 @@ Si no sabes qué leer:
 
 ### 🟢 Prioridad Baja (Referencia Post-Deploy)
 1. COMANDOS_UTILES.md
-2. README.md
-3. INICIO_RAPIDO.md (si ya desplegaste)
+2. RESUMEN_RAILWAY.md
+3. README.md
 
 ---
 
@@ -249,15 +234,13 @@ Si no sabes qué leer:
 
 | Archivo | Nivel |
 |---------|-------|
-| LEEME_PRIMERO.md | 👶 Principiante |
-| INICIO_RAPIDO.md | 🧑 Intermedio |
-| DEPLOY_INSTRUCTIONS.md | 👶 Principiante |
+| EMPIEZA_AQUI.md | 👶 Principiante |
+| RAILWAY_RAPIDO.md | 👶 Principiante |
+| RAILWAY_DEPLOY.md | 👶 Principiante |
 | COMANDOS_GIT.md | 👶 Principiante |
-| RENDER_ENV_VARS.md | 🧑 Intermedio |
 | CHECKLIST_DEPLOY.md | 👶 Principiante |
 | COMANDOS_UTILES.md | 🧑 Intermedio |
 | verificar_proyecto.py | 🧑 Intermedio |
-| render.yaml | 👨‍🎓 Avanzado |
 
 ---
 
@@ -274,17 +257,17 @@ Si no sabes qué leer:
     ↓ Sí
     COMANDOS_GIT.md
     ↓ No
-¿Es sobre variables de entorno?
+¿Es error en Railway?
     ↓ Sí
-    RENDER_ENV_VARS.md
-    ↓ No
-¿Es error en Render?
-    ↓ Sí
-    DEPLOY_INSTRUCTIONS.md → Solución de Problemas
+    RAILWAY_DEPLOY.md → Solución de Problemas
     ↓ No
 ¿Quieres hacer algo post-deploy?
     ↓ Sí
     COMANDOS_UTILES.md
+    ↓ No
+¿No sabes por dónde empezar?
+    ↓ Sí
+    EMPIEZA_AQUI.md
 ```
 
 ---

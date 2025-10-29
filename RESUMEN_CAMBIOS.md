@@ -353,3 +353,10 @@ Si tienes problemas:
 **Destino:** Render + PostgreSQL
 **Estado:** ✅ Listo para Deploy
 
+
+
+
+
+
+
+

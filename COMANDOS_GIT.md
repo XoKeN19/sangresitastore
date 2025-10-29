@@ -65,3 +65,10 @@ Si GitHub te pide contraseña, necesitas usar un **Personal Access Token**:
 6. **GUARDA EL TOKEN** - solo lo verás una vez
 7. Usa este token como "contraseña" cuando Git te lo pida
 
+
+
+
+
+
+
+
