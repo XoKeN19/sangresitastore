@@ -10,14 +10,21 @@ def mostrarLogin(request):
     return render(request,'login.html')
 
 def insertarLogin(request):
+    """Vista para procesar el inicio de sesión"""
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password', '').strip()
+        
+        # Validar que se hayan ingresado los datos
+        if not email or not password:
+            messages.error(request, 'Por favor ingresa tu email y contraseña')
+            return render(request, 'login.html')
         
         try:
             usuario = Usuario.objects.get(email=email)
-            # Verificar contraseña del usuario
-            if password == usuario.password:
+            
+            # Verificar contraseña usando el método del modelo
+            if usuario.verificar_password(password):
                 # Asegurar que la sesión esté activa
                 if not request.session.session_key:
                     request.session.create()
@@ -1252,39 +1259,80 @@ def actualizarPerfil(request):
     return redirect('perfil')
 
 def cambiarContrasena(request):
-    """Vista para cambiar la contraseña del usuario"""
+    """
+    Vista profesional para cambiar la contraseña del usuario.
+    Requiere validación de la contraseña actual por seguridad.
+    
+    Validaciones implementadas:
+    - Todos los campos obligatorios
+    - Contraseña actual correcta
+    - Nuevas contraseñas coinciden
+    - Longitud mínima de 6 caracteres
+    - Nueva contraseña diferente a la actual
+    """
+    # Verificar que el usuario esté autenticado
     if 'usuario_id' not in request.session:
+        messages.error(request, 'Debes iniciar sesión para acceder a esta página')
         return redirect('login')
     
-    if request.method == 'POST':
-        usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
+    # Solo procesar si es POST
+    if request.method != 'POST':
+        return redirect('perfil')
+    
+    try:
+        # Obtener el usuario actual
+        usuario = Usuario.objects.get(id=request.session['usuario_id'])
         
-        # Obtener contraseñas del formulario
-        contrasena_actual = request.POST.get('contrasena_actual')
-        nueva_contrasena = request.POST.get('nueva_contrasena')
-        confirmar_contrasena = request.POST.get('confirmar_contrasena')
+        # Obtener y limpiar los datos del formulario
+        contrasena_actual = request.POST.get('contrasena_actual', '').strip()
+        nueva_contrasena = request.POST.get('nueva_contrasena', '').strip()
+        confirmar_contrasena = request.POST.get('confirmar_contrasena', '').strip()
         
-        # Validar contraseña actual
-        if usuario.contrasena != contrasena_actual:
-            messages.error(request, 'La contraseña actual es incorrecta')
+        # Validación 1: Verificar que todos los campos estén llenos
+        if not contrasena_actual:
+            messages.error(request, 'Debes ingresar tu contraseña actual')
             return redirect('perfil')
         
-        # Validar que las nuevas contraseñas coincidan
+        if not nueva_contrasena:
+            messages.error(request, 'Debes ingresar una nueva contraseña')
+            return redirect('perfil')
+        
+        if not confirmar_contrasena:
+            messages.error(request, 'Debes confirmar tu nueva contraseña')
+            return redirect('perfil')
+        
+        # Validación 2: Verificar que la contraseña actual sea correcta
+        if not usuario.verificar_password(contrasena_actual):
+            messages.error(request, 'La contraseña actual es incorrecta. Por favor, verifica e intenta nuevamente.')
+            return redirect('perfil')
+        
+        # Validación 3: Verificar que las nuevas contraseñas coincidan
         if nueva_contrasena != confirmar_contrasena:
-            messages.error(request, 'Las nuevas contraseñas no coinciden')
+            messages.error(request, 'Las nuevas contraseñas no coinciden. Por favor, verifica e intenta nuevamente.')
             return redirect('perfil')
         
-        # Validar longitud mínima
+        # Validación 4: Verificar longitud mínima de la nueva contraseña
         if len(nueva_contrasena) < 6:
             messages.error(request, 'La nueva contraseña debe tener al menos 6 caracteres')
             return redirect('perfil')
         
-        # Actualizar contraseña
-        usuario.contrasena = nueva_contrasena
-        usuario.save()
+        # Validación 5: Verificar que la nueva contraseña sea diferente a la actual
+        if nueva_contrasena == contrasena_actual:
+            messages.error(request, 'La nueva contraseña debe ser diferente a la actual')
+            return redirect('perfil')
         
-        messages.success(request, 'Contraseña cambiada correctamente')
+        # Todo validado, proceder a cambiar la contraseña
+        usuario.cambiar_password(nueva_contrasena)
+        
+        # Mensaje de éxito
+        messages.success(request, '¡Contraseña cambiada correctamente! Tu cuenta está ahora más segura.')
         return redirect('perfil')
-    
-    return redirect('perfil')
+        
+    except Usuario.DoesNotExist:
+        messages.error(request, 'Usuario no encontrado. Por favor, inicia sesión nuevamente.')
+        return redirect('login')
+    except Exception as e:
+        messages.error(request, 'Ocurrió un error al cambiar la contraseña. Por favor, intenta nuevamente.')
+        print(f"Error al cambiar contraseña: {str(e)}")
+        return redirect('perfil')
 

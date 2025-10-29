@@ -92,7 +92,7 @@
         .page-header {
             background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
             color: white;
-            padding: 120px 0 80px;
+            padding: 100px 0 80px;
             margin-top: 90px;
             text-align: center;
             position: relative;
@@ -121,96 +121,101 @@
             font-size: 3.5rem;
             font-weight: 300;
             letter-spacing: 3px;
-            margin: 0 0 15px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .page-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
             margin: 0;
+            position: relative;
+            z-index: 1;
         }
 
         /* Main Container */
-        .main-container {
-            max-width: 950px;
-            margin: -40px auto 60px;
+        .profile-container {
+            max-width: 900px;
+            margin: -30px auto 60px;
             padding: 0 20px;
         }
 
-        /* Profile Card */
-        .profile-card {
+        .profile-wrapper {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.08);
-            padding: 45px;
-            margin-bottom: 35px;
-            position: relative;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .profile-card::before {
+        .profile-wrapper::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
         }
 
-        .profile-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 60px rgba(0,0,0,0.12);
+        /* Section Headers */
+        .section-header {
+            padding: 40px 50px 20px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .profile-card h2 {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 1.5px;
-            margin-bottom: 35px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary-gold);
-            color: var(--dark-charcoal);
-            position: relative;
-        }
-
-        .profile-card h2 i {
+        .section-header i {
+            font-size: 1.8rem;
             color: var(--primary-gold);
-            margin-right: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 0;
+            color: var(--dark-charcoal);
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 40px 50px;
+        }
+
+        .form-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+            margin: 40px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
         }
 
         .form-label {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--dark-charcoal);
-            margin-bottom: 10px;
-            font-size: 0.95rem;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-label i {
             color: var(--primary-gold);
-            margin-right: 8px;
+            font-size: 1rem;
         }
 
         .form-control {
             border: 2px solid var(--border-light);
-            border-radius: 10px;
-            padding: 14px 18px;
+            border-radius: 8px;
+            padding: 12px 16px;
             transition: all 0.3s ease;
             font-size: 1rem;
         }
 
         .form-control:focus {
             border-color: var(--primary-gold);
-            box-shadow: 0 0 0 0.3rem rgba(212, 175, 55, 0.15);
-            transform: translateY(-1px);
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
         }
 
         .form-control:disabled {
@@ -219,85 +224,56 @@
             cursor: not-allowed;
         }
 
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-note {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Buttons */
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
             border: none;
-            padding: 15px 40px;
-            border-radius: 10px;
+            padding: 12px 35px;
+            border-radius: 8px;
             font-weight: 600;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
             background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
         }
 
-        .btn-danger {
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            border: none;
-            padding: 15px 40px;
-            border-radius: 10px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
-            background: linear-gradient(135deg, #c82333, #dc3545);
-        }
-
+        /* Alerts */
         .alert {
-            border-radius: 12px;
+            border-radius: 10px;
             border: none;
-            padding: 18px 25px;
+            padding: 15px 20px;
             font-weight: 500;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
         }
 
         .alert-success {
             background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             color: #155724;
-            border-left: 5px solid #28a745;
+            border-left: 4px solid #28a745;
         }
 
         .alert-danger {
             background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             color: #721c24;
-            border-left: 5px solid #dc3545;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-radius: 12px;
-            padding: 20px 25px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--primary-gold);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
-        }
-
-        .info-box i {
-            color: var(--primary-gold);
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-
-        .info-box strong {
-            color: var(--dark-charcoal);
-        }
-
-        /* Row spacing */
-        .row {
-            margin-bottom: 5px;
+            border-left: 4px solid #dc3545;
         }
 
         /* Dropdown Menu */
@@ -305,24 +281,58 @@
             border: none;
             box-shadow: 0 5px 25px rgba(0,0,0,0.15);
             border-radius: 10px;
-            padding: 10px 0;
         }
 
         .dropdown-item {
             padding: 10px 20px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .dropdown-item:hover {
-            background-color: var(--light-gray);
+            background: var(--light-gray);
             color: var(--primary-gold);
-            padding-left: 25px;
         }
 
-        .dropdown-item i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
+        /* Footer premium */
+        .footer {
+            background: var(--dark-charcoal);
+            color: var(--pure-white);
+            padding: 60px 0 30px;
+        }
+
+        .footer h5 {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            color: var(--primary-gold);
+        }
+
+        .footer p, .footer li {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-header,
+            .form-section {
+                padding: 30px 25px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -388,133 +398,190 @@
     <!-- Page Header -->
     <div class="page-header">
         <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
-        <p>Administra tu información personal y seguridad de cuenta</p>
+        <p style="margin-top: 15px; font-size: 1.1rem; opacity: 0.9;">Administra tu información personal y seguridad de cuenta</p>
     </div>
 
     <!-- Main Container -->
-    <div class="main-container">
+    <div class="profile-container">
         <!-- Mensajes -->
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    <strong>
+                        {% if message.tags == 'error' or message.tags == 'danger' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% elif message.tags == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif message.tags == 'warning' %}
+                            <i class="fas fa-exclamation-triangle"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle"></i>
+                        {% endif %}
+                    </strong>
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
         {% endif %}
 
-        <!-- Información del Usuario -->
-        <div class="profile-card">
-            <h2><i class="fas fa-id-card"></i> Información Personal</h2>
-            
-            <form method="POST" action="{% url 'actualizar_perfil' %}">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="nombre" class="form-label">
-                            <i class="fas fa-user"></i> Nombre *
-                        </label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" 
-                               value="{{ usuario.nombre }}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="apellido" class="form-label">
-                            <i class="fas fa-user"></i> Apellido *
-                        </label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" 
-                               value="{{ usuario.apellido }}" required>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">
-                        <i class="fas fa-envelope"></i> Email
-                    </label>
-                    <input type="email" class="form-control" id="email" name="email" 
-                           value="{{ usuario.email }}" disabled>
-                    <small class="text-muted">El email no puede ser modificado</small>
-                </div>
-
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">
-                        <i class="fas fa-phone"></i> Teléfono *
-                    </label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" 
-                           value="{{ usuario.telefono }}" placeholder="+56 9 1234 5678" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="direccion" class="form-label">
-                        <i class="fas fa-map-marker-alt"></i> Dirección *
-                    </label>
-                    <textarea class="form-control" id="direccion" name="direccion" rows="2" 
-                              placeholder="Calle, número, comuna, ciudad..." required>{{ usuario.direccion }}</textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Guardar Cambios
-                </button>
-            </form>
-        </div>
-
-        <!-- Cambiar Contraseña -->
-        <div class="profile-card">
-            <h2><i class="fas fa-lock"></i> Cambiar Contraseña</h2>
-            
-            <div class="info-box">
-                <i class="fas fa-info-circle"></i>
-                <strong>Importante:</strong> Tu contraseña debe tener al menos 6 caracteres.
+        <div class="profile-wrapper">
+            <!-- Información Personal -->
+            <div class="section-header">
+                <i class="fas fa-id-card"></i>
+                <h2>Información Personal</h2>
             </div>
-
-            <form method="POST" action="{% url 'cambiar_contrasena' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="contrasena_actual" class="form-label">
-                        <i class="fas fa-key"></i> Contraseña Actual *
-                    </label>
-                    <input type="password" class="form-control" id="contrasena_actual" 
-                           name="contrasena_actual" required>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="nueva_contrasena" class="form-label">
-                            <i class="fas fa-lock"></i> Nueva Contraseña *
-                        </label>
-                        <input type="password" class="form-control" id="nueva_contrasena" 
-                               name="nueva_contrasena" minlength="6" required>
+            
+            <div class="form-section">
+                <form method="POST" action="{% url 'actualizar_perfil' %}">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre" class="form-label">
+                                    <i class="fas fa-user"></i> Nombre
+                                </label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" 
+                                       value="{{ usuario.nombre }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="apellido" class="form-label">
+                                    <i class="fas fa-user"></i> Apellido
+                                </label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" 
+                                       value="{{ usuario.apellido }}" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="confirmar_contrasena" class="form-label">
-                            <i class="fas fa-lock"></i> Confirmar Contraseña *
-                        </label>
-                        <input type="password" class="form-control" id="confirmar_contrasena" 
-                               name="confirmar_contrasena" minlength="6" required>
-                    </div>
-                </div>
 
-                <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-key"></i> Cambiar Contraseña
-                </button>
-            </form>
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="{{ usuario.email }}" disabled>
+                        <div class="form-note">El email no puede ser modificado por seguridad</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono" class="form-label">
+                            <i class="fas fa-phone"></i> Teléfono
+                        </label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" 
+                               value="{{ usuario.telefono }}" placeholder="+56 9 1234 5678" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion" class="form-label">
+                            <i class="fas fa-map-marker-alt"></i> Dirección
+                        </label>
+                        <textarea class="form-control" id="direccion" name="direccion" 
+                                  required>{{ usuario.direccion }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="form-divider"></div>
+
+                <!-- Cambiar Contraseña -->
+                <h3 style="font-size: 1.3rem; font-weight: 400; margin-bottom: 25px; color: var(--dark-charcoal); display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-lock" style="color: var(--primary-gold);"></i>
+                    Cambiar Contraseña
+                </h3>
+
+                <form method="POST" action="{% url 'cambiar_contrasena' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="contrasena_actual" class="form-label">
+                            <i class="fas fa-key"></i> Contraseña Actual
+                        </label>
+                        <input type="password" class="form-control" id="contrasena_actual" 
+                               name="contrasena_actual" required>
+                    </div>
+
+                    <div class="password-requirements" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> 
+                            <strong>Requisitos de la nueva contraseña:</strong>
+                        </p>
+                        <ul style="margin: 8px 0 0 0; padding-left: 25px; color: #856404; font-size: 0.85rem;">
+                            <li>Mínimo 6 caracteres</li>
+                            <li>Debe ser diferente a tu contraseña actual</li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nueva_contrasena" class="form-label">
+                                    <i class="fas fa-unlock-alt"></i> Nueva Contraseña
+                                </label>
+                                <input type="password" class="form-control" id="nueva_contrasena" 
+                                       name="nueva_contrasena" minlength="6" required>
+                                <small class="form-text text-muted">Mínimo 6 caracteres</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="confirmar_contrasena" class="form-label">
+                                    <i class="fas fa-check-circle"></i> Confirmar Contraseña
+                                </label>
+                                <input type="password" class="form-control" id="confirmar_contrasena" 
+                                       name="confirmar_contrasena" minlength="6" required>
+                                <small class="form-text text-muted">Debe coincidir con la nueva contraseña</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-lock"></i> Cambiar Contraseña
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
+    <!-- Footer Premium -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SangresitaStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
+                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
+                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Verificar sesión activa
         function verificarSesion() {
-            fetch('/inicio')
-                .then(response => {
-                    if (response.redirected) {
-                        window.location.href = response.url;
-                    }
-                });
+            return true; 
         }
-        
-        // Verificar cada 30 segundos
-        setInterval(verificarSesion, 30000);
     </script>
 </body>
 </html>
-

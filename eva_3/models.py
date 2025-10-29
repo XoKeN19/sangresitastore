@@ -25,6 +25,20 @@ class Usuario(models.Model):
             else:
                 self.numero_cliente = "000001"
         super().save(*args, **kwargs)
+    
+    def verificar_password(self, password_ingresado):
+        """
+        Verifica si el password ingresado coincide con el almacenado.
+        Retorna True si coincide, False si no.
+        """
+        return self.password == password_ingresado
+    
+    def cambiar_password(self, password_nuevo):
+        """
+        Cambia el password del usuario.
+        """
+        self.password = password_nuevo
+        self.save()
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - Cliente #{self.numero_cliente}"
