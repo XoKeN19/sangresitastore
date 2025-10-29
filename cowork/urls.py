@@ -39,6 +39,9 @@ urlpatterns = [
     path('cambiar-estado-pedido/<int:pedido_id>', views.cambiarEstadoPedido, name='cambiar_estado_pedido'),
     path('cancelar-pedidos-vencidos', views.cancelarPedidosVencidos, name='cancelar_pedidos_vencidos'),
     path('gestionar-recomendados', views.gestionarRecomendados, name='gestionar_recomendados'),
+    path('perfil', views.perfil, name='perfil'),
+    path('actualizar-perfil', views.actualizarPerfil, name='actualizar_perfil'),
+    path('cambiar-contrasena', views.cambiarContrasena, name='cambiar_contrasena'),
     path('mis-pedidos', views.misPedidos, name='mis_pedidos'),
     path('detalle-pedido/<int:pedido_id>', views.detallePedidoUsuario, name='detalle_pedido_usuario'),
 ]

@@ -1208,3 +1208,83 @@ def detallePedidoUsuario(request, pedido_id):
     }
     return render(request, 'detalle_pedido_usuario.html', context)
 
+def perfil(request):
+    """Vista para mostrar y editar el perfil del usuario"""
+    if 'usuario_id' not in request.session:
+        return redirect('login')
+    
+    usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
+    
+    context = {
+        'usuario': usuario,
+        'usuario_nombre': request.session.get('usuario_nombre', None),
+        'es_admin': request.session.get('es_admin', False)
+    }
+    return render(request, 'perfil.html', context)
+
+def actualizarPerfil(request):
+    """Vista para actualizar los datos del perfil del usuario"""
+    if 'usuario_id' not in request.session:
+        return redirect('login')
+    
+    if request.method == 'POST':
+        usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
+        
+        # Obtener datos del formulario
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        telefono = request.POST.get('telefono')
+        direccion = request.POST.get('direccion')
+        
+        # Actualizar datos básicos
+        usuario.nombre = nombre
+        usuario.apellido = apellido
+        usuario.telefono = telefono
+        usuario.direccion = direccion
+        usuario.save()
+        
+        # Actualizar nombre en sesión
+        request.session['usuario_nombre'] = nombre
+        
+        messages.success(request, 'Perfil actualizado correctamente')
+        return redirect('perfil')
+    
+    return redirect('perfil')
+
+def cambiarContrasena(request):
+    """Vista para cambiar la contraseña del usuario"""
+    if 'usuario_id' not in request.session:
+        return redirect('login')
+    
+    if request.method == 'POST':
+        usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
+        
+        # Obtener contraseñas del formulario
+        contrasena_actual = request.POST.get('contrasena_actual')
+        nueva_contrasena = request.POST.get('nueva_contrasena')
+        confirmar_contrasena = request.POST.get('confirmar_contrasena')
+        
+        # Validar contraseña actual
+        if usuario.contrasena != contrasena_actual:
+            messages.error(request, 'La contraseña actual es incorrecta')
+            return redirect('perfil')
+        
+        # Validar que las nuevas contraseñas coincidan
+        if nueva_contrasena != confirmar_contrasena:
+            messages.error(request, 'Las nuevas contraseñas no coinciden')
+            return redirect('perfil')
+        
+        # Validar longitud mínima
+        if len(nueva_contrasena) < 6:
+            messages.error(request, 'La nueva contraseña debe tener al menos 6 caracteres')
+            return redirect('perfil')
+        
+        # Actualizar contraseña
+        usuario.contrasena = nueva_contrasena
+        usuario.save()
+        
+        messages.success(request, 'Contraseña cambiada correctamente')
+        return redirect('perfil')
+    
+    return redirect('perfil')
+
