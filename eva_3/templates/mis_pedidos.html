@@ -326,6 +326,11 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="{% url 'perfil' %}"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}"><i class="fas fa-box"></i> Mis Pedidos</a></li>
+                            {% if es_admin %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_superusuario' %}"><i class="fas fa-user-shield"></i> Crear SuperUsuario</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar_superusuarios' %}"><i class="fas fa-users-cog"></i> Lista de SuperUsuarios</a></li>
+                            {% endif %}
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                         </ul>
