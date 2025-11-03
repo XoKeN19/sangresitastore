@@ -207,7 +207,8 @@ def agregarAlCarrito(request):
             try:
                 item = ItemCarrito.objects.get(carrito=carrito, videojuego=producto)
                 # Verificar si al agregar más cantidad no excede el stock
-                if item.cantidad + cantidad > producto.stock:
+                # Validar solo contra el stock restante, no sumar lo ya en el carrito
+                if cantidad > producto.stock:
                     messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
                     return redirect('detalle_videojuego', videojuego_id=producto_id)
                 item.cantidad += cantidad
@@ -232,38 +233,44 @@ def agregarAlCarrito(request):
             
             messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
             return redirect('detalle_videojuego', videojuego_id=producto_id)
-    
-    elif producto_tipo == 'coleccionable':
-        producto = get_object_or_404(Coleccionable, id=producto_id)
         
-        # Verificar stock disponible
-        if producto.stock < cantidad:
-            messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
-            return redirect('detalle_coleccionable', coleccionable_id=producto_id)
-        
-        # Buscar si ya existe en el carrito
-        try:
-            item = ItemCarrito.objects.get(carrito=carrito, coleccionable=producto)
-            # Verificar si al agregar más cantidad no excede el stock
-            if item.cantidad + cantidad > producto.stock:
-                messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
+        elif producto_tipo == 'coleccionable':
+            producto = get_object_or_404(Coleccionable, id=producto_id)
+            
+            # Verificar stock disponible
+            if producto.stock < cantidad:
+                messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
                 return redirect('detalle_coleccionable', coleccionable_id=producto_id)
-            item.cantidad += cantidad
-            item.save()
-        except ItemCarrito.DoesNotExist:
-            ItemCarrito.objects.create(
-                carrito=carrito,
-                coleccionable=producto,
-                cantidad=cantidad,
-                precio_unitario=producto.precio
-            )
-        
-        # Restar del stock
-        producto.stock -= cantidad
-        producto.save()
-        
-        messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
-        return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+            
+            # Buscar si ya existe en el carrito
+            try:
+                item = ItemCarrito.objects.get(carrito=carrito, coleccionable=producto)
+                # Validar solo contra el stock restante, no sumar lo ya en el carrito
+                if cantidad > producto.stock:
+                    messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
+                    return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+                item.cantidad += cantidad
+                item.save()
+            except ItemCarrito.DoesNotExist:
+                ItemCarrito.objects.create(
+                    carrito=carrito,
+                    coleccionable=producto,
+                    cantidad=cantidad,
+                    precio_unitario=producto.precio
+                )
+            
+            # Restar del stock
+            producto.stock -= cantidad
+            
+            # Cambiar estado a agotado si stock llega a 0
+            if producto.stock <= 0:
+                producto.stock = 0
+                producto.estado = 'agotado'
+            
+            producto.save()
+            
+            messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
+            return redirect('detalle_coleccionable', coleccionable_id=producto_id)
     
     return redirect('inicio')
 
