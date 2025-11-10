@@ -1,26 +1,27 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coleccionables - SangresitaStore</title>
+    <title>Tarjetas de Regalo - ReconStore</title>
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para el tema Rolex */
+        /* Variables CSS para ReconStore - Tema Beige y Verde Menta */
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #1a1a1a;
-            --light-charcoal: #2c2c2c;
+            --mint-green: #A8E6CF;
+            --mint-green-dark: #7FD3B0;
+            --beige-bg: #F5F5DC;
+            --beige-light: #FAFAF0;
+            --beige-dark: #E8E8D3;
             --pure-white: #ffffff;
-            --soft-gray: #f8f9fa;
-            --text-gray: #666666;
-            --border-light: #e5e5e5;
+            --text-dark: #2c3e50;
+            --text-gray: #5a6c7d;
+            --border-light: #d4e6d9;
             --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
             --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
             --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
@@ -29,24 +30,25 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: var(--dark-charcoal);
-            background-color: var(--pure-white);
+            color: var(--text-dark);
+            background-color: var(--beige-bg);
         }
 
-        /* Navbar premium */
+        /* Navbar verde menta */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--mint-green);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 2px solid var(--mint-green-dark);
             padding: 1rem 0;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--dark-charcoal) !important;
+            color: var(--text-dark) !important;
             text-decoration: none;
             position: relative;
         }
@@ -58,7 +60,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--text-dark);
             transition: width 0.3s ease;
         }
 
@@ -67,12 +69,16 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--dark-charcoal) !important;
-            font-weight: 400;
+            color: var(--text-dark) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
             transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--mint-green-dark) !important;
         }
 
         .navbar-nav .nav-link::after {
@@ -81,8 +87,8 @@
             bottom: -5px;
             left: 50%;
             width: 0;
-            height: 1px;
-            background: var(--primary-gold);
+            height: 2px;
+            background: var(--text-dark);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -94,8 +100,8 @@
 
         /* Header section */
         .page-header {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            color: var(--text-dark);
             padding: 80px 0 60px;
             margin-top: 80px;
             position: relative;
@@ -134,45 +140,45 @@
 
         /* Filter section */
         .filter-section {
-            background: var(--soft-gray);
+            background: var(--beige-light);
             padding: 30px;
-            border: 1px solid var(--border-light);
+            border: 2px solid var(--border-light);
             margin: 40px 0;
+            border-radius: 8px;
         }
 
         .filter-section h4 {
-            font-weight: 300;
+            font-weight: 500;
             letter-spacing: 2px;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 0;
         }
 
         .form-select {
-            border: 1px solid var(--border-light);
-            border-radius: 0;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
             padding: 12px 15px;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 1px;
             transition: all 0.3s ease;
         }
 
         .form-select:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            border-color: var(--mint-green-dark);
+            box-shadow: 0 0 0 0.2rem rgba(127, 211, 176, 0.15);
             outline: none;
         }
 
         /* Product cards */
         .product-card {
-            background: transparent;
+            background: var(--pure-white);
             border: 2px solid var(--border-light);
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--shadow-soft);
             transition: all 0.4s ease;
             overflow: hidden;
             position: relative;
             height: 100%;
-            backdrop-filter: blur(10px);
         }
 
         .product-card::before {
@@ -182,7 +188,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
@@ -194,7 +200,7 @@
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-strong);
-            border-color: var(--primary-gold);
+            border-color: var(--mint-green-dark);
         }
 
         .card-img-container {
@@ -239,22 +245,23 @@
         }
 
         .card-img-overlay .price {
-            color: var(--primary-gold);
+            color: var(--mint-green);
             font-size: 1.5rem;
-            font-weight: 300;
+            font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .card-body {
             padding: 2rem;
+            background: var(--pure-white);
         }
 
         .card-title {
             font-size: 1.2rem;
-            font-weight: 300;
+            font-weight: 500;
             letter-spacing: 1px;
             margin-bottom: 1rem;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
         .card-text {
@@ -266,15 +273,15 @@
 
         .price {
             font-size: 1.8rem;
-            font-weight: 300;
-            color: var(--primary-gold);
+            font-weight: 600;
+            color: var(--mint-green-dark);
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
 
         .type-badge {
-            background: var(--soft-gray);
-            color: var(--text-gray);
+            background: var(--beige-light);
+            color: var(--text-dark);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
@@ -289,8 +296,8 @@
         }
 
         .category-badge {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
+            background: var(--mint-green);
+            color: var(--text-dark);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
@@ -313,10 +320,10 @@
         /* Buttons */
         .btn-premium {
             background: transparent;
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
+            border: 2px solid var(--mint-green-dark);
+            color: var(--mint-green-dark);
             padding: 12px 30px;
-            font-weight: 400;
+            font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: all 0.4s ease;
@@ -331,13 +338,13 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             transition: left 0.4s ease;
             z-index: -1;
         }
 
         .btn-premium:hover {
-            color: var(--dark-charcoal);
+            color: var(--pure-white);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
@@ -354,28 +361,29 @@
         }
 
         .modal-header {
-            background: var(--dark-charcoal);
-            color: var(--pure-white);
+            background: var(--mint-green);
+            color: var(--text-dark);
             border: none;
         }
 
         .modal-title {
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
         }
 
         .btn-close {
-            filter: invert(1);
+            filter: none;
         }
 
         .modal-body {
             padding: 2rem;
+            background: var(--beige-light);
         }
 
         .modal-body h4 {
-            font-weight: 300;
+            font-weight: 500;
             letter-spacing: 1px;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
         .modal-body .text-muted {
@@ -383,24 +391,25 @@
         }
 
         .form-control {
-            border: 1px solid var(--border-light);
-            border-radius: 0;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
             padding: 12px 15px;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 1px;
             transition: all 0.3s ease;
+            background: var(--pure-white);
         }
 
         .form-control:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            border-color: var(--mint-green-dark);
+            box-shadow: 0 0 0 0.2rem rgba(127, 211, 176, 0.15);
             outline: none;
         }
 
         .form-label {
-            font-weight: 400;
+            font-weight: 500;
             letter-spacing: 1px;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 8px;
         }
 
@@ -413,7 +422,7 @@
 
         .empty-state i {
             font-size: 4rem;
-            color: var(--primary-gold);
+            color: var(--mint-green-dark);
             margin-bottom: 2rem;
         }
 
@@ -487,32 +496,33 @@
 
         /* Footer */
         .footer {
-            background: var(--dark-charcoal);
-            color: var(--pure-white);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
             padding: 60px 0 30px;
         }
 
         .footer h5 {
             font-size: 1.1rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
             margin-bottom: 2rem;
-            color: var(--primary-gold);
+            color: var(--text-dark);
         }
 
         .footer p, .footer li {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
             line-height: 1.8;
         }
 
         .footer a {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: var(--primary-gold);
+            color: var(--pure-white);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -521,7 +531,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                SangresitaStore
+                ReconStore
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -535,7 +545,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'coleccionables' %}">Coleccionables</a>
+                        <a class="nav-link active" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -583,8 +593,8 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container text-center page-header-content">
-            <h1>Coleccionables</h1>
-            <p>Descubre nuestra colección premium de Funkos Pop y más</p>
+            <h1>Tarjetas de Regalo</h1>
+            <p>Descubre nuestra colección premium de tarjetas de regalo para todas las plataformas</p>
         </div>
     </section>
 
@@ -608,43 +618,43 @@
             </div>
         </div>
 
-        <!-- Lista de Coleccionables -->
+        <!-- Lista de Tarjetas de Regalo -->
         <div class="row">
-            {% for coleccionable in coleccionables %}
+            {% for tarjeta_regalo in tarjetas_regalo %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card product-card h-100">
                     <div class="card-img-container position-relative">
-                        {% if coleccionable.imagen %}
-                            <img src="{{ coleccionable.imagen.url }}" class="card-img-top" alt="{{ coleccionable.nombre }}">
+                        {% if tarjeta_regalo.imagen %}
+                            <img src="{{ tarjeta_regalo.imagen.url }}" class="card-img-top" alt="{{ tarjeta_regalo.nombre }}">
                         {% else %}
                             <div class="card-img-top bg-dark d-flex align-items-center justify-content-center">
-                                <i class="fas fa-gem fa-3x" style="color: var(--primary-gold);"></i>
+                                <i class="fas fa-gift fa-3x" style="color: var(--mint-green-dark);"></i>
                             </div>
                         {% endif %}
                         <div class="card-img-overlay d-flex flex-column justify-content-end">
-                            <h5 class="card-title">{{ coleccionable.nombre }}</h5>
-                            <div class="price">${{ coleccionable.precio }}</div>
+                            <h5 class="card-title">{{ tarjeta_regalo.nombre }}</h5>
+                            <div class="price">${{ tarjeta_regalo.precio }}</div>
                         </div>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <p class="card-text text-muted">{{ coleccionable.descripcion|truncatewords:8 }}</p>
+                        <p class="card-text text-muted">{{ tarjeta_regalo.descripcion|truncatewords:8 }}</p>
                         <div class="mt-auto">
                             <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="type-badge" title="{{ coleccionable.tipo_coleccionable }}">{{ coleccionable.tipo_coleccionable }}</span>
-                                <span class="category-badge" title="{{ coleccionable.categoria }}">{{ coleccionable.categoria }}</span>
+                                <span class="type-badge" title="{{ tarjeta_regalo.tipo_tarjeta }}">{{ tarjeta_regalo.tipo_tarjeta }}</span>
+                                <span class="category-badge" title="{{ tarjeta_regalo.categoria }}">{{ tarjeta_regalo.categoria }}</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                {% if coleccionable.estado == 'agotado' %}
+                                {% if tarjeta_regalo.estado == 'agotado' %}
                                     <span class="stock-info text-danger fw-bold">
                                         <i class="fas fa-times-circle"></i> SIN STOCK
                                     </span>
                                 {% else %}
                                     <span class="stock-info">
-                                        <i class="fas fa-box"></i> Stock: {{ coleccionable.stock }}
+                                        <i class="fas fa-box"></i> Stock: {{ tarjeta_regalo.stock }}
                                     </span>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'detalle_coleccionable' coleccionable.id %}" class="btn btn-premium w-100">
+                            <a href="{% url 'detalle_tarjeta_regalo' tarjeta_regalo.id %}" class="btn btn-premium w-100">
                                 <i class="fas fa-eye"></i> Ver Detalles
                             </a>
                         </div>
@@ -654,16 +664,16 @@
             {% empty %}
             <div class="col-12">
                 <div class="empty-state">
-                    <i class="fas fa-gem"></i>
-                    <h3>No hay coleccionables disponibles</h3>
-                    <p>Pronto agregaremos más coleccionables únicos a nuestra colección</p>
+                    <i class="fas fa-gift"></i>
+                    <h3>No hay Tarjetas de Regalo disponibles</h3>
+                    <p>Pronto agregaremos más tarjetas de regalo a nuestra colección</p>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <!-- Modal de Detalles del Coleccionable -->
+    <!-- Modal de Detalles de la Tarjeta de Regalo -->
     <div class="modal fade" id="detalleModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -680,7 +690,7 @@
                             <h4 id="modalNombre"></h4>
                             <p id="modalDescripcion" class="text-muted"></p>
                             <div class="mb-3">
-                                <span class="type-badge" id="modalTipoColeccionable"></span>
+                                <span class="type-badge" id="modalTipoTarjeta"></span>
                                 <span class="category-badge" id="modalCategoria"></span>
                             </div>
                             <h3 class="price" id="modalPrecio"></h3>
@@ -701,7 +711,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let coleccionableActual = null;
+        let tarjetaRegaloActual = null;
 
         function verificarSesion() {
             {% if not usuario_nombre %}
@@ -717,19 +727,19 @@
             window.location.href = url.toString();
         }
 
-        function verDetalle(coleccionableId) {
-            // Buscar el coleccionable en la lista
-            {% for coleccionable in coleccionables %}
-            if ({{ coleccionable.id }} === coleccionableId) {
-                coleccionableActual = {
-                    id: {{ coleccionable.id }},
-                    nombre: "{{ coleccionable.nombre }}",
-                    descripcion: "{{ coleccionable.descripcion }}",
-                    precio: {{ coleccionable.precio }},
-                    tipo_coleccionable: "{{ coleccionable.tipo_coleccionable }}",
-                    categoria: "{{ coleccionable.categoria }}",
-                    stock: {{ coleccionable.stock }},
-                    imagen: "{% if coleccionable.imagen %}{{ coleccionable.imagen.url }}{% endif %}"
+        function verDetalle(tarjetaRegaloId) {
+            // Buscar la tarjeta de regalo en la lista
+            {% for tarjeta_regalo in tarjetas_regalo %}
+            if ({{ tarjeta_regalo.id }} === tarjetaRegaloId) {
+                tarjetaRegaloActual = {
+                    id: {{ tarjeta_regalo.id }},
+                    nombre: "{{ tarjeta_regalo.nombre }}",
+                    descripcion: "{{ tarjeta_regalo.descripcion }}",
+                    precio: {{ tarjeta_regalo.precio }},
+                    tipo_tarjeta: "{{ tarjeta_regalo.tipo_tarjeta }}",
+                    categoria: "{{ tarjeta_regalo.categoria }}",
+                    stock: {{ tarjeta_regalo.stock }},
+                    imagen: "{% if tarjeta_regalo.imagen %}{{ tarjeta_regalo.imagen.url }}{% endif %}"
                 };
                 mostrarModal();
                 return;
@@ -738,20 +748,20 @@
         }
 
         function mostrarModal() {
-            if (!coleccionableActual) return;
+            if (!tarjetaRegaloActual) return;
 
-            document.getElementById('modalTitulo').textContent = coleccionableActual.nombre;
-            document.getElementById('modalNombre').textContent = coleccionableActual.nombre;
-            document.getElementById('modalDescripcion').textContent = coleccionableActual.descripcion;
-            document.getElementById('modalPrecio').textContent = '$' + coleccionableActual.precio;
-            document.getElementById('modalTipoColeccionable').textContent = coleccionableActual.tipo_coleccionable;
-            document.getElementById('modalCategoria').textContent = coleccionableActual.categoria;
-            document.getElementById('modalStock').textContent = 'Stock disponible: ' + coleccionableActual.stock;
+            document.getElementById('modalTitulo').textContent = tarjetaRegaloActual.nombre;
+            document.getElementById('modalNombre').textContent = tarjetaRegaloActual.nombre;
+            document.getElementById('modalDescripcion').textContent = tarjetaRegaloActual.descripcion;
+            document.getElementById('modalPrecio').textContent = '$' + tarjetaRegaloActual.precio;
+            document.getElementById('modalTipoTarjeta').textContent = tarjetaRegaloActual.tipo_tarjeta;
+            document.getElementById('modalCategoria').textContent = tarjetaRegaloActual.categoria;
+            document.getElementById('modalStock').textContent = 'Stock disponible: ' + tarjetaRegaloActual.stock;
             
-            if (coleccionableActual.imagen) {
-                document.getElementById('modalImagen').src = coleccionableActual.imagen;
+            if (tarjetaRegaloActual.imagen) {
+                document.getElementById('modalImagen').src = tarjetaRegaloActual.imagen;
             } else {
-                document.getElementById('modalImagen').src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzI4YTc0NSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RmFuZ28gQ29sZWNjaW9uYWJsZTwvdGV4dD48L3N2Zz4=';
+                document.getElementById('modalImagen').src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzI4YTc0NSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+VGFyamV0YSBkZSBSZWdhbG88L3RleHQ+PC9zdmc+';
             }
 
             const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
@@ -759,17 +769,17 @@
         }
 
         function agregarAlCarrito() {
-            if (!coleccionableActual) return;
+            if (!tarjetaRegaloActual) return;
 
             const cantidad = parseInt(document.getElementById('cantidad').value);
-            if (cantidad < 1 || cantidad > coleccionableActual.stock) {
+            if (cantidad < 1 || cantidad > tarjetaRegaloActual.stock) {
                 alert('Cantidad inválida');
                 return;
             }
 
             const formData = new FormData();
-            formData.append('producto_id', coleccionableActual.id);
-            formData.append('tipo', 'coleccionable');
+            formData.append('producto_id', tarjetaRegaloActual.id);
+            formData.append('tipo', 'tarjeta_regalo');
             formData.append('cantidad', cantidad);
 
             fetch('/agregar-carrito', {
@@ -782,7 +792,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Coleccionable agregado al carrito');
+                    alert('Tarjeta de regalo agregada al carrito');
                     const modal = bootstrap.Modal.getInstance(document.getElementById('detalleModal'));
                     modal.hide();
                 } else {
@@ -791,7 +801,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error al agregar coleccionable al carrito');
+                alert('Error al agregar tarjeta de regalo al carrito');
             });
         }
     </script>
@@ -802,26 +812,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>SangresitaStore</h5>
-                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                    <h5>ReconStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y Tarjetas de Regalo únicos. Calidad premium para gamers y coleccionistas.</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Enlaces Rápidos</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
-                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a></li>
                         <li><a href="{% url 'carrito' %}">Carrito</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h5>Contacto</h5>
                     <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                    <p><i class="fas fa-envelope"></i> info@ReconStore.cl</p>
                 </div>
             </div>
             <hr style="border-color: rgba(255,255,255,0.2);">
             <div class="text-center">
-                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+                <p>&copy; 2025 ReconStore. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

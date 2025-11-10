@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,23 +7,24 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>SangresitaStore - Tienda de Videojuegos</title>
+    <title>ReconStore - Tienda de Videojuegos</title>
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para el tema Rolex - v3.0 - FORZAR ACTUALIZACION */
+        /* Variables CSS para ReconStore - Tema Beige y Verde Menta */
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #1a1a1a;
-            --light-charcoal: #2c2c2c;
+            --mint-green: #A8E6CF;
+            --mint-green-dark: #7FD3B0;
+            --beige-bg: #F5F5DC;
+            --beige-light: #FAFAF0;
+            --beige-dark: #E8E8D3;
             --pure-white: #ffffff;
-            --soft-gray: #f8f9fa;
-            --text-gray: #666666;
-            --border-light: #e5e5e5;
+            --text-dark: #2c3e50;
+            --text-gray: #5a6c7d;
+            --border-light: #d4e6d9;
             --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
             --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
             --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
@@ -39,25 +40,26 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: var(--dark-charcoal);
-            background-color: var(--pure-white);
+            color: var(--text-dark);
+            background-color: var(--beige-bg);
             overflow-x: hidden;
         }
 
-        /* Navbar premium */
+        /* Navbar verde menta */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--mint-green);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 2px solid var(--mint-green-dark);
             padding: 1rem 0;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--dark-charcoal) !important;
+            color: var(--text-dark) !important;
             text-decoration: none;
             position: relative;
         }
@@ -69,7 +71,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--text-dark);
             transition: width 0.3s ease;
         }
 
@@ -78,12 +80,16 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--dark-charcoal) !important;
-            font-weight: 400;
+            color: var(--text-dark) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
             transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--mint-green-dark) !important;
         }
 
         .navbar-nav .nav-link::after {
@@ -92,8 +98,8 @@
             bottom: -5px;
             left: 50%;
             width: 0;
-            height: 1px;
-            background: var(--primary-gold);
+            height: 2px;
+            background: var(--text-dark);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -104,8 +110,8 @@
 
         /* Hero Section elegante */
         .hero-section {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            color: var(--text-dark);
             padding: 120px 0 100px;
             position: relative;
             overflow: hidden;
@@ -146,10 +152,10 @@
         /* Botones premium */
         .btn-premium {
             background: transparent;
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
+            border: 2px solid var(--text-dark);
+            color: var(--text-dark);
             padding: 8px 20px;
-            font-weight: 400;
+            font-weight: 500;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             font-size: 0.85rem;
@@ -165,13 +171,13 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--primary-gold);
+            background: var(--text-dark);
             transition: left 0.4s ease;
             z-index: -1;
         }
 
         .btn-premium:hover {
-            color: var(--dark-charcoal);
+            color: var(--pure-white);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
@@ -182,18 +188,18 @@
 
         .btn-premium-outline {
             background: transparent;
-            border: 2px solid var(--pure-white);
-            color: var(--pure-white);
+            border: 2px solid var(--text-dark);
+            color: var(--text-dark);
             padding: 15px 40px;
-            font-weight: 400;
+            font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: all 0.4s ease;
         }
 
         .btn-premium-outline:hover {
-            background: var(--pure-white);
-            color: var(--dark-charcoal);
+            background: var(--text-dark);
+            color: var(--pure-white);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
@@ -211,17 +217,16 @@
         }
 
         .game-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--pure-white);
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border-light);
             height: 100%;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(10px);
         }
 
         .game-card:hover {
@@ -309,7 +314,7 @@
         .game-overlay-price {
             font-size: 1.3rem;
             font-weight: 800;
-            color: var(--primary-gold);
+            color: var(--mint-green);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
 
@@ -339,8 +344,8 @@
         }
 
         .platform-tag {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
+            background: var(--mint-green);
+            color: var(--text-dark);
             padding: 4px 8px;
             border-radius: 12px;
             font-size: 0.75rem;
@@ -349,8 +354,8 @@
         }
 
         .game-button {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
+            background: var(--mint-green);
+            color: var(--text-dark);
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
@@ -361,18 +366,19 @@
         }
 
         .game-button:hover {
-            background: var(--secondary-gold);
+            background: var(--mint-green-dark);
             transform: translateY(-1px);
+            color: var(--pure-white);
         }
 
         /* Secciones */
         .section-title {
             font-size: 2.5rem;
-            font-weight: 200;
+            font-weight: 600;
             letter-spacing: 2px;
             text-align: center;
             margin-bottom: 4rem;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             position: relative;
         }
 
@@ -383,42 +389,43 @@
             left: 50%;
             transform: translateX(-50%);
             width: 60px;
-            height: 2px;
-            background: var(--primary-gold);
+            height: 3px;
+            background: var(--mint-green-dark);
         }
 
         .section-bg {
-            background: var(--soft-gray);
+            background: var(--beige-light);
         }
 
         /* Footer premium */
         .footer {
-            background: var(--dark-charcoal);
-            color: var(--pure-white);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
             padding: 60px 0 30px;
         }
 
         .footer h5 {
             font-size: 1.1rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
             margin-bottom: 2rem;
-            color: var(--primary-gold);
+            color: var(--text-dark);
         }
 
         .footer p, .footer li {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
             line-height: 1.8;
         }
 
         .footer a {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: var(--primary-gold);
+            color: var(--pure-white);
+            text-decoration: underline;
         }
 
         /* Sección de Ubicación */
@@ -636,7 +643,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                SangresitaStore
+                ReconStore
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -650,7 +657,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                        <a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -698,13 +705,13 @@
     <!-- Hero Section Elegante -->
     <section class="hero-section">
         <div class="container text-center hero-content">
-            <h1 class="fade-in-up">SangresitaStore
+            <h1 class="fade-in-up">ReconStore
                 
             </h1>
-            <p class="lead fade-in-up">Descubre los mejores videojuegos y coleccionables exclusivos</p>
+            <p class="lead fade-in-up">Descubre los mejores videojuegos y tarjetas de regalo exclusivas</p>
             <div class="fade-in-up">
                 <a href="{% url 'tienda' %}" class="btn btn-premium-outline me-3">Explorar Videojuegos</a>
-                <a href="{% url 'coleccionables' %}" class="btn btn-premium-outline">Ver Coleccionables</a>
+                <a href="{% url 'tarjetas_regalo' %}" class="btn btn-premium-outline">Ver Tarjetas de Regalo</a>
             </div>
         </div>
     </section>
@@ -735,8 +742,8 @@
                     {% elif videojuego.imagen %}
                         <img src="{{ videojuego.imagen.url }}" class="game-image" alt="{{ videojuego.nombre }}">
                         {% else %}
-                        <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #2c3e50, #34495e);">
-                            <i class="fas fa-gamepad fa-4x" style="color: var(--primary-gold);"></i>
+                        <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, var(--mint-green), var(--mint-green-dark));">
+                            <i class="fas fa-gamepad fa-4x" style="color: var(--text-dark);"></i>
                             </div>
                         {% endif %}
                         
@@ -762,51 +769,51 @@
         </div>
     </section>
 
-    <!-- Coleccionables Destacados -->
+    <!-- Tarjetas de Regalo Destacadas -->
     <section class="py-5 section-bg">
         <div class="container">
-            <h2 class="section-title">Coleccionables Destacados</h2>
+            <h2 class="section-title">Tarjetas de Regalo Destacadas</h2>
             <!-- CARDS COMPLETAMENTE PERSONALIZADAS - SIN BOOTSTRAP -->
             <div class="games-grid">
-                {% for coleccionable in coleccionables_destacados %}
+                {% for tarjeta_regalo in tarjetas_regalo_destacados %}
                 <div class="game-card">
                     <!-- Badge dinámico -->
-                    {% if coleccionable.badge %}
-                        <div class="game-badge {{ coleccionable.badge }}">
-                            {% if coleccionable.badge == 'best-seller' %}MÁS VENDIDO
-                            {% elif coleccionable.badge == 'new-release' %}NUEVO LANZAMIENTO
-                            {% elif coleccionable.badge == 'special-offer' %}OFERTA ESPECIAL
-                            {% elif coleccionable.badge == 'low-stock' %}A PUNTO DE IRSE
+                    {% if tarjeta_regalo.badge %}
+                        <div class="game-badge {{ tarjeta_regalo.badge }}">
+                            {% if tarjeta_regalo.badge == 'best-seller' %}MÁS VENDIDO
+                            {% elif tarjeta_regalo.badge == 'new-release' %}NUEVO LANZAMIENTO
+                            {% elif tarjeta_regalo.badge == 'special-offer' %}OFERTA ESPECIAL
+                            {% elif tarjeta_regalo.badge == 'low-stock' %}A PUNTO DE IRSE
                             {% endif %}
                         </div>
                     {% endif %}
                     
-                    <!-- Imagen del coleccionable -->
+                    <!-- Imagen de la tarjeta de regalo -->
                     <div class="game-image-container">
-                        {% if coleccionable.imagen_recomendada %}
-                            <img src="{{ coleccionable.imagen_recomendada.url }}" class="game-image" alt="{{ coleccionable.nombre }}">
-                        {% elif coleccionable.imagen %}
-                            <img src="{{ coleccionable.imagen.url }}" class="game-image" alt="{{ coleccionable.nombre }}">
+                        {% if tarjeta_regalo.imagen_recomendada %}
+                            <img src="{{ tarjeta_regalo.imagen_recomendada.url }}" class="game-image" alt="{{ tarjeta_regalo.nombre }}">
+                        {% elif tarjeta_regalo.imagen %}
+                            <img src="{{ tarjeta_regalo.imagen.url }}" class="game-image" alt="{{ tarjeta_regalo.nombre }}">
                         {% else %}
-                            <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">
-                                <i class="fas fa-gem fa-4x" style="color: var(--primary-gold);"></i>
+                            <div class="game-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, var(--mint-green), var(--mint-green-dark));">
+                                <i class="fas fa-gift fa-4x" style="color: var(--text-dark);"></i>
                             </div>
                         {% endif %}
                         
                         <!-- Overlay con título y precio -->
                         <div class="game-overlay">
-                            <div class="game-overlay-title">{{ coleccionable.nombre }}</div>
-                            <div class="game-overlay-price">${{ coleccionable.precio }}</div>
+                            <div class="game-overlay-title">{{ tarjeta_regalo.nombre }}</div>
+                            <div class="game-overlay-price">${{ tarjeta_regalo.precio }}</div>
                         </div>
                             </div>
                     
                     <!-- Contenido de la card -->
                     <div class="game-content">
-                        <p class="game-description">{{ coleccionable.descripcion|truncatewords:15 }}</p>
+                        <p class="game-description">{{ tarjeta_regalo.descripcion|truncatewords:15 }}</p>
                         
                         <div class="game-footer">
-                            <span class="platform-tag">{{ coleccionable.tipo_coleccionable }}</span>
-                            <a href="{% url 'detalle_coleccionable' coleccionable.id %}" class="game-button">VER DETALLES</a>
+                            <span class="platform-tag">{{ tarjeta_regalo.tipo_tarjeta }}</span>
+                            <a href="{% url 'detalle_tarjeta_regalo' tarjeta_regalo.id %}" class="game-button">VER DETALLES</a>
                         </div>
                     </div>
                 </div>
@@ -853,26 +860,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>SangresitaStore</h5>
-                    <p>Tu tienda de confianza para videojuegos y coleccionables únicos. Calidad premium para gamers y coleccionistas.</p>
+                    <h5>ReconStore</h5>
+                    <p>Tu tienda de confianza para videojuegos y tarjetas de regalo únicas. Calidad premium para gamers y regalos especiales.</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Enlaces Rápidos</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
-                        <li><a href="{% url 'coleccionables' %}">Coleccionables</a></li>
+                        <li><a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a></li>
                         <li><a href="{% url 'carrito' %}">Carrito</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h5>Contacto</h5>
                     <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@sangresitastore.cl</p>
+                    <p><i class="fas fa-envelope"></i> info@reconstore.cl</p>
                 </div>
             </div>
-            <hr style="border-color: rgba(255,255,255,0.2);">
+            <hr style="border-color: rgba(0,0,0,0.1);">
             <div class="text-center">
-                <p>&copy; 2025 SangresitaStore. Todos los derechos reservados.</p>
+                <p>&copy; 2025 ReconStore. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -883,7 +890,7 @@
             if (tipo === 'videojuego') {
                 window.location.href = `/detalle-videojuego/${id}`;
             } else {
-                window.location.href = `/detalle-coleccionable/${id}`;
+                window.location.href = `/detalle-tarjeta_regalo/${id}`;
             }
         }
 

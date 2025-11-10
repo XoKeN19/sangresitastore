@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Detalle de Pedido #{{ pedido.id }} - SangresitaStore</title>
+    <title>Detalle de Pedido #{{ pedido.id }} - ReconStore</title>
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -278,7 +278,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                SangresitaStore
+                ReconStore
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -292,7 +292,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coleccionables' %}">Coleccionables</a>
+                        <a class="nav-link" href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -446,16 +446,16 @@
                                 <div class="product-price">
                                     ${{ item.precio_unitario|floatformat:0 }}
                                 </div>
-                            {% elif item.coleccionable %}
-                                {% if item.coleccionable.imagen %}
-                                    <img src="{{ item.coleccionable.imagen.url }}" alt="{{ item.coleccionable.nombre }}" class="product-image">
+                            {% elif item.tarjeta_regalo %}
+                                {% if item.tarjeta_regalo.imagen %}
+                                    <img src="{{ item.tarjeta_regalo.imagen.url }}" alt="{{ item.tarjeta_regalo.nombre }}" class="product-image">
                                 {% else %}
                                     <div class="product-image d-flex align-items-center justify-content-center bg-light">
                                         <i class="fas fa-star fa-2x text-muted"></i>
                                     </div>
                                 {% endif %}
                                 <div class="product-info">
-                                    <div class="product-name">{{ item.coleccionable.nombre }}</div>
+                                    <div class="product-name">{{ item.tarjeta_regalo.nombre }}</div>
                                     <div class="product-quantity">
                                         <i class="fas fa-hashtag"></i> Cantidad: {{ item.cantidad }}
                                     </div>

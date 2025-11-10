@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -342,7 +342,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'admin_panel' %}">
-                SangresitaStore Admin
+                ReconStore Admin
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -453,55 +453,55 @@
                 </div>
             </div>
 
-            <!-- Coleccionables Recomendados -->
+            <!-- Tarjetas de Regalo Recomendados -->
             <div class="card admin-card">
                 <div class="admin-card-header">
-                    <h3><i class="fas fa-gem me-2"></i>Coleccionables Recomendados</h3>
+                    <h3><i class="fas fa-gem me-2"></i>Tarjetas de Regalo Recomendados</h3>
                 </div>
                 <div class="admin-card-body">
-                    <p class="text-muted mb-3">Selecciona exactamente 4 coleccionables para mostrar en el inicio:</p>
+                    <p class="text-muted mb-3">Selecciona exactamente 4 Tarjetas de Regalo para mostrar en el inicio:</p>
                     <div class="product-list">
-                        {% for coleccionable in coleccionables %}
+                        {% for tarjeta_regalo in tarjetas_regalo %}
                         <div class="product-item">
                             <div class="product-checkbox">
                                 <input type="checkbox" 
-                                       name="coleccionables_recomendados" 
-                                       value="{{ coleccionable.id }}"
-                                       id="coleccionable_{{ coleccionable.id }}"
-                                       {% if coleccionable.es_recomendado %}checked{% endif %}
+                                       name="tarjetas_regalo_recomendados" 
+                                       value="{{ tarjeta_regalo.id }}"
+                                       id="tarjeta_regalo_{{ tarjeta_regalo.id }}"
+                                       {% if tarjeta_regalo.es_recomendado %}checked{% endif %}
                                        class="form-check-input">
                             </div>
                             <div class="product-info">
-                                <div class="product-name">{{ coleccionable.nombre }}</div>
+                                <div class="product-name">{{ tarjeta_regalo.nombre }}</div>
                                 <div class="product-details">
-                                    {{ coleccionable.tipo_coleccionable }} • ${{ coleccionable.precio }} • Stock: {{ coleccionable.stock }}
+                                    {{ tarjeta_regalo.tipo_tarjeta }} • ${{ tarjeta_regalo.precio }} • Stock: {{ tarjeta_regalo.stock }}
                                 </div>
                             </div>
                             <div class="badge-selector">
-                                <select name="badge_coleccionable_{{ coleccionable.id }}" 
-                                        id="badge_coleccionable_{{ coleccionable.id }}"
+                                <select name="badge_tarjeta_regalo_{{ tarjeta_regalo.id }}" 
+                                        id="badge_tarjeta_regalo_{{ tarjeta_regalo.id }}"
                                         onchange="updateBadgePreview(this)">
-                                    <option value="" {% if not coleccionable.badge %}selected{% endif %}>Sin Badge</option>
-                                    <option value="best-seller" {% if coleccionable.badge == 'best-seller' %}selected{% endif %}>Más Vendido</option>
-                                    <option value="new-release" {% if coleccionable.badge == 'new-release' %}selected{% endif %}>Nuevo Lanzamiento</option>
-                                    <option value="special-offer" {% if coleccionable.badge == 'special-offer' %}selected{% endif %}>Oferta Especial</option>
-                                    <option value="low-stock" {% if coleccionable.badge == 'low-stock' %}selected{% endif %}>A Punto de Irse</option>
+                                    <option value="" {% if not tarjeta_regalo.badge %}selected{% endif %}>Sin Badge</option>
+                                    <option value="best-seller" {% if tarjeta_regalo.badge == 'best-seller' %}selected{% endif %}>Más Vendido</option>
+                                    <option value="new-release" {% if tarjeta_regalo.badge == 'new-release' %}selected{% endif %}>Nuevo Lanzamiento</option>
+                                    <option value="special-offer" {% if tarjeta_regalo.badge == 'special-offer' %}selected{% endif %}>Oferta Especial</option>
+                                    <option value="low-stock" {% if tarjeta_regalo.badge == 'low-stock' %}selected{% endif %}>A Punto de Irse</option>
                                 </select>
-                                <span id="preview_coleccionable_{{ coleccionable.id }}" class="badge-preview"></span>
+                                <span id="preview_tarjeta_regalo_{{ tarjeta_regalo.id }}" class="badge-preview"></span>
                             </div>
                             <div class="image-selector">
-                                <label for="imagen_coleccionable_{{ coleccionable.id }}" class="image-label">
+                                <label for="imagen_tarjeta_regalo_{{ tarjeta_regalo.id }}" class="image-label">
                                     <i class="fas fa-image me-1"></i>Imagen Recomendada
                                 </label>
                                 <input type="file" 
-                                       name="imagen_coleccionable_{{ coleccionable.id }}" 
-                                       id="imagen_coleccionable_{{ coleccionable.id }}"
+                                       name="imagen_tarjeta_regalo_{{ tarjeta_regalo.id }}" 
+                                       id="imagen_tarjeta_regalo_{{ tarjeta_regalo.id }}"
                                        accept="image/*"
                                        class="image-input">
-                                {% if coleccionable.imagen_recomendada %}
+                                {% if tarjeta_regalo.imagen_recomendada %}
                                     <div class="current-image">
                                         <small>Imagen actual:</small>
-                                        <img src="{{ coleccionable.imagen_recomendada.url }}" alt="Imagen actual" class="preview-image">
+                                        <img src="{{ tarjeta_regalo.imagen_recomendada.url }}" alt="Imagen actual" class="preview-image">
                                     </div>
                                 {% endif %}
                             </div>
@@ -509,8 +509,8 @@
                         {% empty %}
                         <div class="text-center text-muted py-4">
                             <i class="fas fa-gem fa-3x mb-3"></i>
-                            <h5>No hay coleccionables disponibles</h5>
-                            <p>Agrega algunos coleccionables desde el panel principal</p>
+                            <h5>No hay Tarjetas de Regalo disponibles</h5>
+                            <p>Agrega algunos Tarjetas de Regalo desde el panel principal</p>
                         </div>
                         {% endfor %}
                     </div>
@@ -556,7 +556,7 @@
             const form = document.querySelector('form');
             form.addEventListener('submit', function(e) {
                 const videojuegosSeleccionados = document.querySelectorAll('input[name="videojuegos_recomendados"]:checked').length;
-                const coleccionablesSeleccionados = document.querySelectorAll('input[name="coleccionables_recomendados"]:checked').length;
+                const tarjetasRegaloSeleccionados = document.querySelectorAll('input[name="tarjetas_regalo_recomendados"]:checked').length;
                 
                 if (videojuegosSeleccionados !== 4) {
                     e.preventDefault();
@@ -564,9 +564,9 @@
                     return false;
                 }
                 
-                if (coleccionablesSeleccionados !== 4) {
+                if (tarjetasRegaloSeleccionados !== 4) {
                     e.preventDefault();
-                    alert('Debes seleccionar exactamente 4 coleccionables recomendados.');
+                    alert('Debes seleccionar exactamente 4 tarjetas de regalo recomendadas.');
                     return false;
                 }
             });

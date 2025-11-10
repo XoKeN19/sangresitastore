@@ -1,10 +1,10 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Factura de Compra #{{ factura.id }} - SangresitaStore</title>
+    <title>Detalle Factura de Compra #{{ factura.id }} - ReconStore</title>
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
@@ -381,7 +381,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                SangresitaStore
+                ReconStore
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -471,9 +471,9 @@
                                                 <i class="fas fa-gamepad fa-3x text-muted"></i>
                                             </div>
                                         {% endif %}
-                                    {% elif factura.coleccionable %}
-                                        {% if factura.coleccionable.imagen %}
-                                            <img src="{{ factura.coleccionable.imagen.url }}" alt="{{ factura.nombre_producto }}" class="product-image">
+                                    {% elif factura.tarjeta_regalo %}
+                                        {% if factura.tarjeta_regalo.imagen %}
+                                            <img src="{{ factura.tarjeta_regalo.imagen.url }}" alt="{{ factura.nombre_producto }}" class="product-image">
                                         {% else %}
                                             <div class="product-image d-flex align-items-center justify-content-center bg-light">
                                                 <i class="fas fa-star fa-3x text-muted"></i>
@@ -493,8 +493,8 @@
                                     <p class="mb-3">
                                         {% if factura.videojuego %}
                                             <span class="badge bg-primary">Videojuego</span>
-                                        {% elif factura.coleccionable %}
-                                            <span class="badge bg-success">Coleccionable</span>
+                                        {% elif factura.tarjeta_regalo %}
+                                            <span class="badge bg-success">Tarjeta de Regalo</span>
                                         {% else %}
                                             <span class="badge bg-secondary">Producto General</span>
                                         {% endif %}

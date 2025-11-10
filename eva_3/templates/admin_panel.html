@@ -1,26 +1,27 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - SangresitaStore</title>
+    <title>Panel de Administración - ReconStore</title>
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para el tema Rolex */
+        /* Variables CSS para ReconStore - Tema Beige y Verde Menta */
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #1a1a1a;
-            --light-charcoal: #2c2c2c;
+            --mint-green: #A8E6CF;
+            --mint-green-dark: #7FD3B0;
+            --beige-bg: #F5F5DC;
+            --beige-light: #FAFAF0;
+            --beige-dark: #E8E8D3;
             --pure-white: #ffffff;
-            --soft-gray: #f8f9fa;
-            --text-gray: #666666;
-            --border-light: #e5e5e5;
+            --text-dark: #2c3e50;
+            --text-gray: #5a6c7d;
+            --border-light: #d4e6d9;
             --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
             --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
             --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
@@ -29,8 +30,8 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: var(--dark-charcoal);
-            background-color: var(--soft-gray);
+            color: var(--text-dark);
+            background-color: var(--beige-bg);
         }
 
         /* Carrusel de Funciones Admin */
@@ -104,7 +105,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(168, 230, 207, 0.2), transparent);
             transition: left 0.6s ease;
         }
 
@@ -114,26 +115,26 @@
 
         .admin-function-card:hover {
             transform: translateY(-8px);
-            border-color: var(--primary-gold);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+            border-color: var(--mint-green-dark);
+            box-shadow: 0 15px 40px rgba(168, 230, 207, 0.3);
         }
 
         .admin-function-icon {
             font-size: 3rem;
-            color: var(--primary-gold);
+            color: var(--mint-green-dark);
             margin-bottom: 1rem;
             transition: all 0.3s ease;
         }
 
         .admin-function-card:hover .admin-function-icon {
             transform: scale(1.1);
-            color: var(--secondary-gold);
+            color: var(--mint-green-dark);
         }
 
         .admin-function-title {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 0.5rem;
         }
 
@@ -167,18 +168,18 @@
         }
 
         .carousel-dot.active {
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             transform: scale(1.2);
         }
 
         .carousel-dot:hover {
-            background: var(--secondary-gold);
+            background: var(--mint-green-dark);
         }
 
         .carousel-nav-btn {
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             border: none;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -191,7 +192,7 @@
         }
 
         .carousel-nav-btn:hover {
-            background: var(--secondary-gold);
+            background: var(--mint-green);
             transform: scale(1.1);
         }
 
@@ -225,20 +226,21 @@
             }
         }
 
-        /* Navbar */
+        /* Navbar verde menta */
         .navbar {
-            background: rgba(26, 26, 26, 0.95);
+            background: var(--mint-green) !important;
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--primary-gold);
+            border-bottom: 2px solid var(--mint-green-dark);
             padding: 1rem 0;
             min-height: 70px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--primary-gold) !important;
+            color: var(--text-dark) !important;
             text-decoration: none;
             position: relative;
         }
@@ -250,7 +252,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--text-dark);
             transition: width 0.3s ease;
         }
 
@@ -259,12 +261,16 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--pure-white) !important;
-            font-weight: 400;
+            color: var(--text-dark) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
             transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--mint-green-dark) !important;
         }
 
         .navbar-nav .nav-link::after {
@@ -274,7 +280,7 @@
             left: 50%;
             width: 0;
             height: 1px;
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -283,9 +289,17 @@
             width: 100%;
         }
 
+        .navbar-toggler {
+            border-color: var(--text-dark);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(44, 62, 80, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
         .admin-header {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            color: var(--text-dark);
             padding: 120px 0 80px;
             margin-bottom: 0;
             position: relative;
@@ -299,7 +313,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(212,175,55,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(212,175,55,0.05)"/><circle cx="10" cy="90" r="0.5" fill="rgba(212,175,55,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(168,230,207,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(168,230,207,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(168,230,207,0.05)"/><circle cx="10" cy="90" r="0.5" fill="rgba(168,230,207,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             opacity: 0.3;
         }
 
@@ -341,21 +355,21 @@
         }
 
         .nav-pills .nav-link.active {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
-            border-color: var(--primary-gold);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
+            border-color: var(--mint-green-dark);
         }
 
         .nav-pills .nav-link:hover:not(.active) {
-            background: var(--soft-gray);
-            color: var(--dark-charcoal);
+            background: var(--beige-light);
+            color: var(--text-dark);
         }
 
         /* Buttons */
         .btn-premium {
             background: transparent;
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
+            border: 2px solid var(--mint-green-dark);
+            color: var(--mint-green-dark);
             padding: 10px 25px;
             font-weight: 400;
             letter-spacing: 1px;
@@ -373,19 +387,40 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--primary-gold);
+            background: var(--mint-green-dark);
             transition: left 0.4s ease;
             z-index: -1;
         }
 
         .btn-premium:hover {
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
 
         .btn-premium:hover::before {
             left: 0;
+        }
+
+        .btn-primary-premium {
+            background: var(--mint-green-dark);
+            border: 2px solid var(--mint-green-dark);
+            color: var(--text-dark);
+            padding: 10px 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-premium:hover {
+            background: var(--mint-green);
+            border-color: var(--mint-green);
+            color: var(--text-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
         }
 
         .btn-success-premium {
@@ -479,7 +514,7 @@
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: 1px;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 10px;
         }
 
@@ -493,7 +528,7 @@
         .product-price {
             font-size: 1.5rem;
             font-weight: 300;
-            color: var(--primary-gold);
+            color: var(--mint-green-dark);
             letter-spacing: 1px;
         }
 
@@ -508,15 +543,15 @@
         }
 
         .form-control:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            border-color: var(--mint-green-dark);
+            box-shadow: 0 0 0 0.2rem rgba(168, 230, 207, 0.25);
             outline: none;
         }
 
         .form-label {
             font-weight: 400;
             letter-spacing: 1px;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 8px;
         }
 
@@ -528,8 +563,8 @@
         }
 
         .modal-header {
-            background: var(--dark-charcoal);
-            color: var(--pure-white);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
             border: none;
         }
 
@@ -539,7 +574,12 @@
         }
 
         .btn-close {
-            filter: invert(1);
+            filter: none;
+            opacity: 0.8;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
         }
 
         /* Filtros y búsqueda */
@@ -574,14 +614,14 @@
         
         .filter-group label {
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 8px;
             display: block;
         }
         
         .stats-overview {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: var(--dark-charcoal);
+            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            color: var(--text-dark);
             padding: 20px;
             border-radius: 0;
             margin-bottom: 30px;
@@ -620,7 +660,7 @@
         }
         
         .page-link {
-            color: var(--primary-gold);
+            color: var(--mint-green-dark);
             border: 1px solid var(--border-light);
             padding: 10px 15px;
             margin: 0 2px;
@@ -628,15 +668,15 @@
         }
         
         .page-link:hover {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
-            border-color: var(--primary-gold);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
+            border-color: var(--mint-green-dark);
         }
         
         .page-item.active .page-link {
-            background: var(--primary-gold);
-            color: var(--dark-charcoal);
-            border-color: var(--primary-gold);
+            background: var(--mint-green-dark);
+            color: var(--text-dark);
+            border-color: var(--mint-green-dark);
         }
         
         .no-results {
@@ -652,7 +692,7 @@
         }
         
         .results-info {
-            background: var(--soft-gray);
+            background: var(--beige-light);
             padding: 15px;
             border-radius: 0;
             margin-bottom: 20px;
@@ -718,9 +758,9 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                SangresitaStore Admin
+                ReconStore Admin
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -744,7 +784,7 @@
     <div class="admin-header">
         <div class="container text-center">
             <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
-            <p class="lead">Gestiona videojuegos y coleccionables de SangresitaStore</p>
+            <p class="lead">Gestiona videojuegos y tarjetas de regalo de ReconStore</p>
         </div>
     </div>
 
@@ -775,8 +815,8 @@
                     <div class="stat-label">Videojuegos</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">{{ total_coleccionables }}</div>
-                    <div class="stat-label">Coleccionables</div>
+                    <div class="stat-number">{{ total_tarjetas_regalo }}</div>
+                    <div class="stat-label">Tarjetas de Regalo</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number text-danger">{{ total_sin_stock }}</div>
@@ -859,13 +899,13 @@
                                 Gestiona tu catálogo de videojuegos, agrega nuevos títulos y controla el stock
                             </div>
                         </div>
-                        <div class="admin-function-card" onclick="showTab('coleccionables')">
+                        <div class="admin-function-card" onclick="showTab('tarjetas_regalo')">
                             <div class="admin-function-icon">
-                                <i class="fas fa-gem"></i>
+                                <i class="fas fa-gift"></i>
                             </div>
-                            <div class="admin-function-title">Coleccionables</div>
+                            <div class="admin-function-title">Tarjetas de Regalo</div>
                             <div class="admin-function-description">
-                                Administra Funko Pops y otros coleccionables de tu tienda
+                                Administra tarjetas de regalo de Steam, PlayStation, Xbox y más
                             </div>
                         </div>
                         <div class="admin-function-card" onclick="window.location.href='{% url 'gestionar_recomendados' %}'">
@@ -1086,16 +1126,16 @@
                 </div>
             </div>
 
-            <!-- Tab Coleccionables -->
-            <div class="tab-pane fade" id="coleccionables" role="tabpanel">
+            <!-- Tab tarjetas_regalo -->
+            <div class="tab-pane fade" id="tarjetas_regalo" role="tabpanel">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card admin-card">
                             <div class="card-header">
-                                <h5><i class="fas fa-plus"></i> Agregar Coleccionable</h5>
+                                <h5><i class="fas fa-plus"></i> Agregar Tarjeta de Regalo</h5>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="gestionar-coleccionable">
+                                <form method="POST" action="gestionar-tarjetas-regalo">
                                     {% csrf_token %}
                                     <input type="hidden" name="accion" value="crear">
                                     <div class="mb-3">
@@ -1113,8 +1153,8 @@
                                             <input type="hidden" name="stock" value="0">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Tipo (ej: Funko Pop)</label>
-                                            <input type="text" class="form-control" name="tipo_coleccionable" required>
+                                            <label class="form-label">Tipo (ej: Steam, PlayStation, Xbox)</label>
+                                            <input type="text" class="form-control" name="tipo_tarjeta" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Categoría</label>
@@ -1122,7 +1162,7 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-success w-100">
-                                        <i class="fas fa-plus"></i> Agregar Coleccionable
+                                        <i class="fas fa-plus"></i> Agregar Tarjeta de Regalo
                                     </button>
                                 </form>
                                 <div class="alert alert-warning mt-3 mb-0" style="font-size: 0.85rem;">
@@ -1135,48 +1175,48 @@
                     <div class="col-md-8">
                         <div class="card admin-card">
                             <div class="card-header">
-                                <h5><i class="fas fa-list"></i> Lista de Coleccionables</h5>
+                                <h5><i class="fas fa-list"></i> Lista de Tarjetas de Regalo</h5>
                             </div>
                             <div class="card-body">
                                 <!-- Información de resultados -->
-                                {% if coleccionables %}
+                                {% if tarjetas_regalo %}
                                     <div class="results-info">
                                         <i class="fas fa-info-circle"></i>
-                                        Mostrando {{ coleccionables.start_index }}-{{ coleccionables.end_index }} de {{ coleccionables.paginator.count }} coleccionables
+                                        Mostrando {{ tarjetas_regalo.start_index }}-{{ tarjetas_regalo.end_index }} de {{ tarjetas_regalo.paginator.count }} Tarjetas de Regalo
                                         {% if busqueda %}
                                             para "{{ busqueda }}"
                                         {% endif %}
                                     </div>
                                 {% endif %}
                                 
-                                {% for coleccionable in coleccionables %}
+                                {% for tarjeta_regalo in tarjetas_regalo %}
                                 <div class="product-item">
                                     <div class="row align-items-center">
                                         <div class="col-md-6">
-                                            <h6>{{ coleccionable.nombre }}</h6>
-                                            <p class="text-muted mb-1">{{ coleccionable.descripcion|truncatewords:10 }}</p>
-                                            <span class="badge bg-success">{{ coleccionable.tipo_coleccionable }}</span>
+                                            <h6>{{ tarjeta_regalo.nombre }}</h6>
+                                            <p class="text-muted mb-1">{{ tarjeta_regalo.descripcion|truncatewords:10 }}</p>
+                                            <span class="badge bg-success">{{ tarjeta_regalo.tipo_tarjeta }}</span>
                                         </div>
                                         <div class="col-md-3 text-center">
-                                            <p class="mb-1"><strong>${{ coleccionable.precio }}</strong></p>
+                                            <p class="mb-1"><strong>${{ tarjeta_regalo.precio }}</strong></p>
                                             <button class="btn btn-sm btn-info stock-btn" 
-                                                    data-producto-id="{{ coleccionable.id }}" 
-                                                    data-producto-tipo="coleccionable"
-                                                    data-producto-nombre="{{ coleccionable.nombre }}"
-                                                    data-stock-actual="{{ coleccionable.stock }}">
-                                                <i class="fas fa-plus"></i> Stock: {{ coleccionable.stock }}
+                                                    data-producto-id="{{ tarjeta_regalo.id }}" 
+                                                    data-producto-tipo="tarjeta_regalo"
+                                                    data-producto-nombre="{{ tarjeta_regalo.nombre }}"
+                                                    data-stock-actual="{{ tarjeta_regalo.stock }}">
+                                                <i class="fas fa-plus"></i> Stock: {{ tarjeta_regalo.stock }}
                                             </button>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="btn-group-vertical w-100" role="group">
-                                                <a href="{% url 'editar_coleccionable' coleccionable.id %}" class="btn btn-sm btn-success mb-1">
+                                                <a href="{% url 'editar_tarjeta_regalo' tarjeta_regalo.id %}" class="btn btn-sm btn-success mb-1">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </a>
-                                                <form method="POST" action="gestionar-coleccionable" class="d-inline">
+                                                <form method="POST" action="gestionar-tarjetas-regalo" class="d-inline">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="accion" value="eliminar">
-                                                    <input type="hidden" name="coleccionable_id" value="{{ coleccionable.id }}">
-                                                    <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('¿Estás seguro de eliminar este coleccionable?')">
+                                                    <input type="hidden" name="tarjeta_regalo_id" value="{{ tarjeta_regalo.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('¿Estás seguro de eliminar esta tarjeta de regalo?')">
                                                         <i class="fas fa-trash"></i> Eliminar
                                                     </button>
                                                 </form>
@@ -1186,39 +1226,39 @@
                                 </div>
                                 {% empty %}
                                 <div class="no-results">
-                                    <i class="fas fa-leaf"></i>
-                                    <h5>No se encontraron coleccionables</h5>
-                                    <p>{% if busqueda %}No hay coleccionables que coincidan con "{{ busqueda }}"{% else %}No hay coleccionables registrados{% endif %}</p>
+                                    <i class="fas fa-gift"></i>
+                                    <h5>No se encontraron Tarjetas de Regalo</h5>
+                                    <p>{% if busqueda %}No hay tarjetas de regalo que coincidan con "{{ busqueda }}"{% else %}No hay tarjetas de regalo registradas{% endif %}</p>
                                 </div>
                                 {% endfor %}
                                 
                                 <!-- Paginación -->
-                                {% if coleccionables.has_other_pages %}
-                                    <nav aria-label="Paginación de coleccionables">
+                                {% if tarjetas_regalo.has_other_pages %}
+                                    <nav aria-label="Paginación de Tarjetas de Regalo">
                                         <ul class="pagination">
-                                            {% if coleccionables.has_previous %}
+                                            {% if tarjetas_regalo.has_previous %}
                                                 <li class="page-item">
-                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ coleccionables.previous_page_number }}">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ tarjetas_regalo.previous_page_number }}">
                                                         <i class="fas fa-chevron-left"></i> Anterior
                                                     </a>
                                                 </li>
                                             {% endif %}
                                             
-                                            {% for num in coleccionables.paginator.page_range %}
-                                                {% if coleccionables.number == num %}
+                                            {% for num in tarjetas_regalo.paginator.page_range %}
+                                                {% if tarjetas_regalo.number == num %}
                                                     <li class="page-item active">
                                                         <span class="page-link">{{ num }}</span>
                                                     </li>
-                                                {% elif num > coleccionables.number|add:'-3' and num < coleccionables.number|add:'3' %}
+                                                {% elif num > tarjetas_regalo.number|add:'-3' and num < tarjetas_regalo.number|add:'3' %}
                                                     <li class="page-item">
                                                         <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ num }}">{{ num }}</a>
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}
                                             
-                                            {% if coleccionables.has_next %}
+                                            {% if tarjetas_regalo.has_next %}
                                                 <li class="page-item">
-                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ coleccionables.next_page_number }}">
+                                                    <a class="page-link" href="?{% if busqueda %}busqueda={{ busqueda }}&{% endif %}{% if estado_filtro %}estado={{ estado_filtro }}&{% endif %}orden={{ orden }}&pagina={{ tarjetas_regalo.next_page_number }}">
                                                         Siguiente <i class="fas fa-chevron-right"></i>
                                                     </a>
                                                 </li>
@@ -1264,8 +1304,8 @@
                                                             <strong>{{ factura.nombre_producto }}</strong>
                                                             {% if factura.videojuego %}
                                                                 <br><small class="text-muted">Videojuego</small>
-                                                            {% elif factura.coleccionable %}
-                                                                <br><small class="text-muted">Coleccionable</small>
+                                                            {% elif factura.tarjeta_regalo %}
+                                                                <br><small class="text-muted">Tarjeta de Regalo</small>
                                                             {% endif %}
                                                         </div>
                                                     </td>

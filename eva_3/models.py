@@ -69,7 +69,7 @@ class Videojuego(models.Model):
     def __str__(self):
         return self.nombre
 
-class Coleccionable(models.Model):
+class TarjetaRegalo(models.Model):
     BADGE_CHOICES = [
         ('best-seller', 'Más Vendido'),
         ('new-release', 'Nuevo Lanzamiento'),
@@ -81,13 +81,13 @@ class Coleccionable(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
-    imagen = models.ImageField(upload_to='coleccionables/', blank=True, null=True)
-    tipo_coleccionable = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to='tarjetas_regalo/', blank=True, null=True)
+    tipo_tarjeta = models.CharField(max_length=100)
     categoria = models.CharField(max_length=100)
     stock = models.IntegerField(default=0)
     es_recomendado = models.BooleanField(default=False)
     badge = models.CharField(max_length=20, choices=BADGE_CHOICES, default='', blank=True)
-    imagen_recomendada = models.ImageField(upload_to='recomendados/coleccionables/', blank=True, null=True, help_text="Imagen específica para mostrar en recomendados")
+    imagen_recomendada = models.ImageField(upload_to='recomendados/tarjetas_regalo/', blank=True, null=True, help_text="Imagen específica para mostrar en recomendados")
     estado = models.CharField(max_length=20, choices=[('disponible', 'Disponible'), ('agotado', 'Agotado')], default='disponible')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
@@ -105,7 +105,7 @@ class Carrito(models.Model):
 class ItemCarrito(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     videojuego = models.ForeignKey(Videojuego, on_delete=models.CASCADE, null=True, blank=True)
-    coleccionable = models.ForeignKey(Coleccionable, on_delete=models.CASCADE, null=True, blank=True)
+    tarjeta_regalo = models.ForeignKey(TarjetaRegalo, on_delete=models.CASCADE, null=True, blank=True)
     cantidad = models.IntegerField(default=1)
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -115,14 +115,14 @@ class ItemCarrito(models.Model):
 
     @property
     def producto(self):
-        return self.videojuego if self.videojuego else self.coleccionable
+        return self.videojuego if self.videojuego else self.tarjeta_regalo
 
     @property
     def tipo(self):
-        return 'videojuego' if self.videojuego else 'coleccionable'
+        return 'videojuego' if self.videojuego else 'tarjeta_regalo'
 
     def __str__(self):
-        producto = self.videojuego if self.videojuego else self.coleccionable
+        producto = self.videojuego if self.videojuego else self.tarjeta_regalo
         return f"{producto} - {self.cantidad} unidades"
 
 class Pedido(models.Model):
@@ -179,13 +179,13 @@ class Pedido(models.Model):
                             item.videojuego.estado = 'disponible'
                         item.videojuego.save()
                         print(f"Devolviendo {item.cantidad} unidades de {item.videojuego.nombre} al stock (nuevo stock: {item.videojuego.stock})")
-                    elif item.coleccionable:
-                        item.coleccionable.stock += item.cantidad
+                    elif item.tarjeta_regalo:
+                        item.tarjeta_regalo.stock += item.cantidad
                         # Cambiar estado a disponible si estaba agotado
-                        if item.coleccionable.estado == 'agotado' and item.coleccionable.stock > 0:
-                            item.coleccionable.estado = 'disponible'
-                        item.coleccionable.save()
-                        print(f"Devolviendo {item.cantidad} unidades de {item.coleccionable.nombre} al stock (nuevo stock: {item.coleccionable.stock})")
+                        if item.tarjeta_regalo.estado == 'agotado' and item.tarjeta_regalo.stock > 0:
+                            item.tarjeta_regalo.estado = 'disponible'
+                        item.tarjeta_regalo.save()
+                        print(f"Devolviendo {item.cantidad} unidades de {item.tarjeta_regalo.nombre} al stock (nuevo stock: {item.tarjeta_regalo.stock})")
             else:
                 print(f"No se encontró carrito para el pedido {self.id}")
             
@@ -209,7 +209,7 @@ class FacturaCompra(models.Model):
     proveedor = models.CharField(max_length=200)
     precio_compra = models.DecimalField(max_digits=10, decimal_places=2)
     videojuego = models.ForeignKey(Videojuego, on_delete=models.SET_NULL, null=True, blank=True)
-    coleccionable = models.ForeignKey(Coleccionable, on_delete=models.SET_NULL, null=True, blank=True)
+    tarjeta_regalo = models.ForeignKey(TarjetaRegalo, on_delete=models.SET_NULL, null=True, blank=True)
     fecha_compra = models.DateTimeField(auto_now_add=True)
     total_factura = models.DecimalField(max_digits=10, decimal_places=2)
     codigo_paquete = models.CharField(max_length=100, blank=True, help_text="Código de identificación del paquete o lote")

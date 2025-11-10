@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+﻿from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import datetime
-from .models import Usuario, Videojuego, Coleccionable, Carrito, ItemCarrito, Pedido, FacturaCompra, FacturaVenta
+from .models import Usuario, Videojuego, TarjetaRegalo, Carrito, ItemCarrito, Pedido, FacturaCompra, FacturaVenta
 
 def mostrarLogin(request):
     return render(request,'login.html')
@@ -95,7 +95,7 @@ def mostrarInicioPublico(request):
     """Página inicial pública sin requerir login"""
     # Mostrar 4 productos recomendados para que se vean las 4 cards
     videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True, estado='disponible')[:4]
-    coleccionables_destacados = Coleccionable.objects.filter(estado='disponible')[:4]
+    tarjetas_regalo_destacados = TarjetaRegalo.objects.filter(estado='disponible')[:4]
     
     # Asegurar que la sesión esté activa
     if not request.session.session_key:
@@ -107,7 +107,7 @@ def mostrarInicioPublico(request):
     
     context = {
         'videojuegos_recomendados': videojuegos_recomendados,
-        'coleccionables_destacados': coleccionables_destacados,
+        'tarjetas_regalo_destacados': tarjetas_regalo_destacados,
         'usuario_nombre': usuario_nombre,
         'es_admin': es_admin
     }
@@ -120,11 +120,11 @@ def mostrarInicio(request):
     
     # Mostrar 4 productos recomendados para que se vean las 4 cards
     videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True, estado='disponible')[:4]
-    coleccionables_destacados = Coleccionable.objects.filter(estado='disponible')[:4]
+    tarjetas_regalo_destacados = TarjetaRegalo.objects.filter(estado='disponible')[:4]
     
     context = {
         'videojuegos_recomendados': videojuegos_recomendados,
-        'coleccionables_destacados': coleccionables_destacados
+        'tarjetas_regalo_destacados': tarjetas_regalo_destacados
     }
     return render(request, 'inicio.html', context)
 
@@ -146,23 +146,23 @@ def mostrarTienda(request):
     }
     return render(request, 'tienda.html', context)
 
-def mostrarColeccionables(request):
+def mostrarTarjetasRegalo(request):
     # Mostrar todos los productos (disponibles y agotados)
-    coleccionables = Coleccionable.objects.all()
+    tarjetas_regalo = TarjetaRegalo.objects.all()
     orden = request.GET.get('orden', 'nombre')
     
     if orden == 'precio_asc':
-        coleccionables = coleccionables.order_by('precio')
+        tarjetas_regalo = tarjetas_regalo.order_by('precio')
     elif orden == 'precio_desc':
-        coleccionables = coleccionables.order_by('-precio')
+        tarjetas_regalo = tarjetas_regalo.order_by('-precio')
     
     context = {
-        'coleccionables': coleccionables, 
+        'tarjetas_regalo': tarjetas_regalo, 
         'orden': orden,
         'usuario_nombre': request.session.get('usuario_nombre', None),
         'es_admin': request.session.get('es_admin', False)
     }
-    return render(request, 'coleccionables.html', context)
+    return render(request, 'tarjetas_regalo.html', context)
 
 def detalleVideojuego(request, videojuego_id):
     videojuego = get_object_or_404(Videojuego, id=videojuego_id)
@@ -173,14 +173,14 @@ def detalleVideojuego(request, videojuego_id):
     }
     return render(request, 'detalle_videojuego.html', context)
 
-def detalleColeccionable(request, coleccionable_id):
-    coleccionable = get_object_or_404(Coleccionable, id=coleccionable_id)
+def detalleTarjetaRegalo(request, tarjeta_regalo_id):
+    tarjeta_regalo = get_object_or_404(TarjetaRegalo, id=tarjeta_regalo_id)
     context = {
-        'coleccionable': coleccionable,
+        'tarjeta_regalo': tarjeta_regalo,
         'usuario_nombre': request.session.get('usuario_nombre', None),
         'es_admin': request.session.get('es_admin', False)
     }
-    return render(request, 'detalle_coleccionable.html', context)
+    return render(request, 'detalle_tarjeta_regalo.html', context)
 
 def agregarAlCarrito(request):
     if request.method == 'POST':
@@ -190,7 +190,7 @@ def agregarAlCarrito(request):
         
         usuario = get_object_or_404(Usuario, id=request.session['usuario_id'])
         producto_id = request.POST.get('producto_id')
-        producto_tipo = request.POST.get('tipo')  # 'videojuego' o 'coleccionable'
+        producto_tipo = request.POST.get('tipo')  # 'videojuego' o 'tarjeta_regalo'
         cantidad = int(request.POST.get('cantidad', 1))
         
         carrito, created = Carrito.objects.get_or_create(usuario=usuario, activo=True)
@@ -234,27 +234,27 @@ def agregarAlCarrito(request):
             messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
             return redirect('detalle_videojuego', videojuego_id=producto_id)
         
-        elif producto_tipo == 'coleccionable':
-            producto = get_object_or_404(Coleccionable, id=producto_id)
+        elif producto_tipo == 'tarjeta_regalo':
+            producto = get_object_or_404(TarjetaRegalo, id=producto_id)
             
             # Verificar stock disponible
             if producto.stock < cantidad:
                 messages.error(request, f'No hay suficiente stock. Disponible: {producto.stock}')
-                return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+                return redirect('detalle_tarjeta_regalo', tarjeta_regalo_id=producto_id)
             
             # Buscar si ya existe en el carrito
             try:
-                item = ItemCarrito.objects.get(carrito=carrito, coleccionable=producto)
+                item = ItemCarrito.objects.get(carrito=carrito, tarjeta_regalo=producto)
                 # Validar solo contra el stock restante, no sumar lo ya en el carrito
                 if cantidad > producto.stock:
                     messages.error(request, f'No puedes agregar más cantidad. Stock disponible: {producto.stock}')
-                    return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+                    return redirect('detalle_tarjeta_regalo', tarjeta_regalo_id=producto_id)
                 item.cantidad += cantidad
                 item.save()
             except ItemCarrito.DoesNotExist:
                 ItemCarrito.objects.create(
                     carrito=carrito,
-                    coleccionable=producto,
+                    tarjeta_regalo=producto,
                     cantidad=cantidad,
                     precio_unitario=producto.precio
                 )
@@ -269,8 +269,8 @@ def agregarAlCarrito(request):
             
             producto.save()
             
-            messages.success(request, f'{cantidad} unidad(es) de {producto.nombre} agregada(s) al carrito')
-            return redirect('detalle_coleccionable', coleccionable_id=producto_id)
+            messages.success(request, f'{cantidad} tarjeta(s) de regalo de {producto.nombre} agregada(s) al carrito')
+            return redirect('detalle_tarjeta_regalo', tarjeta_regalo_id=producto_id)
     
     return redirect('inicio')
 
@@ -284,7 +284,7 @@ def cambiarCantidadCarrito(request):
         
         try:
             item = ItemCarrito.objects.get(id=item_id)
-            producto = item.videojuego if item.videojuego else item.coleccionable
+            producto = item.videojuego if item.videojuego else item.tarjeta_regalo
             
             if nueva_cantidad <= 0:
                 # Eliminar item del carrito y devolver stock
@@ -341,7 +341,7 @@ def eliminarDelCarrito(request):
         
         try:
             item = ItemCarrito.objects.get(id=item_id)
-            producto = item.videojuego if item.videojuego else item.coleccionable
+            producto = item.videojuego if item.videojuego else item.tarjeta_regalo
             
             # Devolver stock
             producto.stock += item.cantidad
@@ -406,9 +406,9 @@ def procesarCompra(request):
         request.session['carrito_compra'] = {
             'items': [
                 {
-                    'producto_id': item.videojuego.id if item.videojuego else item.coleccionable.id,
-                    'producto_tipo': 'videojuego' if item.videojuego else 'coleccionable',
-                    'producto_nombre': item.videojuego.nombre if item.videojuego else item.coleccionable.nombre,
+                    'producto_id': item.videojuego.id if item.videojuego else item.tarjeta_regalo.id,
+                    'producto_tipo': 'videojuego' if item.videojuego else 'tarjeta_regalo',
+                    'producto_nombre': item.videojuego.nombre if item.videojuego else item.tarjeta_regalo.nombre,
                     'cantidad': item.cantidad,
                     'precio_unitario': float(item.precio_unitario),
                     'subtotal': float(item.cantidad * item.precio_unitario)
@@ -593,49 +593,49 @@ def mostrarAdminPanel(request):
     paginator_videojuegos = Paginator(videojuegos, PRODUCTOS_POR_PAGINA)
     videojuegos_paginados = paginator_videojuegos.get_page(pagina)
     
-    # Filtrar coleccionables
-    coleccionables = Coleccionable.objects.all()
+    # Filtrar tarjetas_regalo
+    tarjetas_regalo = TarjetaRegalo.objects.all()
     if busqueda:
-        coleccionables = coleccionables.filter(
+        tarjetas_regalo = tarjetas_regalo.filter(
             Q(nombre__icontains=busqueda) | 
             Q(descripcion__icontains=busqueda) |
-            Q(tipo_coleccionable__icontains=busqueda) |
+            Q(tipo_tarjeta__icontains=busqueda) |
             Q(categoria__icontains=busqueda)
         )
     if estado_filtro:
-        coleccionables = coleccionables.filter(estado=estado_filtro)
+        tarjetas_regalo = tarjetas_regalo.filter(estado=estado_filtro)
     
     # Aplicar ordenamiento
     if orden == 'nombre':
-        coleccionables = coleccionables.order_by('nombre')
+        tarjetas_regalo = tarjetas_regalo.order_by('nombre')
     elif orden == 'precio_asc':
-        coleccionables = coleccionables.order_by('precio')
+        tarjetas_regalo = tarjetas_regalo.order_by('precio')
     elif orden == 'precio_desc':
-        coleccionables = coleccionables.order_by('-precio')
+        tarjetas_regalo = tarjetas_regalo.order_by('-precio')
     elif orden == 'stock_asc':
-        coleccionables = coleccionables.order_by('stock')
+        tarjetas_regalo = tarjetas_regalo.order_by('stock')
     elif orden == 'stock_desc':
-        coleccionables = coleccionables.order_by('-stock')
+        tarjetas_regalo = tarjetas_regalo.order_by('-stock')
     elif orden == 'fecha_desc':
-        coleccionables = coleccionables.order_by('-id')
+        tarjetas_regalo = tarjetas_regalo.order_by('-id')
     
-    # Paginar coleccionables
-    paginator_coleccionables = Paginator(coleccionables, PRODUCTOS_POR_PAGINA)
-    coleccionables_paginados = paginator_coleccionables.get_page(pagina)
+    # Paginar tarjetas_regalo
+    paginator_tarjetas_regalo = Paginator(tarjetas_regalo, PRODUCTOS_POR_PAGINA)
+    tarjetas_regalo_paginados = paginator_tarjetas_regalo.get_page(pagina)
     
     # Obtener todos los productos para estadísticas (sin filtros)
     videojuegos_todos = Videojuego.objects.all()
-    coleccionables_todos = Coleccionable.objects.all()
+    tarjetas_regalo_todos = TarjetaRegalo.objects.all()
     
     # Estadísticas generales
     total_videojuegos = videojuegos_todos.count()
-    total_coleccionables = coleccionables_todos.count()
-    total_productos = total_videojuegos + total_coleccionables
+    total_tarjetas_regalo = tarjetas_regalo_todos.count()
+    total_productos = total_videojuegos + total_tarjetas_regalo
     
     # Estadísticas de stock
     videojuegos_sin_stock = videojuegos_todos.filter(stock=0).count()
-    coleccionables_sin_stock = coleccionables_todos.filter(stock=0).count()
-    total_sin_stock = videojuegos_sin_stock + coleccionables_sin_stock
+    tarjetas_regalo_sin_stock = tarjetas_regalo_todos.filter(stock=0).count()
+    total_sin_stock = videojuegos_sin_stock + tarjetas_regalo_sin_stock
     
     # Obtener facturas (sin paginación para el resumen)
     facturas_compras = FacturaCompra.objects.all().order_by('-fecha_compra')[:5]  # Solo las últimas 5
@@ -651,12 +651,12 @@ def mostrarAdminPanel(request):
     
     # Obtener categorías únicas para filtros
     categorias_videojuegos = Videojuego.objects.values_list('categoria', flat=True).distinct().exclude(categoria__isnull=True).exclude(categoria='')
-    categorias_coleccionables = Coleccionable.objects.values_list('categoria', flat=True).distinct().exclude(categoria__isnull=True).exclude(categoria='')
-    categorias_unicas = sorted(set(list(categorias_videojuegos) + list(categorias_coleccionables)))
+    categorias_tarjetas_regalo = TarjetaRegalo.objects.values_list('categoria', flat=True).distinct().exclude(categoria__isnull=True).exclude(categoria='')
+    categorias_unicas = sorted(set(list(categorias_videojuegos) + list(categorias_tarjetas_regalo)))
     
     context = {
         'videojuegos': videojuegos_paginados,
-        'coleccionables': coleccionables_paginados,
+        'tarjetas_regalo': tarjetas_regalo_paginados,
         'facturas': facturas_compras,
         'facturas_compras_count': facturas_compras_count,
         'facturas_ventas_count': facturas_ventas_count,
@@ -672,11 +672,11 @@ def mostrarAdminPanel(request):
         'orden': orden,
         'categorias': categorias_unicas,
         'total_videojuegos': total_videojuegos,
-        'total_coleccionables': total_coleccionables,
+        'total_tarjetas_regalo': total_tarjetas_regalo,
         'total_productos': total_productos,
         'total_sin_stock': total_sin_stock,
         'videojuegos_sin_stock': videojuegos_sin_stock,
-        'coleccionables_sin_stock': coleccionables_sin_stock,
+        'tarjetas_regalo_sin_stock': tarjetas_regalo_sin_stock,
     }
     return render(request, 'admin_panel.html', context)
 
@@ -728,14 +728,14 @@ def mostrarEditarVideojuego(request, videojuego_id):
     videojuego = get_object_or_404(Videojuego, id=videojuego_id)
     return render(request, 'editar_videojuego.html', {'videojuego': videojuego})
 
-def mostrarEditarColeccionable(request, coleccionable_id):
+def mostrarEditarTarjetaRegalo(request, tarjeta_regalo_id):
     if 'usuario_id' not in request.session or not request.session.get('es_admin'):
         return redirect('login')
     
-    coleccionable = get_object_or_404(Coleccionable, id=coleccionable_id)
-    return render(request, 'editar_coleccionable.html', {'coleccionable': coleccionable})
+    tarjeta_regalo = get_object_or_404(TarjetaRegalo, id=tarjeta_regalo_id)
+    return render(request, 'editar_tarjeta_regalo.html', {'tarjeta_regalo': tarjeta_regalo})
 
-def gestionarColeccionable(request):
+def gestionarTarjetasRegalo(request):
     if 'usuario_id' not in request.session or not request.session.get('es_admin'):
         return redirect('login')
     
@@ -743,34 +743,34 @@ def gestionarColeccionable(request):
         accion = request.POST.get('accion')
         
         if accion == 'crear':
-            Coleccionable.objects.create(
+            TarjetaRegalo.objects.create(
                 nombre=request.POST.get('nombre'),
                 descripcion=request.POST.get('descripcion'),
                 precio=request.POST.get('precio'),
-                tipo_coleccionable=request.POST.get('tipo_coleccionable'),
+                tipo_tarjeta=request.POST.get('tipo_tarjeta'),
                 categoria=request.POST.get('categoria'),
                 stock=int(request.POST.get('stock', 0)),
                 estado=request.POST.get('estado', 'disponible')
             )
         elif accion == 'eliminar':
-            coleccionable_id = request.POST.get('coleccionable_id')
-            Coleccionable.objects.filter(id=coleccionable_id).delete()
+            tarjeta_regalo_id = request.POST.get('tarjeta_regalo_id')
+            TarjetaRegalo.objects.filter(id=tarjeta_regalo_id).delete()
         elif accion == 'editar':
-            coleccionable_id = request.POST.get('coleccionable_id')
-            coleccionable = Coleccionable.objects.get(id=coleccionable_id)
-            coleccionable.nombre = request.POST.get('nombre')
-            coleccionable.descripcion = request.POST.get('descripcion')
-            coleccionable.precio = request.POST.get('precio')
-            coleccionable.tipo_coleccionable = request.POST.get('tipo_coleccionable')
-            coleccionable.categoria = request.POST.get('categoria')
-            coleccionable.stock = int(request.POST.get('stock', 0))
-            coleccionable.estado = request.POST.get('estado', 'disponible')
+            tarjeta_regalo_id = request.POST.get('tarjeta_regalo_id')
+            tarjeta_regalo = TarjetaRegalo.objects.get(id=tarjeta_regalo_id)
+            tarjeta_regalo.nombre = request.POST.get('nombre')
+            tarjeta_regalo.descripcion = request.POST.get('descripcion')
+            tarjeta_regalo.precio = request.POST.get('precio')
+            tarjeta_regalo.tipo_tarjeta = request.POST.get('tipo_tarjeta')
+            tarjeta_regalo.categoria = request.POST.get('categoria')
+            tarjeta_regalo.stock = int(request.POST.get('stock', 0))
+            tarjeta_regalo.estado = request.POST.get('estado', 'disponible')
             
             # Manejar imagen si se proporciona una nueva
             if 'imagen' in request.FILES and request.FILES['imagen']:
-                coleccionable.imagen = request.FILES['imagen']
+                tarjeta_regalo.imagen = request.FILES['imagen']
             
-            coleccionable.save()
+            tarjeta_regalo.save()
     
     return redirect('admin_panel')
 
@@ -808,7 +808,7 @@ def procesarFactura(request):
                 if producto_tipo == 'videojuego':
                     producto = get_object_or_404(Videojuego, id=producto_id)
                 else:
-                    producto = get_object_or_404(Coleccionable, id=producto_id)
+                    producto = get_object_or_404(TarjetaRegalo, id=producto_id)
                 
                 # Crear la factura de compra
                 factura = FacturaCompra.objects.create(
@@ -823,7 +823,7 @@ def procesarFactura(request):
                 if producto_tipo == 'videojuego':
                     factura.videojuego = producto
                 else:
-                    factura.coleccionable = producto
+                    factura.tarjeta_regalo = producto
                 
                 # Obtener código de paquete si existe
                 codigo_paquete = request.POST.get('codigo_paquete', '')
@@ -1053,11 +1053,11 @@ def gestionarRecomendados(request):
     
     # Obtener todos los productos disponibles
     videojuegos = Videojuego.objects.filter(estado='disponible').order_by('nombre')
-    coleccionables = Coleccionable.objects.filter(estado='disponible').order_by('nombre')
+    tarjetas_regalo = TarjetaRegalo.objects.filter(estado='disponible').order_by('nombre')
     
     # Obtener productos recomendados actuales
     videojuegos_recomendados = Videojuego.objects.filter(es_recomendado=True).order_by('id')
-    coleccionables_recomendados = Coleccionable.objects.filter(es_recomendado=True).order_by('id')
+    tarjetas_regalo_recomendados = TarjetaRegalo.objects.filter(es_recomendado=True).order_by('id')
     
     if request.method == 'POST':
         # Procesar cambios en videojuegos recomendados
@@ -1089,33 +1089,33 @@ def gestionarRecomendados(request):
             except Videojuego.DoesNotExist:
                 pass
         
-        # Procesar cambios en coleccionables recomendados
-        coleccionables_ids = request.POST.getlist('coleccionables_recomendados')
-        badges_coleccionables = {}
+        # Procesar cambios en tarjetas_regalo recomendados
+        tarjetas_regalo_ids = request.POST.getlist('tarjetas_regalo_recomendados')
+        badges_tarjetas_regalo = {}
         
-        for coleccionable_id in coleccionables_ids:
-            badge_key = f'badge_coleccionable_{coleccionable_id}'
+        for tarjeta_regalo_id in tarjetas_regalo_ids:
+            badge_key = f'badge_tarjeta_regalo_{tarjeta_regalo_id}'
             if badge_key in request.POST:
-                badges_coleccionables[coleccionable_id] = request.POST[badge_key]
+                badges_tarjetas_regalo[tarjeta_regalo_id] = request.POST[badge_key]
         
-        # Limpiar recomendados anteriores de coleccionables
-        Coleccionable.objects.update(es_recomendado=False)
+        # Limpiar recomendados anteriores de tarjetas_regalo
+        TarjetaRegalo.objects.update(es_recomendado=False)
         
-        # Marcar nuevos coleccionables recomendados
-        for coleccionable_id in coleccionables_ids:
+        # Marcar nuevos tarjetas_regalo recomendados
+        for tarjeta_regalo_id in tarjetas_regalo_ids:
             try:
-                coleccionable = Coleccionable.objects.get(id=coleccionable_id)
-                coleccionable.es_recomendado = True
-                if coleccionable_id in badges_coleccionables:
-                    coleccionable.badge = badges_coleccionables[coleccionable_id]
+                tarjeta_regalo = TarjetaRegalo.objects.get(id=tarjeta_regalo_id)
+                tarjeta_regalo.es_recomendado = True
+                if tarjeta_regalo_id in badges_tarjetas_regalo:
+                    tarjeta_regalo.badge = badges_tarjetas_regalo[tarjeta_regalo_id]
                 
                 # Procesar imagen recomendada
-                imagen_key = f'imagen_coleccionable_{coleccionable_id}'
+                imagen_key = f'imagen_tarjeta_regalo_{tarjeta_regalo_id}'
                 if imagen_key in request.FILES:
-                    coleccionable.imagen_recomendada = request.FILES[imagen_key]
+                    tarjeta_regalo.imagen_recomendada = request.FILES[imagen_key]
                 
-                coleccionable.save()
-            except Coleccionable.DoesNotExist:
+                tarjeta_regalo.save()
+            except TarjetaRegalo.DoesNotExist:
                 pass
         
         messages.add_message(request, constants.SUCCESS, 'Productos recomendados actualizados correctamente.', extra_tags='admin')
@@ -1123,9 +1123,9 @@ def gestionarRecomendados(request):
     
     context = {
         'videojuegos': videojuegos,
-        'coleccionables': coleccionables,
+        'tarjetas_regalo': tarjetas_regalo,
         'videojuegos_recomendados': videojuegos_recomendados,
-        'coleccionables_recomendados': coleccionables_recomendados,
+        'tarjetas_regalo_recomendados': tarjetas_regalo_recomendados,
         'usuario_nombre': request.session.get('usuario_nombre', None),
         'es_admin': request.session.get('es_admin', False)
     }
