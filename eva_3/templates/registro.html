@@ -4,18 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <title>Registro - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #1a1a1a;
-            --light-charcoal: #2c2c2c;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --bg-cream: #F5F1EB;
+            --bg-beige: #F0E6D6;
+            --cappuccino-light: #E8D5C4;
             --pure-white: #ffffff;
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --border-light: #D4B5A0;
         }
 
         * {
@@ -27,7 +34,7 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 50%, #1a1a1a 100%);
+            background: var(--bg-cream);
             background-attachment: fixed;
             display: flex;
             align-items: center;
@@ -46,10 +53,10 @@
             top: 0;
             left: 0;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(168, 230, 207, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(127, 211, 176, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 60% 60%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+                radial-gradient(circle at 60% 60%, rgba(168, 230, 207, 0.08) 0%, transparent 60%);
             animation: backgroundMove 20s ease-in-out infinite;
             pointer-events: none;
         }
@@ -68,7 +75,7 @@
 
         .particle:nth-child(1) { 
             width: 80px; height: 80px; left: 10%; top: 20%; 
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.2), transparent);
+            background: radial-gradient(circle, rgba(168, 230, 207, 0.2), transparent);
             animation-delay: 0s; 
         }
         .particle:nth-child(2) { 
@@ -78,12 +85,12 @@
         }
         .particle:nth-child(3) { 
             width: 100px; height: 100px; left: 60%; bottom: 20%; 
-            background: radial-gradient(circle, rgba(184, 134, 11, 0.15), transparent);
+            background: radial-gradient(circle, rgba(127, 211, 176, 0.15), transparent);
             animation-delay: 4s; 
         }
         .particle:nth-child(4) { 
             width: 40px; height: 40px; right: 30%; top: 15%; 
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.25), transparent);
+            background: radial-gradient(circle, rgba(168, 230, 207, 0.25), transparent);
             animation-delay: 6s; 
         }
 
@@ -111,10 +118,10 @@
         }
 
         .register-header {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
             padding: 50px;
             text-align: center;
-            color: white;
+            color: var(--text-dark);
             position: relative;
             overflow: hidden;
         }
@@ -126,7 +133,7 @@
             height: 100%;
             top: 0;
             left: -100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(168, 230, 207, 0.2), transparent);
             animation: shimmer 3s ease-in-out infinite;
         }
 
@@ -140,10 +147,10 @@
             font-weight: 300;
             letter-spacing: 3px;
             margin-bottom: 15px;
-            color: var(--primary-gold);
+            color: var(--text-dark);
             position: relative;
             z-index: 2;
-            text-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 5px 20px rgba(168, 230, 207, 0.3);
         }
 
         .register-header p {
@@ -215,13 +222,13 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--primary-gold);
+            border-color: var(--cappuccino-dark);
             background: white;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 5px 20px rgba(168, 230, 207, 0.2);
         }
 
         .form-control:focus + i {
-            color: var(--primary-gold);
+            color: var(--cappuccino-dark);
         }
 
         .password-strength {
@@ -250,10 +257,10 @@
         .btn-register {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            background: linear-gradient(135deg, var(--cappuccino), var(--cappuccino-dark));
             border: none;
             border-radius: 12px;
-            color: white;
+            color: var(--text-dark);
             font-size: 1.1rem;
             font-weight: 600;
             letter-spacing: 1px;
@@ -282,7 +289,7 @@
 
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 30px rgba(168, 230, 207, 0.4);
         }
 
         .btn-register:active {
@@ -316,14 +323,14 @@
         }
 
         .login-link a {
-            color: var(--primary-gold);
+            color: var(--cappuccino-dark);
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .login-link a:hover {
-            color: var(--secondary-gold);
+            color: var(--cappuccino);
             text-decoration: underline;
         }
 
@@ -365,7 +372,7 @@
         }
 
         .back-home a:hover {
-            color: var(--primary-gold);
+            color: var(--cappuccino-dark);
         }
 
         .back-home i {
@@ -599,7 +606,7 @@
             input.addEventListener('focus', function() {
                 const icon = this.parentElement.querySelector('i');
                 if (icon) {
-                    icon.style.color = 'var(--primary-gold)';
+                    icon.style.color = 'var(--cappuccino-dark)';
                 }
             });
             

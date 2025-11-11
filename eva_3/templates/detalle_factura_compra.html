@@ -4,38 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Factura de Compra #{{ factura.id }} - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <title>Detalle Factura de Compra #{{ factura.id }} - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #2C2C2C;
-            --light-gray: #F5F5F5;
-            --pure-white: #FFFFFF;
-            --border-light: #E0E0E0;
-            --text-muted: #6C757D;
-            --success-green: #28A745;
-            --warning-orange: #FFC107;
-            --danger-red: #DC3545;
+            --anthracite: #37474F;
+            --anthracite-dark: #263238;
+            --anthracite-light: #455A64;
+            --admin-bg: #263238;
+            --admin-bg-card: #37474F;
+            --admin-bg-hover: #455A64;
+            --admin-text-light: #ECEFF1;
+            --admin-text-gray: #B0BEC5;
+            --admin-text-white: #FFFFFF;
+            --admin-border: #455A64;
+            --admin-accent-rose: #E91E63;
+            --admin-accent-pink: #F06292;
+            --admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --admin-shadow-strong: 0 8px 40px rgba(0, 0, 0, 0.7);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--admin-bg);
             min-height: 100vh;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
-        /* Navbar */
+        /* Navbar Gris Antracita */
         .navbar {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%) !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: var(--anthracite) !important;
+            border-bottom: 2px solid var(--admin-accent-rose);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 1rem 0;
             min-height: 70px;
         }
@@ -49,15 +57,15 @@
         }
 
         .navbar-brand {
-            font-weight: 300;
+            font-weight: 600;
             font-size: 1.8rem;
             letter-spacing: 2px;
-            color: var(--primary-gold) !important;
+            color: var(--admin-text-light) !important;
         }
 
         .navbar-nav .nav-link {
-            color: var(--pure-white) !important;
-            font-weight: 300;
+            color: var(--admin-text-light) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 0.5rem;
             transition: all 0.3s ease;
@@ -65,7 +73,7 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--primary-gold) !important;
+            color: var(--admin-accent-rose) !important;
             transform: translateY(-2px);
         }
 
@@ -76,7 +84,7 @@
             height: 2px;
             bottom: -5px;
             left: 50%;
-            background: var(--primary-gold);
+            background: var(--admin-accent-rose);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -86,8 +94,8 @@
         }
 
         .navbar-text {
-            color: var(--primary-gold) !important;
-            font-weight: 300;
+            color: var(--admin-text-light) !important;
+            font-weight: 500;
             display: flex;
             align-items: center;
             padding: 0.75rem 0;
@@ -102,16 +110,16 @@
 
         /* Factura Detail Card */
         .factura-detail-card {
-            background: var(--pure-white);
+            background: var(--admin-bg-card);
             border-radius: 20px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.1);
             overflow: hidden;
-            border: 1px solid var(--border-light);
+            border: 1px solid var(--admin-border);
         }
 
         .factura-detail-header {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--anthracite) 0%, var(--admin-accent-rose) 100%);
+            color: var(--admin-text-light);
             padding: 40px;
             text-align: center;
             position: relative;
@@ -154,6 +162,8 @@
 
         .factura-detail-body {
             padding: 40px;
+            background: var(--admin-bg-card);
+            color: var(--admin-text-light);
         }
 
         .info-section {
@@ -161,7 +171,7 @@
         }
 
         .info-section h5 {
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
             font-weight: 500;
             margin-bottom: 20px;
             font-size: 1.2rem;
@@ -180,15 +190,15 @@
         }
 
         .info-item {
-            background: var(--light-gray);
+            background: var(--admin-bg-card);
             padding: 20px;
             border-radius: 10px;
-            border-left: 4px solid var(--primary-gold);
+            border-left: 4px solid var(--admin-accent-rose);
         }
 
         .info-label {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: var(--admin-text-gray);
             font-weight: 500;
             margin-bottom: 5px;
             text-transform: uppercase;
@@ -198,11 +208,11 @@
         .info-value {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
         .product-details {
-            background: var(--light-gray);
+            background: var(--admin-bg-card);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
@@ -225,7 +235,7 @@
         }
 
         .product-details h5 {
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
             font-weight: 500;
             margin-bottom: 20px;
             font-size: 1.3rem;
@@ -237,10 +247,12 @@
         }
 
         .calculation-section {
-            background: linear-gradient(135deg, var(--light-gray) 0%, #e8e8e8 100%);
+            background: var(--admin-bg-card);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
+            border: 1px solid var(--admin-border);
+            color: var(--admin-text-light);
         }
 
         .calculation-item {
@@ -248,33 +260,42 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--admin-border);
         }
 
         .calculation-item:last-child {
             border-bottom: none;
             font-size: 1.3rem;
             font-weight: 600;
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
             margin-top: 10px;
             padding-top: 20px;
-            border-top: 2px solid var(--primary-gold);
+            border-top: 2px solid var(--admin-accent-rose);
         }
 
         .calculation-label {
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
         .calculation-value {
             font-weight: 600;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-white);
+        }
+        
+        .calculation-item:last-child .calculation-label {
+            color: var(--admin-text-white);
+        }
+        
+        .calculation-item:last-child .calculation-value {
+            color: var(--admin-accent-rose);
+            font-size: 1.5rem;
         }
 
         .btn-premium {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+            background: linear-gradient(135deg, var(--admin-accent-rose) 0%, var(--anthracite) 100%);
             border: none;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
             padding: 15px 40px;
             border-radius: 25px;
             font-weight: 500;
@@ -282,14 +303,14 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 15px rgba(240, 98, 146, 0.3);
             font-size: 1.1rem;
         }
 
         .btn-premium:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-            color: var(--dark-charcoal);
+            box-shadow: 0 8px 25px rgba(240, 98, 146, 0.4);
+            color: var(--admin-text-light);
         }
 
         .btn-premium i {
@@ -297,9 +318,9 @@
         }
 
         .btn-back {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%);
-            border: none;
-            color: var(--pure-white);
+            background: var(--admin-bg-card);
+            border: 2px solid var(--admin-border);
+            color: var(--admin-text-light);
             padding: 12px 30px;
             border-radius: 25px;
             font-weight: 500;
@@ -312,8 +333,10 @@
 
         .btn-back:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(44, 44, 44, 0.3);
-            color: var(--pure-white);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.3);
+            background: var(--admin-bg-hover);
+            border-color: var(--admin-accent-rose);
+            color: var(--admin-text-white);
         }
 
         .btn-back i {
@@ -331,22 +354,22 @@
 
         .status-pendiente {
             background: var(--warning-orange);
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
         .status-confirmado {
             background: var(--success-green);
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .status-entregado {
             background: var(--success-green);
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .status-cancelado {
             background: var(--danger-red);
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         /* Responsive */
@@ -381,7 +404,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -402,7 +425,7 @@
                 <ul class="navbar-nav">
                     {% if usuario_nombre %}
                         <li class="nav-item">
-                            <span class="nav-link" style="color: var(--primary-gold);">
+                            <span class="nav-link" style="color: var(--admin-accent-rose);">
                                 <i class="fas fa-user"></i> {{ usuario_nombre }}
                             </span>
                         </li>
@@ -467,44 +490,48 @@
                                         {% if factura.videojuego.imagen %}
                                             <img src="{{ factura.videojuego.imagen.url }}" alt="{{ factura.nombre_producto }}" class="product-image">
                                         {% else %}
-                                            <div class="product-image d-flex align-items-center justify-content-center bg-light">
-                                                <i class="fas fa-gamepad fa-3x text-muted"></i>
+                                            <div class="product-image d-flex align-items-center justify-content-center" style="background: var(--admin-bg-hover);">
+                                                <i class="fas fa-gamepad fa-3x" style="color: var(--admin-text-gray);"></i>
                                             </div>
                                         {% endif %}
                                     {% elif factura.tarjeta_regalo %}
                                         {% if factura.tarjeta_regalo.imagen %}
                                             <img src="{{ factura.tarjeta_regalo.imagen.url }}" alt="{{ factura.nombre_producto }}" class="product-image">
                                         {% else %}
-                                            <div class="product-image d-flex align-items-center justify-content-center bg-light">
-                                                <i class="fas fa-star fa-3x text-muted"></i>
+                                            <div class="product-image d-flex align-items-center justify-content-center" style="background: var(--admin-bg-hover);">
+                                                <i class="fas fa-gift fa-3x" style="color: var(--admin-text-gray);"></i>
                                             </div>
                                         {% endif %}
                                     {% else %}
-                                        <div class="product-image d-flex align-items-center justify-content-center bg-light">
-                                            <i class="fas fa-box fa-3x text-muted"></i>
+                                        <div class="product-image d-flex align-items-center justify-content-center" style="background: var(--admin-bg-hover);">
+                                            <i class="fas fa-box fa-3x" style="color: var(--admin-text-gray);"></i>
                                         </div>
                                     {% endif %}
                                 </div>
-                                <div>
-                                    <h6><strong>Nombre del Producto:</strong></h6>
-                                    <p class="mb-3">{{ factura.nombre_producto }}</p>
+                                <div style="color: var(--admin-text-light);">
+                                    <h6 style="color: var(--admin-text-white);"><strong>Nombre del Producto:</strong></h6>
+                                    <p class="mb-3" style="color: var(--admin-text-light);">{{ factura.nombre_producto }}</p>
                                     
-                                    <h6><strong>Tipo de Producto:</strong></h6>
+                                    <h6 style="color: var(--admin-text-white);"><strong>Tipo de Producto:</strong></h6>
                                     <p class="mb-3">
                                         {% if factura.videojuego %}
-                                            <span class="badge bg-primary">Videojuego</span>
+                                            <span class="badge" style="background-color: var(--admin-accent-rose); color: var(--admin-text-white);">Videojuego</span>
                                         {% elif factura.tarjeta_regalo %}
-                                            <span class="badge bg-success">Tarjeta de Regalo</span>
+                                            {% if factura.tarjeta_regalo.tipo_tarjeta %}
+                                                <span class="badge" style="background-color: var(--admin-accent-pink); color: var(--admin-text-white);">Tarjeta {{ factura.tarjeta_regalo.tipo_tarjeta }}</span>
+                                            {% else %}
+                                                <span class="badge" style="background-color: var(--admin-accent-pink); color: var(--admin-text-white);">Tarjeta de Regalo</span>
+                                            {% endif %}
                                         {% else %}
-                                            <span class="badge bg-secondary">Producto General</span>
+                                            <span class="badge" style="background-color: var(--admin-bg-hover); color: var(--admin-text-light);">Producto General</span>
                                         {% endif %}
                                     </p>
                                     
-                                    <h6><strong>Cantidad Comprada:</strong></h6>
-                                    <p class="mb-3">{{ factura.cantidad_comprada }} unidades</p>
+                                    <h6 style="color: var(--admin-text-white);"><strong>Cantidad Comprada:</strong></h6>
+                                    <p class="mb-3" style="color: var(--admin-text-light);">{{ factura.cantidad_comprada }} unidades</p>
                                     
-                                    <h6><strong>Precio Unitario:</strong></h6>
-                                    <p class="mb-3">${{ factura.precio_compra|floatformat:0 }}</p>
+                                    <h6 style="color: var(--admin-text-white);"><strong>Precio Unitario:</strong></h6>
+                                    <p class="mb-3" style="color: var(--admin-text-light);">${{ factura.precio_compra|floatformat:0 }}</p>
                                 </div>
                             </div>
                         </div>

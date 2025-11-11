@@ -4,41 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ tarjeta_regalo.nombre }} - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <title>{{ tarjeta_regalo.nombre }} - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para ReconStore - Tema Beige y Verde Menta */
+        /* Variables CSS para Re:Connect - Tema Capuchino (Frontend) */
         :root {
-            --mint-green: #A8E6CF;
-            --mint-green-dark: #7FD3B0;
-            --beige-bg: #F5F5DC;
-            --beige-light: #FAFAF0;
-            --beige-dark: #E8E8D3;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --bg-cream: #F5F1EB;
+            --bg-beige: #F0E6D6;
+            --cappuccino-light: #E8D5C4;
             --pure-white: #ffffff;
-            --text-dark: #2c3e50;
-            --text-gray: #5a6c7d;
-            --border-light: #d4e6d9;
-            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
-            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
-            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --border-light: #D4B5A0;
+            --shadow-soft: 0 2px 20px rgba(212, 181, 160, 0.15);
+            --shadow-medium: 0 8px 40px rgba(212, 181, 160, 0.2);
+            --shadow-strong: 0 15px 60px rgba(212, 181, 160, 0.25);
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background-color: var(--beige-bg);
+            background-color: var(--bg-cream);
         }
 
-        /* Navbar verde menta */
+        /* Navbar Capuchino */
         .navbar {
-            background: var(--mint-green);
+            background: var(--cappuccino);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--mint-green-dark);
+            border-bottom: 2px solid var(--cappuccino-dark);
             padding: 1rem 0;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -78,7 +80,7 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--mint-green-dark) !important;
+            color: var(--cappuccino-dark) !important;
         }
 
         .navbar-nav .nav-link::after {
@@ -100,7 +102,7 @@
         /* Product Detail Section */
         .product-detail {
             padding: 80px 0 60px;
-            background: var(--beige-bg);
+            background: var(--bg-cream);
             min-height: 100vh;
         }
 
@@ -145,13 +147,13 @@
         .price-tag {
             font-size: 2.5rem;
             font-weight: 600;
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
             letter-spacing: 2px;
             margin-bottom: 1.5rem;
         }
 
         .badge-custom {
-            background: var(--mint-green);
+            background: var(--cappuccino);
             color: var(--text-dark);
             font-size: 0.9rem;
             padding: 8px 16px;
@@ -162,7 +164,7 @@
         }
 
         .badge-secondary {
-            background: var(--beige-light);
+            background: var(--bg-beige);
             color: var(--text-dark);
             border: 1px solid var(--border-light);
         }
@@ -191,9 +193,9 @@
 
         /* Buttons */
         .btn-premium {
-            background: transparent;
-            border: 2px solid var(--mint-green-dark);
-            color: var(--mint-green-dark);
+            background: var(--pure-white);
+            border: 2px solid var(--cappuccino-dark);
+            color: var(--cappuccino-dark);
             padding: 15px 30px;
             font-size: 1.1rem;
             font-weight: 500;
@@ -204,6 +206,7 @@
             overflow: hidden;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn-premium::before {
@@ -213,14 +216,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--mint-green-dark);
+            background: var(--cappuccino-dark);
             transition: left 0.3s ease;
             z-index: -1;
         }
 
         .btn-premium:hover {
             color: var(--pure-white);
-            border-color: var(--mint-green-dark);
+            border-color: var(--cappuccino-dark);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
             text-decoration: none;
@@ -231,10 +234,11 @@
         }
 
         .btn-success {
-            background: transparent;
+            background: var(--pure-white);
             border: 2px solid #28a745;
             color: #28a745;
             padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             font-size: 1.1rem;
             font-weight: 300;
             letter-spacing: 1px;
@@ -269,7 +273,7 @@
 
         /* Admin Section */
         .admin-section {
-            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
             color: var(--text-dark);
             padding: 40px;
             margin-top: 40px;
@@ -312,7 +316,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -377,7 +381,7 @@
                 {% if tarjeta_regalo.imagen %}
                     <img src="{{ tarjeta_regalo.imagen.url }}" class="img-fluid product-image" alt="{{ tarjeta_regalo.nombre }}">
                 {% else %}
-                    <div class="bg-dark d-flex align-items-center justify-content-center product-image" style="height: 500px; background: linear-gradient(135deg, var(--mint-green), var(--mint-green-dark)) !important;">
+                    <div class="bg-dark d-flex align-items-center justify-content-center product-image" style="height: 500px; background: linear-gradient(135deg, var(--cappuccino), var(--cappuccino-dark)) !important;">
                         <i class="fas fa-gift fa-5x" style="color: var(--text-dark);"></i>
                     </div>
                 {% endif %}
@@ -423,7 +427,7 @@
                             <input type="hidden" name="tipo" value="tarjeta_regalo">
                             <div class="row align-items-end">
                                 <div class="col-md-4 mb-3">
-                                    <label for="cantidad" class="form-label" style="color: var(--dark-charcoal); font-weight: 400; letter-spacing: 1px;">Cantidad:</label>
+                                    <label for="cantidad" class="form-label" style="color: var(--text-dark); font-weight: 400; letter-spacing: 1px;">Cantidad:</label>
                                     <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" max="{{ tarjeta_regalo.stock }}" style="border: 1px solid var(--border-light); border-radius: 0; padding: 12px 15px;">
                                 </div>
                                 <div class="col-md-8">
@@ -434,7 +438,7 @@
                             </div>
                         </form>
                     {% else %}
-                        <div class="alert alert-warning" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1)); border: 1px solid #ffc107; border-radius: 0; color: var(--dark-charcoal);">
+                        <div class="alert alert-warning" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1)); border: 1px solid #ffc107; border-radius: 0; color: var(--text-dark);">
                             <i class="fas fa-exclamation-triangle"></i> Producto agotado
                         </div>
                     {% endif %}

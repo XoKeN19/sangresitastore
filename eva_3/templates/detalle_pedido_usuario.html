@@ -7,42 +7,49 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Detalle de Pedido #{{ pedido.id }} - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <title>Detalle de Pedido #{{ pedido.id }} - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #2C2C2C;
-            --light-gray: #F5F5F5;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --bg-cream: #F5F1EB;
+            --bg-beige: #F0E6D6;
+            --cappuccino-light: #E8D5C4;
             --pure-white: #FFFFFF;
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --border-light: #D4B5A0;
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-cream);
             min-height: 100vh;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
-        /* Navbar premium */
+        /* Navbar Capuchino */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid #e0e0e0;
+            background: var(--cappuccino) !important;
+            border-bottom: 2px solid var(--cappuccino-dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--dark-charcoal) !important;
+            color: var(--text-dark) !important;
             text-decoration: none;
             position: relative;
         }
@@ -54,7 +61,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--cappuccino-dark);
             transition: width 0.3s ease;
         }
 
@@ -63,8 +70,8 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--dark-charcoal) !important;
-            font-weight: 400;
+            color: var(--text-dark) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
@@ -78,7 +85,7 @@
             left: 50%;
             width: 0;
             height: 1px;
-            background: var(--primary-gold);
+            background: var(--cappuccino-dark);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -88,8 +95,8 @@
         }
 
         .page-header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
             padding: 60px 0 40px;
             margin-top: 70px;
             text-align: center;
@@ -113,10 +120,10 @@
         .section-title {
             font-size: 1.5rem;
             font-weight: 400;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-gold);
+            border-bottom: 2px solid var(--cappuccino-dark);
         }
 
         .info-grid {
@@ -128,13 +135,13 @@
 
         .info-item {
             padding: 15px;
-            background: var(--light-gray);
+            background: var(--bg-beige);
             border-radius: 8px;
         }
 
         .info-label {
             font-size: 0.85rem;
-            color: #666;
+            color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 5px;
@@ -143,7 +150,7 @@
         .info-value {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
         .estado-badge {
@@ -202,24 +209,24 @@
         .product-name {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 5px;
         }
 
         .product-quantity {
-            color: #666;
+            color: var(--text-gray);
             font-size: 0.95rem;
         }
 
         .product-price {
             font-size: 1.2rem;
             font-weight: 600;
-            color: var(--primary-gold);
+            color: var(--cappuccino-dark);
             text-align: right;
         }
 
         .total-section {
-            background: var(--light-gray);
+            background: var(--bg-beige);
             padding: 25px;
             border-radius: 8px;
             margin-top: 20px;
@@ -236,15 +243,15 @@
         .total-row.final {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary-gold);
-            border-top: 2px solid var(--dark-charcoal);
+            color: var(--cappuccino-dark);
+            border-top: 2px solid var(--text-dark);
             padding-top: 15px;
             margin-top: 10px;
         }
 
         .btn-volver {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
             border: none;
             padding: 12px 30px;
             border-radius: 6px;
@@ -257,10 +264,10 @@
         }
 
         .btn-volver:hover {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino-dark) 0%, var(--cappuccino) 100%);
+            color: var(--text-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 15px rgba(168, 230, 207, 0.4);
         }
 
         .alert-info-custom {
@@ -278,7 +285,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -292,7 +299,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a>
+                        <a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -440,7 +447,7 @@
                                 <div class="product-info">
                                     <div class="product-name">{{ item.videojuego.nombre }}</div>
                                     <div class="product-quantity">
-                                        <i class="fas fa-hashtag"></i> Cantidad: {{ item.cantidad }}
+                                        <i class="fas fa-hashtag"></i> Cantidad: {{ item.cantidad }} | {{ item.videojuego.plataforma }} - {{ item.videojuego.categoria }}
                                     </div>
                                 </div>
                                 <div class="product-price">
@@ -451,13 +458,18 @@
                                     <img src="{{ item.tarjeta_regalo.imagen.url }}" alt="{{ item.tarjeta_regalo.nombre }}" class="product-image">
                                 {% else %}
                                     <div class="product-image d-flex align-items-center justify-content-center bg-light">
-                                        <i class="fas fa-star fa-2x text-muted"></i>
+                                        <i class="fas fa-gift fa-2x text-muted"></i>
                                     </div>
                                 {% endif %}
                                 <div class="product-info">
                                     <div class="product-name">{{ item.tarjeta_regalo.nombre }}</div>
                                     <div class="product-quantity">
-                                        <i class="fas fa-hashtag"></i> Cantidad: {{ item.cantidad }}
+                                        <i class="fas fa-hashtag"></i> Cantidad: {{ item.cantidad }} | 
+                                        {% if item.tarjeta_regalo.tipo_tarjeta %}
+                                            Tarjeta {{ item.tarjeta_regalo.tipo_tarjeta }} - {{ item.tarjeta_regalo.categoria }}
+                                        {% else %}
+                                            Tarjeta de Regalo - {{ item.tarjeta_regalo.categoria }}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="product-price">

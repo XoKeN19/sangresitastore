@@ -4,43 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear SuperUsuario - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <title>Crear SuperUsuario - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #2C2C2C;
-            --light-gray: #F5F5F5;
-            --pure-white: #FFFFFF;
-            --border-light: #E0E0E0;
+            --anthracite: #37474F;
+            --anthracite-dark: #263238;
+            --anthracite-light: #455A64;
+            --admin-bg: #263238;
+            --admin-bg-card: #37474F;
+            --admin-bg-hover: #455A64;
+            --admin-text-light: #ECEFF1;
+            --admin-text-gray: #B0BEC5;
+            --admin-text-white: #FFFFFF;
+            --admin-border: #455A64;
+            --admin-accent-rose: #E91E63;
+            --admin-accent-pink: #F06292;
+            --admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --admin-shadow-strong: 0 8px 40px rgba(0, 0, 0, 0.7);
+            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--admin-bg);
             min-height: 100vh;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
-        /* Navbar premium */
+        /* Navbar Gris Antracita */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
+            background: var(--anthracite) !important;
+            border-bottom: 2px solid var(--admin-accent-rose);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--dark-charcoal) !important;
+            color: var(--admin-text-light) !important;
             text-decoration: none;
             position: relative;
         }
@@ -52,7 +64,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--admin-accent-rose);
             transition: width 0.3s ease;
         }
 
@@ -61,8 +73,8 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--dark-charcoal) !important;
-            font-weight: 400;
+            color: var(--admin-text-light) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
@@ -76,7 +88,7 @@
             left: 50%;
             width: 0;
             height: 1px;
-            background: var(--primary-gold);
+            background: var(--admin-accent-rose);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -87,8 +99,8 @@
 
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--anthracite) 0%, var(--admin-accent-rose) 100%);
+            color: var(--admin-text-light);
             padding: 100px 0 80px;
             margin-top: 76px;
             text-align: center;
@@ -118,7 +130,7 @@
             border-radius: 20px;
             padding: 50px;
             box-shadow: 0 10px 50px rgba(0,0,0,0.1);
-            border-top: 4px solid var(--primary-gold);
+            border-top: 4px solid var(--admin-accent-rose);
         }
 
         .alert-info-custom {
@@ -135,7 +147,7 @@
 
         .form-label {
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
             margin-bottom: 8px;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -146,19 +158,19 @@
         }
 
         .form-label i {
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
         }
 
         .form-control {
-            border: 2px solid var(--border-light);
+            border: 2px solid var(--admin-border);
             border-radius: 8px;
             padding: 12px 16px;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+            border-color: var(--admin-accent-rose);
+            box-shadow: 0 0 0 0.2rem rgba(240, 98, 146, 0.15);
         }
 
         textarea.form-control {
@@ -167,7 +179,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            background: linear-gradient(135deg, var(--anthracite), var(--admin-accent-rose));
             border: none;
             padding: 14px 40px;
             border-radius: 8px;
@@ -181,8 +193,8 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-            background: linear-gradient(135deg, var(--secondary-gold), var(--primary-gold));
+            box-shadow: 0 8px 20px rgba(240, 98, 146, 0.3);
+            background: linear-gradient(135deg, var(--admin-accent-rose), var(--anthracite));
         }
 
         .btn-secondary {
@@ -220,34 +232,180 @@
         }
 
         /* Footer */
+        /* Footer Inspirado - Dos Secciones (Admin) */
         .footer {
-            background: var(--dark-charcoal);
-            color: var(--pure-white);
-            padding: 60px 0 30px;
-            margin-top: 60px;
+            background: var(--anthracite);
+            color: var(--admin-text-light);
         }
 
-        .footer h5 {
-            color: var(--primary-gold);
-            font-size: 1.1rem;
+        .footer-top {
+            background: var(--anthracite);
+            padding: 60px 0 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--admin-text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-links a:hover {
+            color: var(--admin-accent-rose);
+            opacity: 1;
+        }
+
+        .footer-brand-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--admin-text-white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .footer-logo-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--admin-text-white);
+            margin: 8px 0;
+        }
+
+        .footer-year {
+            font-size: 0.9rem;
+            color: var(--admin-text-light);
             font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 2rem;
+            opacity: 0.8;
         }
 
-        .footer p, .footer li {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
         }
 
-        .footer a {
-            color: rgba(255, 255, 255, 0.8);
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--admin-text-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--anthracite);
             text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
-        .footer a:hover {
-            color: var(--primary-gold);
+        .social-icon:hover {
+            background: var(--admin-accent-rose);
+            color: var(--admin-text-white);
+            transform: translateY(-3px);
+        }
+
+        .footer-quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-quick-links a {
+            color: var(--admin-text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-quick-links a:hover {
+            color: var(--admin-accent-rose);
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            background: var(--anthracite-dark);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-bottom-info {
+            color: var(--admin-text-white);
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin: 0;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom-info span {
+            margin: 0 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 968px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 50px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1 / -1;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-top {
+                padding: 50px 0 40px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1;
+                order: -1;
+            }
+
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+
+            .footer-bottom-info {
+                font-size: 0.75rem;
+            }
+
+            .footer-bottom-info span {
+                display: block;
+                margin: 5px 0;
+            }
         }
 
         .dropdown-menu {
@@ -263,7 +421,7 @@
 
         .dropdown-item:hover {
             background: var(--light-gray);
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
         }
     </style>
 </head>
@@ -272,7 +430,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -286,7 +444,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a>
+                        <a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -433,31 +591,56 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer Inspirado -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>ReconStore</h5>
-                    <p>Tu tienda de confianza para videojuegos y Tarjetas de Regalo únicos. Calidad premium para gamers y coleccionistas.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Enlaces Rápidos</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
-                        <li><a href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a></li>
-                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contacto</h5>
-                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@ReconStore.cl</p>
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Aviso Legal</a>
+                        <a href="#">Política de Privacidad</a>
+                        <a href="#">Política de Cookies</a>
+                        <a href="#">Términos y Condiciones</a>
+                    </div>
+                    
+                    <div class="footer-brand-center">
+                        <h2 class="footer-logo">Re:Connect</h2>
+                        <div class="footer-logo-divider"></div>
+                        <p class="footer-year">2025</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-quick-links">
+                        <a href="{% url 'inicio_publico' %}">Inicio</a>
+                        <a href="{% url 'tienda' %}">Videojuegos</a>
+                        <a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
+                        <a href="{% url 'carrito' %}">Carrito</a>
+                    </div>
                 </div>
             </div>
-            <hr style="border-color: rgba(255,255,255,0.2);">
-            <div class="text-center">
-                <p>&copy; 2025 ReconStore. Todos los derechos reservados.</p>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-bottom-info">
+                    Re:Connect <span>|</span> Mall Plaza Oriente Rancagua, Piso 2 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
+                </p>
             </div>
         </div>
     </footer>

@@ -7,43 +7,49 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Mis Pedidos - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <title>Mis Pedidos - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #2C2C2C;
-            --light-gray: #F5F5F5;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --bg-cream: #F5F1EB;
+            --bg-beige: #F0E6D6;
+            --cappuccino-light: #E8D5C4;
             --pure-white: #FFFFFF;
-            --border-light: #E0E0E0;
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --border-light: #D4B5A0;
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-cream);
             min-height: 100vh;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
-        /* Navbar premium */
+        /* Navbar Capuchino */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
+            background: var(--cappuccino) !important;
+            border-bottom: 2px solid var(--cappuccino-dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
 
         .navbar-brand {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
-            color: var(--dark-charcoal) !important;
+            color: var(--text-dark) !important;
             text-decoration: none;
             position: relative;
         }
@@ -55,7 +61,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-gold);
+            background: var(--cappuccino-dark);
             transition: width 0.3s ease;
         }
 
@@ -64,8 +70,8 @@
         }
 
         .navbar-nav .nav-link {
-            color: var(--dark-charcoal) !important;
-            font-weight: 400;
+            color: var(--text-dark) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 1rem;
             position: relative;
@@ -79,7 +85,7 @@
             left: 50%;
             width: 0;
             height: 1px;
-            background: var(--primary-gold);
+            background: var(--cappuccino-dark);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -90,8 +96,8 @@
 
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
             padding: 60px 0 40px;
             margin-top: 70px;
             text-align: center;
@@ -126,9 +132,9 @@
         }
 
         .pedido-header {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
             padding: 20px 25px;
-            color: white;
+            color: var(--text-dark);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -158,13 +164,13 @@
 
         .info-item {
             padding: 15px;
-            background: var(--light-gray);
+            background: var(--bg-beige);
             border-radius: 8px;
         }
 
         .info-label {
             font-size: 0.85rem;
-            color: #666;
+            color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 5px;
@@ -173,7 +179,7 @@
         .info-value {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
         }
 
         .estado-badge {
@@ -202,8 +208,8 @@
         }
 
         .btn-ver-detalle {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
             border: none;
             padding: 12px 30px;
             border-radius: 6px;
@@ -216,10 +222,10 @@
         }
 
         .btn-ver-detalle:hover {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino-dark) 0%, var(--cappuccino) 100%);
+            color: var(--text-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 15px rgba(168, 230, 207, 0.4);
         }
 
         .empty-state {
@@ -232,24 +238,24 @@
 
         .empty-state i {
             font-size: 5rem;
-            color: var(--primary-gold);
+            color: var(--cappuccino-dark);
             margin-bottom: 20px;
         }
 
         .empty-state h3 {
-            color: var(--dark-charcoal);
+            color: var(--text-dark);
             margin-bottom: 15px;
             font-weight: 400;
         }
 
         .empty-state p {
-            color: #666;
+            color: var(--text-gray);
             margin-bottom: 30px;
         }
 
         .btn-continuar {
-            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
             border: none;
             padding: 12px 30px;
             border-radius: 6px;
@@ -260,26 +266,185 @@
         }
 
         .btn-continuar:hover {
-            color: white;
+            color: var(--text-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 15px rgba(168, 230, 207, 0.4);
         }
 
-        footer {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%);
-            color: var(--pure-white);
-            padding: 40px 0 20px;
-            margin-top: 60px;
+        /* Footer Inspirado - Dos Secciones */
+        .footer {
+            background: var(--cappuccino-dark);
+            color: var(--text-dark);
         }
 
-        footer a {
-            color: var(--primary-gold);
+        .footer-top {
+            background: var(--cappuccino-dark);
+            padding: 60px 0 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-brand-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .footer-logo-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--text-dark);
+            margin: 8px 0;
+        }
+
+        .footer-year {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cappuccino-dark);
             text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
-        footer a:hover {
-            color: var(--secondary-gold);
+        .social-icon:hover {
+            background: var(--accent-caramel);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-quick-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-quick-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            background: var(--text-dark);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-bottom-info {
+            color: var(--pure-white);
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin: 0;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom-info span {
+            margin: 0 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 968px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 50px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1 / -1;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-top {
+                padding: 50px 0 40px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1;
+                order: -1;
+            }
+
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+
+            .footer-bottom-info {
+                font-size: 0.75rem;
+            }
+
+            .footer-bottom-info span {
+                display: block;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
@@ -288,7 +453,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -302,7 +467,7 @@
                         <a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a>
+                        <a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -443,31 +608,56 @@
         {% endif %}
     </div>
 
-    <!-- Footer Premium -->
+    <!-- Footer Inspirado -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>ReconStore</h5>
-                    <p>Tu tienda de confianza para videojuegos y Tarjetas de Regalo únicos. Calidad premium para gamers y coleccionistas.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Enlaces Rápidos</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
-                        <li><a href="{% url 'Tarjetas de Regalo' %}">Tarjetas de Regalo</a></li>
-                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contacto</h5>
-                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@ReconStore.cl</p>
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Aviso Legal</a>
+                        <a href="#">Política de Privacidad</a>
+                        <a href="#">Política de Cookies</a>
+                        <a href="#">Términos y Condiciones</a>
+                    </div>
+                    
+                    <div class="footer-brand-center">
+                        <h2 class="footer-logo">Re:Connect</h2>
+                        <div class="footer-logo-divider"></div>
+                        <p class="footer-year">2025</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-quick-links">
+                        <a href="{% url 'inicio_publico' %}">Inicio</a>
+                        <a href="{% url 'tienda' %}">Videojuegos</a>
+                        <a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
+                        <a href="{% url 'carrito' %}">Carrito</a>
+                    </div>
                 </div>
             </div>
-            <hr style="border-color: rgba(255,255,255,0.2);">
-            <div class="text-center">
-                <p>&copy; 2025 ReconStore. Todos los derechos reservados.</p>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-bottom-info">
+                    Re:Connect <span>|</span> Mall Plaza Oriente Rancagua, Piso 2 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
+                </p>
             </div>
         </div>
     </footer>

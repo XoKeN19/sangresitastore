@@ -4,52 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Factura {{ factura.numero_factura }} - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <title>Detalle de Factura {{ factura.numero_factura }} - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para el tema Rolex */
+        /* Variables CSS para Re:Connect - Tema Gris Antracita (Backend/Admin) */
         :root {
-            --primary-gold: #D4AF37;
-            --secondary-gold: #B8860B;
-            --dark-charcoal: #1a1a1a;
-            --light-charcoal: #2c2c2c;
-            --pure-white: #ffffff;
-            --soft-gray: #f8f9fa;
-            --text-gray: #666666;
-            --border-light: #e5e5e5;
-            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
-            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
+            --anthracite: #37474F;
+            --anthracite-dark: #263238;
+            --anthracite-light: #455A64;
+            --admin-bg: #263238;
+            --admin-bg-card: #37474F;
+            --admin-bg-hover: #455A64;
+            --admin-text-light: #ECEFF1;
+            --admin-text-gray: #B0BEC5;
+            --admin-text-white: #FFFFFF;
+            --admin-border: #455A64;
+            --admin-accent-rose: #E91E63;
+            --admin-accent-pink: #F06292;
+            --admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --admin-shadow-strong: 0 8px 40px rgba(0, 0, 0, 0.7);
             --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: var(--dark-charcoal);
-            background-color: var(--soft-gray);
+            color: var(--admin-text-light);
+            background-color: var(--admin-bg);
         }
 
-        /* Navbar Premium */
+        /* Navbar Gris Antracita */
         .navbar {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%) !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: var(--anthracite) !important;
+            border-bottom: 2px solid var(--admin-accent-rose);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 1rem 0;
         }
 
         .navbar-brand {
-            font-weight: 300;
+            font-weight: 600;
             font-size: 1.8rem;
             letter-spacing: 2px;
-            color: var(--primary-gold) !important;
+            color: var(--admin-text-light) !important;
         }
 
         .navbar-nav .nav-link {
-            color: var(--pure-white) !important;
-            font-weight: 300;
+            color: var(--admin-text-light) !important;
+            font-weight: 500;
             letter-spacing: 1px;
             margin: 0 0.5rem;
             transition: all 0.3s ease;
@@ -57,7 +64,7 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--primary-gold) !important;
+            color: var(--admin-accent-rose) !important;
             transform: translateY(-2px);
         }
 
@@ -68,7 +75,7 @@
             height: 2px;
             bottom: -5px;
             left: 50%;
-            background: var(--primary-gold);
+            background: var(--admin-accent-rose);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -78,8 +85,8 @@
         }
 
         .navbar-text {
-            color: var(--primary-gold) !important;
-            font-weight: 300;
+            color: var(--admin-text-light) !important;
+            font-weight: 500;
             display: flex;
             align-items: center;
             padding: 0.75rem 0;
@@ -92,8 +99,8 @@
         }
 
         .page-header {
-            background: linear-gradient(135deg, var(--dark-charcoal) 0%, var(--light-charcoal) 100%);
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--anthracite) 0%, var(--admin-accent-rose) 100%);
+            color: var(--admin-text-light);
             padding: 80px 0 60px;
             margin-top: 80px;
             position: relative;
@@ -107,7 +114,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            background: linear-gradient(45deg, transparent 30%, rgba(168, 230, 207, 0.2) 50%, transparent 70%);
             animation: shimmer 3s infinite;
         }
 
@@ -135,8 +142,8 @@
         }
 
         .invoice-container {
-            background: var(--pure-white);
-            border: 1px solid var(--border-light);
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
             border-radius: 0;
             box-shadow: var(--shadow-strong);
             margin: 40px 0;
@@ -144,8 +151,8 @@
         }
 
         .invoice-header {
-            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
-            color: var(--dark-charcoal);
+            background: linear-gradient(135deg, var(--anthracite), var(--admin-accent-rose));
+            color: var(--admin-text-light);
             padding: 40px;
             text-align: center;
         }
@@ -166,21 +173,23 @@
 
         .invoice-body {
             padding: 40px;
+            background: var(--admin-bg-card);
+            color: var(--admin-text-light);
         }
 
         .section-title {
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: 2px;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
             margin-bottom: 25px;
-            border-bottom: 2px solid var(--primary-gold);
+            border-bottom: 2px solid var(--admin-accent-rose);
             padding-bottom: 10px;
         }
 
         .info-card {
-            background: var(--soft-gray);
-            border: 1px solid var(--border-light);
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
             border-radius: 0;
             padding: 25px;
             margin-bottom: 25px;
@@ -189,27 +198,28 @@
         .info-label {
             font-weight: 400;
             letter-spacing: 1px;
-            color: var(--text-gray);
+            color: var(--admin-text-gray);
             margin-bottom: 5px;
         }
 
         .info-value {
             font-size: 1.1rem;
             font-weight: 300;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
             margin-bottom: 15px;
         }
 
         .items-table {
-            background: var(--pure-white);
-            border: 1px solid var(--border-light);
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
             border-radius: 0;
             overflow: hidden;
+            color: var(--admin-text-light);
         }
 
         .items-table thead {
-            background: linear-gradient(135deg, var(--dark-charcoal), var(--light-charcoal));
-            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--anthracite), var(--admin-accent-rose));
+            color: var(--admin-text-light);
         }
 
         .items-table th {
@@ -221,39 +231,42 @@
 
         .items-table td {
             padding: 20px 15px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--admin-border);
             vertical-align: middle;
+            background: var(--admin-bg-card);
+            color: var(--admin-text-light);
         }
 
         .items-table tbody tr:hover {
-            background: var(--soft-gray);
+            background: var(--admin-bg-hover);
         }
 
         .product-name {
             font-weight: 400;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-white);
             margin-bottom: 5px;
         }
 
         .product-details {
             font-size: 0.9rem;
-            color: var(--text-gray);
+            color: var(--admin-text-gray);
             font-weight: 300;
         }
 
         .price-cell {
             font-size: 1.2rem;
             font-weight: 300;
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
             text-align: right;
         }
 
         .total-section {
-            background: linear-gradient(135deg, var(--soft-gray), var(--pure-white));
-            border: 1px solid var(--border-light);
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
             border-radius: 0;
             padding: 30px;
             margin-top: 30px;
+            color: var(--admin-text-light);
         }
 
         .total-row {
@@ -261,17 +274,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--admin-border);
         }
 
         .total-row:last-child {
             border-bottom: none;
             font-size: 1.3rem;
             font-weight: 300;
-            color: var(--primary-gold);
+            color: var(--admin-accent-rose);
             margin-top: 15px;
             padding-top: 20px;
-            border-top: 2px solid var(--primary-gold);
+            border-top: 2px solid var(--admin-accent-rose);
         }
 
         .total-label {
@@ -281,7 +294,7 @@
 
         .total-value {
             font-weight: 400;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-white);
         }
 
         .status-badge {
@@ -295,22 +308,22 @@
 
         .status-pendiente {
             background: #ffc107;
-            color: var(--dark-charcoal);
+            color: var(--admin-text-light);
         }
 
         .status-confirmado {
             background: #17a2b8;
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .status-entregado {
             background: #28a745;
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .status-cancelado {
             background: #dc3545;
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .status-pendiente {
@@ -320,13 +333,13 @@
 
         .status-realizado {
             background: #28a745;
-            color: var(--pure-white);
+            color: var(--admin-text-light);
         }
 
         .btn-premium {
-            background: transparent;
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
+            background: var(--admin-bg-card);
+            border: 2px solid var(--admin-accent-rose);
+            color: var(--admin-accent-rose);
             padding: 12px 25px;
             font-size: 1rem;
             font-weight: 300;
@@ -337,6 +350,7 @@
             overflow: hidden;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .btn-premium::before {
@@ -346,14 +360,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--primary-gold);
+            background: var(--admin-accent-rose);
             transition: left 0.3s ease;
             z-index: -1;
         }
 
         .btn-premium:hover {
-            color: var(--dark-charcoal);
-            border-color: var(--primary-gold);
+            color: var(--admin-text-light);
+            border-color: var(--admin-accent-rose);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
             text-decoration: none;
@@ -364,9 +378,9 @@
         }
 
         .btn-secondary-premium {
-            background: transparent;
-            border: 2px solid var(--text-gray);
-            color: var(--text-gray);
+            background: var(--admin-bg-card);
+            border: 2px solid var(--admin-text-gray);
+            color: var(--admin-text-gray);
             padding: 12px 25px;
             font-size: 1rem;
             font-weight: 300;
@@ -377,6 +391,7 @@
             overflow: hidden;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .btn-secondary-premium::before {
@@ -386,14 +401,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--text-gray);
+            background: var(--admin-text-gray);
             transition: left 0.3s ease;
             z-index: -1;
         }
 
         .btn-secondary-premium:hover {
-            color: var(--pure-white);
-            border-color: var(--text-gray);
+            color: var(--admin-text-light);
+            border-color: var(--admin-text-gray);
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
             text-decoration: none;
@@ -434,7 +449,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -455,7 +470,7 @@
                 <ul class="navbar-nav">
                     {% if usuario_nombre %}
                         <li class="nav-item">
-                            <span class="nav-link" style="color: var(--primary-gold);">
+                            <span class="nav-link" style="color: var(--admin-text-light);">
                                 <i class="fas fa-user"></i> {{ usuario_nombre }}
                             </span>
                         </li>
@@ -577,13 +592,25 @@
                                     <div class="product-details">
                                         {% if item.tipo == 'videojuego' %}
                                             {{ item.producto.plataforma }} - {{ item.producto.categoria }}
+                                        {% elif item.tipo == 'tarjeta_regalo' or item.tipo == 'coleccionable' %}
+                                            {% if item.producto.tipo_tarjeta %}
+                                                Tarjeta {{ item.producto.tipo_tarjeta }} - {{ item.producto.categoria }}
+                                            {% else %}
+                                                Tarjeta de Regalo - {{ item.producto.categoria }}
+                                            {% endif %}
                                         {% else %}
-                                            {{ item.producto.tipo_tarjeta }} - {{ item.producto.categoria }}
+                                            {{ item.producto.tipo_tarjeta|default:"Tarjeta de Regalo" }} - {{ item.producto.categoria }}
                                         {% endif %}
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-primary">{{ item.tipo|title }}</span>
+                                    {% if item.tipo == 'videojuego' %}
+                                        <span class="badge bg-primary">Videojuego</span>
+                                    {% elif item.tipo == 'tarjeta_regalo' or item.tipo == 'coleccionable' %}
+                                        <span class="badge" style="background-color: var(--admin-accent-pink); color: var(--admin-text-white);">Tarjeta de Regalo</span>
+                                    {% else %}
+                                        <span class="badge bg-primary">{{ item.tipo|title }}</span>
+                                    {% endif %}
                                 </td>
                                 <td>{{ item.cantidad }}</td>
                                 <td class="price-cell">${{ item.precio_unitario|floatformat:0 }}</td>

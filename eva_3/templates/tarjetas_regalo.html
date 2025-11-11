@@ -4,41 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarjetas de Regalo - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'favicon/favicon.svg' %}">
+    <title>Tarjetas de Regalo - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Variables CSS para ReconStore - Tema Beige y Verde Menta */
+        /* Variables CSS para Re:Connect - Tema Capuchino (Frontend) */
         :root {
-            --mint-green: #A8E6CF;
-            --mint-green-dark: #7FD3B0;
-            --beige-bg: #F5F5DC;
-            --beige-light: #FAFAF0;
-            --beige-dark: #E8E8D3;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --cappuccino-light: #E8D5C4;
+            --bg-cream: #F5F1EB;
+            --bg-white: #ffffff;
+            --bg-beige: #F0E6D6;
             --pure-white: #ffffff;
-            --text-dark: #2c3e50;
-            --text-gray: #5a6c7d;
-            --border-light: #d4e6d9;
-            --shadow-soft: 0 2px 20px rgba(0,0,0,0.08);
-            --shadow-medium: 0 8px 40px rgba(0,0,0,0.12);
-            --shadow-strong: 0 15px 60px rgba(0,0,0,0.15);
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --text-light: #ffffff;
+            --border-light: #D4B5A0;
+            --accent-caramel: #D2691E;
+            --accent-mocha: #6F4E37;
+            --shadow-soft: 0 2px 20px rgba(212, 181, 160, 0.15);
+            --shadow-medium: 0 8px 40px rgba(212, 181, 160, 0.2);
+            --shadow-strong: 0 15px 60px rgba(212, 181, 160, 0.25);
         }
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background-color: var(--beige-bg);
+            background-color: var(--bg-cream);
         }
 
-        /* Navbar verde menta */
+        /* Navbar Capuchino */
         .navbar {
-            background: var(--mint-green);
+            background: var(--cappuccino);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--mint-green-dark);
+            border-bottom: 2px solid var(--cappuccino-dark);
             padding: 1rem 0;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -78,7 +84,7 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--mint-green-dark) !important;
+            color: var(--cappuccino-dark) !important;
         }
 
         .navbar-nav .nav-link::after {
@@ -100,7 +106,7 @@
 
         /* Header section */
         .page-header {
-            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
             color: var(--text-dark);
             padding: 80px 0 60px;
             margin-top: 80px;
@@ -140,7 +146,7 @@
 
         /* Filter section */
         .filter-section {
-            background: var(--beige-light);
+            background: var(--bg-beige);
             padding: 30px;
             border: 2px solid var(--border-light);
             margin: 40px 0;
@@ -164,7 +170,7 @@
         }
 
         .form-select:focus {
-            border-color: var(--mint-green-dark);
+            border-color: var(--cappuccino-dark);
             box-shadow: 0 0 0 0.2rem rgba(127, 211, 176, 0.15);
             outline: none;
         }
@@ -188,7 +194,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--mint-green-dark);
+            background: var(--cappuccino-dark);
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
@@ -200,7 +206,7 @@
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-strong);
-            border-color: var(--mint-green-dark);
+            border-color: var(--cappuccino-dark);
         }
 
         .card-img-container {
@@ -208,7 +214,7 @@
             width: 100%;
             overflow: hidden;
             position: relative;
-            background: linear-gradient(135deg, var(--soft-gray) 0%, var(--pure-white) 100%);
+            background: linear-gradient(135deg, var(--bg-beige) 0%, var(--pure-white) 100%);
             border-radius: 6px 6px 0 0;
         }
 
@@ -245,7 +251,7 @@
         }
 
         .card-img-overlay .price {
-            color: var(--mint-green);
+            color: var(--cappuccino);
             font-size: 1.5rem;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -274,13 +280,13 @@
         .price {
             font-size: 1.8rem;
             font-weight: 600;
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
 
         .type-badge {
-            background: var(--beige-light);
+            background: var(--bg-beige);
             color: var(--text-dark);
             padding: 6px 12px;
             border-radius: 20px;
@@ -296,7 +302,7 @@
         }
 
         .category-badge {
-            background: var(--mint-green);
+            background: var(--cappuccino);
             color: var(--text-dark);
             padding: 6px 12px;
             border-radius: 20px;
@@ -319,9 +325,9 @@
 
         /* Buttons */
         .btn-premium {
-            background: transparent;
-            border: 2px solid var(--mint-green-dark);
-            color: var(--mint-green-dark);
+            background: var(--pure-white);
+            border: 2px solid var(--accent-caramel);
+            color: var(--accent-caramel);
             padding: 12px 30px;
             font-weight: 500;
             letter-spacing: 1px;
@@ -329,6 +335,7 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn-premium::before {
@@ -338,7 +345,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--mint-green-dark);
+            background: var(--accent-caramel);
             transition: left 0.4s ease;
             z-index: -1;
         }
@@ -361,7 +368,7 @@
         }
 
         .modal-header {
-            background: var(--mint-green);
+            background: var(--cappuccino);
             color: var(--text-dark);
             border: none;
         }
@@ -377,7 +384,7 @@
 
         .modal-body {
             padding: 2rem;
-            background: var(--beige-light);
+            background: var(--bg-beige);
         }
 
         .modal-body h4 {
@@ -401,7 +408,7 @@
         }
 
         .form-control:focus {
-            border-color: var(--mint-green-dark);
+            border-color: var(--cappuccino-dark);
             box-shadow: 0 0 0 0.2rem rgba(127, 211, 176, 0.15);
             outline: none;
         }
@@ -422,7 +429,7 @@
 
         .empty-state i {
             font-size: 4rem;
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
             margin-bottom: 2rem;
         }
 
@@ -495,34 +502,180 @@
         }
 
         /* Footer */
+        /* Footer Inspirado - Dos Secciones */
         .footer {
-            background: var(--mint-green-dark);
-            color: var(--text-dark);
-            padding: 60px 0 30px;
-        }
-
-        .footer h5 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-bottom: 2rem;
+            background: var(--cappuccino-dark);
             color: var(--text-dark);
         }
 
-        .footer p, .footer li {
-            color: var(--text-dark);
-            line-height: 1.8;
+        .footer-top {
+            background: var(--cappuccino-dark);
+            padding: 60px 0 50px;
         }
 
-        .footer a {
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
             color: var(--text-dark);
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
         }
 
-        .footer a:hover {
+        .footer-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-brand-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .footer-logo-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--text-dark);
+            margin: 8px 0;
+        }
+
+        .footer-year {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cappuccino-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            background: var(--accent-caramel);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-quick-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-quick-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            background: var(--text-dark);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-bottom-info {
             color: var(--pure-white);
-            text-decoration: underline;
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin: 0;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom-info span {
+            margin: 0 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 968px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 50px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1 / -1;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-top {
+                padding: 50px 0 40px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-brand-center {
+                grid-column: 1;
+                order: -1;
+            }
+
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+
+            .footer-bottom-info {
+                font-size: 0.75rem;
+            }
+
+            .footer-bottom-info span {
+                display: block;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
@@ -531,7 +684,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">
-                ReconStore
+                Re:Connect
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -628,7 +781,7 @@
                             <img src="{{ tarjeta_regalo.imagen.url }}" class="card-img-top" alt="{{ tarjeta_regalo.nombre }}">
                         {% else %}
                             <div class="card-img-top bg-dark d-flex align-items-center justify-content-center">
-                                <i class="fas fa-gift fa-3x" style="color: var(--mint-green-dark);"></i>
+                                <i class="fas fa-gift fa-3x" style="color: var(--cappuccino-dark);"></i>
                             </div>
                         {% endif %}
                         <div class="card-img-overlay d-flex flex-column justify-content-end">
@@ -807,31 +960,56 @@
     </script>
     {% csrf_token %}
 
-    <!-- Footer -->
+    <!-- Footer Inspirado -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>ReconStore</h5>
-                    <p>Tu tienda de confianza para videojuegos y Tarjetas de Regalo únicos. Calidad premium para gamers y coleccionistas.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Enlaces Rápidos</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'tienda' %}">Videojuegos</a></li>
-                        <li><a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a></li>
-                        <li><a href="{% url 'carrito' %}">Carrito</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contacto</h5>
-                    <p><i class="fas fa-phone"></i> +56 9 1234 5678</p>
-                    <p><i class="fas fa-envelope"></i> info@ReconStore.cl</p>
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Aviso Legal</a>
+                        <a href="#">Política de Privacidad</a>
+                        <a href="#">Política de Cookies</a>
+                        <a href="#">Términos y Condiciones</a>
+                    </div>
+                    
+                    <div class="footer-brand-center">
+                        <h2 class="footer-logo">Re:Connect</h2>
+                        <div class="footer-logo-divider"></div>
+                        <p class="footer-year">2025</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-quick-links">
+                        <a href="{% url 'inicio_publico' %}">Inicio</a>
+                        <a href="{% url 'tienda' %}">Videojuegos</a>
+                        <a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
+                        <a href="{% url 'carrito' %}">Carrito</a>
+                    </div>
                 </div>
             </div>
-            <hr style="border-color: rgba(255,255,255,0.2);">
-            <div class="text-center">
-                <p>&copy; 2025 ReconStore. Todos los derechos reservados.</p>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-bottom-info">
+                    Re:Connect <span>|</span> Mall Plaza Oriente Rancagua, Piso 2 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
+                </p>
             </div>
         </div>
     </footer>

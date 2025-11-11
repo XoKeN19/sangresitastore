@@ -4,22 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - ReconStore</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <title>Iniciar Sesión - Re:Connect</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --mint-green: #A8E6CF;
-            --mint-green-dark: #7FD3B0;
-            --beige-bg: #F5F5DC;
-            --beige-light: #FAFAF0;
-            --beige-dark: #E8E8D3;
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --bg-cream: #F5F1EB;
+            --bg-beige: #F0E6D6;
+            --cappuccino-light: #E8D5C4;
             --pure-white: #ffffff;
-            --text-dark: #2c3e50;
-            --text-gray: #5a6c7d;
-            --border-light: #d4e6d9;
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --border-light: #D4B5A0;
         }
 
         * {
@@ -31,7 +34,7 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             min-height: 100vh;
-            background: var(--beige-bg);
+            background: var(--bg-cream);
             background-attachment: fixed;
             display: flex;
             align-items: center;
@@ -116,7 +119,7 @@
 
         .login-left {
             flex: 1;
-            background: linear-gradient(135deg, var(--mint-green) 0%, var(--mint-green-dark) 100%);
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
             padding: 60px 50px;
             display: flex;
             flex-direction: column;
@@ -244,19 +247,19 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--mint-green-dark);
+            border-color: var(--cappuccino-dark);
             background: white;
             box-shadow: 0 5px 20px rgba(127, 211, 176, 0.3);
         }
 
         .form-control:focus + i {
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
         }
 
         .btn-login {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, var(--mint-green), var(--mint-green-dark));
+            background: linear-gradient(135deg, var(--cappuccino), var(--cappuccino-dark));
             border: none;
             border-radius: 12px;
             color: var(--text-dark);
@@ -289,7 +292,7 @@
         .btn-login:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(127, 211, 176, 0.5);
-            background: linear-gradient(135deg, var(--mint-green-dark), var(--mint-green));
+            background: linear-gradient(135deg, var(--cappuccino-dark), var(--cappuccino));
         }
 
         .btn-login:active {
@@ -323,7 +326,7 @@
         }
 
         .register-link a {
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -366,7 +369,7 @@
         }
 
         .back-home a:hover {
-            color: var(--mint-green-dark);
+            color: var(--cappuccino-dark);
         }
 
         .back-home i {
@@ -438,7 +441,7 @@
     <div class="login-container">
         <!-- Left side -->
         <div class="login-left">
-            <div class="brand-logo">ReconStore</div>
+            <div class="brand-logo">Re:Connect</div>
             <div class="illustration">
                 <i class="fas fa-shopping-bag"></i>
             </div>
@@ -532,7 +535,7 @@
         // Input focus animations
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
-                this.parentElement.querySelector('i').style.color = 'var(--mint-green-dark)';
+                this.parentElement.querySelector('i').style.color = 'var(--cappuccino-dark)';
             });
             
             input.addEventListener('blur', function() {

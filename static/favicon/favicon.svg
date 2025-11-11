@@ -1,40 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Fondo circular con bordes -->
-  <circle cx="50" cy="50" r="48" fill="#8B0000" stroke="#000080" stroke-width="2"/>
-  <circle cx="50" cy="50" r="45" fill="#4B0082"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Fondo beige claro con textura sutil -->
+  <defs>
+    <pattern id="paperTexture" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="0.5" fill="#E8E3DB" opacity="0.3"/>
+      <circle cx="15" cy="15" r="0.5" fill="#E8E3DB" opacity="0.3"/>
+      <circle cx="10" cy="2" r="0.3" fill="#E8E3DB" opacity="0.2"/>
+      <circle cx="2" cy="18" r="0.3" fill="#E8E3DB" opacity="0.2"/>
+    </pattern>
+    <!-- Sombra sutil para las letras -->
+    <filter id="textShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+      <feOffset dx="0.5" dy="0.5" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
   
-  <!-- Texto SANGRESITA -->
-  <text x="50" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FF0000">SANGRESITA</text>
+  <!-- Fondo beige circular -->
+  <circle cx="100" cy="100" r="100" fill="#F5F1EB"/>
+  <circle cx="100" cy="100" r="100" fill="url(#paperTexture)"/>
   
-  <!-- Texto STORE -->
-  <text x="50" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="#9370DB">STORE</text>
+  <!-- Círculo exterior con borde -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#8B7D6B" stroke-width="2.5"/>
   
-  <!-- Estrella (top-left) -->
-  <polygon points="25,40 27,45 32,45 28,48 30,53 25,50 20,53 22,48 18,45 23,45" fill="#FF0000" stroke="#FFD700" stroke-width="0.5"/>
+  <!-- Letra R con sombra -->
+  <text x="58" y="82" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="bold" fill="#8B7D6B" filter="url(#textShadow)">R</text>
   
-  <!-- Alien pixelado (top-right) -->
-  <rect x="70" y="40" width="8" height="8" fill="#00BFFF"/>
-  <rect x="72" y="42" width="2" height="2" fill="#FF0000"/>
-  <rect x="74" y="42" width="2" height="2" fill="#FF0000"/>
+  <!-- Dos puntos entre R y C -->
+  <circle cx="95" cy="60" r="2.8" fill="#8B7D6B"/>
+  <circle cx="95" cy="70" r="2.8" fill="#8B7D6B"/>
   
-  <!-- Controlador central -->
-  <rect x="35" y="55" width="30" height="15" rx="3" fill="white" stroke="#000" stroke-width="0.5"/>
-  <!-- Botones del controlador -->
-  <circle cx="42" cy="62" r="2" fill="#00BFFF"/>
-  <circle cx="46" cy="62" r="2" fill="#00BFFF"/>
-  <circle cx="50" cy="62" r="2" fill="#00BFFF"/>
-  <circle cx="54" cy="62" r="2" fill="#00BFFF"/>
-  <!-- D-pad -->
-  <rect x="38" y="58" width="6" height="2" fill="#333"/>
-  <rect x="39" y="57" width="2" height="6" fill="#333"/>
+  <!-- Letra C con sombra -->
+  <text x="108" y="82" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="bold" fill="#8B7D6B" filter="url(#textShadow)">C</text>
   
-  <!-- Consola retro (bottom-left) -->
-  <rect x="20" y="65" width="12" height="8" fill="#FF0000"/>
-  <rect x="22" y="67" width="8" height="4" fill="#CCC"/>
-  
-  <!-- Funko Pop (bottom-right) -->
-  <rect x="68" y="65" width="8" height="8" fill="#9370DB"/>
-  <rect x="70" y="67" width="2" height="2" fill="#4B0082"/>
-  <rect x="72" y="67" width="2" height="2" fill="#4B0082"/>
+  <!-- Texto RE:CONNECT -->
+  <text x="100" y="138" font-family="Arial, 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" fill="#8B7D6B" text-anchor="middle" letter-spacing="2px">RE:CONNECT</text>
 </svg>
-

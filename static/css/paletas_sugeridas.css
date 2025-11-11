@@ -1,0 +1,249 @@
+/**
+ * PALETAS DE COLORES SUGERIDAS PARA RE:CONNECT
+ * 
+ * OPCIÓN 1: Azul Cielo (Frontend) + Negro Oro (Backend) ⭐ RECOMENDADA
+ * OPCIÓN 2: Capuchino (Frontend) + Café (Backend)
+ * OPCIÓN 3: Verde Menta Actual (Frontend) + Púrpura Oscuro (Backend)
+ */
+
+/* ============================================
+   OPCIÓN 1: AZUL CIELO (FRONTEND) - RECOMENDADA
+   ============================================ */
+:root.frontend-azul {
+    /* Colores principales */
+    --primary-blue: #4A90E2;
+    --primary-blue-light: #6BA3E8;
+    --primary-blue-dark: #357ABD;
+    
+    /* Colores de fondo */
+    --bg-light: #F8F9FA;
+    --bg-white: #FFFFFF;
+    --bg-light-gray: #E9ECEF;
+    
+    /* Colores de texto */
+    --text-dark: #2C3E50;
+    --text-gray: #6C757D;
+    --text-light: #FFFFFF;
+    
+    /* Colores de acento */
+    --accent-teal: #17A2B8;
+    --accent-orange: #FF6B35;
+    --accent-green: #28A745;
+    
+    /* Bordes y sombras */
+    --border-light: #DEE2E6;
+    --shadow-soft: 0 2px 10px rgba(74, 144, 226, 0.1);
+    --shadow-medium: 0 4px 20px rgba(74, 144, 226, 0.15);
+    --shadow-strong: 0 8px 30px rgba(74, 144, 226, 0.2);
+}
+
+/* Navbar - Frontend Azul */
+.frontend-azul .navbar {
+    background: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue-dark);
+}
+
+.frontend-azul .navbar-brand {
+    color: var(--text-light);
+}
+
+.frontend-azul .nav-link {
+    color: var(--text-light);
+}
+
+.frontend-azul .nav-link:hover {
+    color: var(--primary-blue-light);
+}
+
+/* Cards - Frontend Azul */
+.frontend-azul .card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+}
+
+.frontend-azul .btn-primary {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.frontend-azul .btn-primary:hover {
+    background: var(--primary-blue-dark);
+    border-color: var(--primary-blue-dark);
+}
+
+/* ============================================
+   OPCIÓN 1: NEGRO ORO (BACKEND/ADMIN)
+   ============================================ */
+:root.admin-negro-oro {
+    /* Colores principales */
+    --admin-dark: #1A1A1A;
+    --admin-dark-light: #2D2D2D;
+    --admin-dark-lighter: #3A3A3A;
+    
+    /* Colores de fondo */
+    --admin-bg: #0F0F0F;
+    --admin-bg-card: #1E1E1E;
+    --admin-bg-hover: #2A2A2A;
+    
+    /* Colores de texto */
+    --admin-text-light: #E0E0E0;
+    --admin-text-gray: #B0B0B0;
+    --admin-text-dark: #FFFFFF;
+    
+    /* Colores de acento - Oro */
+    --admin-accent-gold: #FFD700;
+    --admin-accent-gold-dark: #FFA500;
+    --admin-accent-amber: #FFB300;
+    
+    /* Colores de estado */
+    --admin-success: #00C853;
+    --admin-warning: #FFAB00;
+    --admin-danger: #FF1744;
+    --admin-info: #00B8D4;
+    
+    /* Bordes y sombras */
+    --admin-border: #404040;
+    --admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --admin-shadow-strong: 0 8px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Navbar - Admin Negro Oro */
+.admin-negro-oro .navbar {
+    background: var(--admin-dark);
+    border-bottom: 2px solid var(--admin-accent-gold);
+}
+
+.admin-negro-oro .navbar-brand {
+    color: var(--admin-accent-gold);
+}
+
+.admin-negro-oro .nav-link {
+    color: var(--admin-text-light);
+}
+
+.admin-negro-oro .nav-link:hover {
+    color: var(--admin-accent-gold);
+}
+
+/* Cards - Admin Negro Oro */
+.admin-negro-oro .admin-card {
+    background: var(--admin-bg-card);
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text-light);
+}
+
+.admin-negro-oro .btn-primary {
+    background: var(--admin-accent-gold);
+    border-color: var(--admin-accent-gold);
+    color: var(--admin-dark);
+}
+
+.admin-negro-oro .btn-primary:hover {
+    background: var(--admin-accent-gold-dark);
+    border-color: var(--admin-accent-gold-dark);
+}
+
+/* ============================================
+   OPCIÓN 2: CAPUCHINO (FRONTEND)
+   ============================================ */
+:root.frontend-capuchino {
+    /* Colores principales */
+    --cappuccino-light: #E8D5C4;
+    --cappuccino: #D4B5A0;
+    --cappuccino-dark: #C49B7A;
+    
+    /* Colores de fondo */
+    --bg-cream: #F5F1EB;
+    --bg-white: #FFFFFF;
+    --bg-beige: #F0E6D6;
+    
+    /* Colores de texto */
+    --text-brown: #5D4037;
+    --text-gray: #8D6E63;
+    --text-light: #FFFFFF;
+    
+    /* Colores de acento */
+    --accent-caramel: #D2691E;
+    --accent-mocha: #6F4E37;
+}
+
+/* Navbar - Frontend Capuchino */
+.frontend-capuchino .navbar {
+    background: var(--cappuccino);
+    border-bottom: 2px solid var(--cappuccino-dark);
+}
+
+.frontend-capuchino .navbar-brand {
+    color: var(--text-brown);
+}
+
+/* ============================================
+   OPCIÓN 2: CAFÉ (BACKEND/ADMIN)
+   ============================================ */
+:root.admin-cafe {
+    /* Colores principales */
+    --coffee-dark: #3E2723;
+    --coffee-medium: #5D4037;
+    --coffee-light: #6D4C41;
+    
+    /* Colores de fondo */
+    --admin-bg-coffee: #2E1B14;
+    --admin-bg-card: #3E2723;
+    --admin-bg-hover: #4E342E;
+    
+    /* Colores de texto */
+    --admin-text-cream: #EFEBE9;
+    --admin-text-beige: #D7CCC8;
+    --admin-text-light: #FFFFFF;
+    
+    /* Colores de acento */
+    --admin-accent-caramel: #FF8C42;
+    --admin-accent-gold: #D4AF37;
+    --admin-accent-amber: #FFB74D;
+}
+
+/* Navbar - Admin Café */
+.admin-cafe .navbar {
+    background: var(--coffee-dark);
+    border-bottom: 2px solid var(--admin-accent-caramel);
+}
+
+.admin-cafe .navbar-brand {
+    color: var(--admin-accent-caramel);
+}
+
+/* ============================================
+   OPCIÓN 3: PÚRPURA OSCURO (BACKEND/ADMIN)
+   ============================================ */
+:root.admin-purple {
+    /* Colores principales */
+    --purple-dark: #2D1B3D;
+    --purple-medium: #3D2B4D;
+    --purple-light: #4D3B5D;
+    
+    /* Colores de fondo */
+    --admin-bg-purple: #1A0F2E;
+    --admin-bg-card: #2D1B3D;
+    --admin-bg-hover: #3D2B4D;
+    
+    /* Colores de texto */
+    --admin-text-light: #E1BEE7;
+    --admin-text-gray: #CE93D8;
+    --admin-text-dark: #FFFFFF;
+    
+    /* Colores de acento - Magenta */
+    --admin-accent-magenta: #E91E63;
+    --admin-accent-pink: #F06292;
+    --admin-accent-purple: #9C27B0;
+}
+
+/* Navbar - Admin Púrpura */
+.admin-purple .navbar {
+    background: var(--purple-dark);
+    border-bottom: 2px solid var(--admin-accent-magenta);
+}
+
+.admin-purple .navbar-brand {
+    color: var(--admin-accent-magenta);
+}
+
