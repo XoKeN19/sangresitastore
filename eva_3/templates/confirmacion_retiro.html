@@ -17,13 +17,16 @@
         :root {
             --cappuccino: #D4B5A0;
             --cappuccino-dark: #C49B7A;
+            --cappuccino-light: #E8D5C4;
             --bg-cream: #F5F1EB;
             --bg-beige: #F0E6D6;
             --pure-white: #ffffff;
             --text-dark: #5D4037;
             --text-gray: #8D6E63;
-            --text-light: #A1887F;
-            --border-light: #E8D5C4;
+            --text-light: #ffffff;
+            --border-light: #D4B5A0;
+            --accent-caramel: #D2691E;
+            --accent-mocha: #6F4E37;
             --success-green: #28a745;
             --whatsapp-green: #25d366;
             --shadow-soft: 0 2px 10px rgba(212, 181, 160, 0.1);
@@ -44,30 +47,136 @@
             padding-bottom: 60px;
         }
 
-        /* Navbar Moderno */
+        /* Navbar Capuchino - Igual que inicio.html */
         .navbar {
-            background: var(--pure-white);
-            border-bottom: 1px solid var(--border-light);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: var(--cappuccino) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--cappuccino-dark);
             padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(212, 181, 160, 0.2);
+        }
+
+        /* Forzar que el navbar no tenga clases de Bootstrap que cambien los colores */
+        .navbar.navbar-light,
+        .navbar.navbar-dark {
+            background: var(--cappuccino) !important;
         }
 
         .navbar-brand {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
+            letter-spacing: 2px;
             color: var(--text-dark) !important;
-            letter-spacing: 1px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--text-dark);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
         }
 
         .navbar-nav .nav-link {
-            color: var(--text-gray) !important;
-            font-weight: 400;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease;
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
         .navbar-nav .nav-link:hover {
-            color: var(--cappuccino-dark) !important;
+            color: var(--accent-caramel) !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Navbar Toggler */
+        .navbar-toggler {
+            border: none !important;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(93, 64, 55, 0.25);
+            outline: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(93, 64, 55, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: var(--text-dark);
+            padding: 0.5rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: var(--cappuccino-light);
+            color: var(--text-dark);
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid var(--border-light);
+            margin: 0.5rem 0;
+        }
+
+        /* Asegurar que todos los iconos en el navbar sean visibles */
+        .navbar-nav .nav-link i {
+            color: var(--text-dark) !important;
+        }
+
+        .navbar-nav .nav-link:hover i {
+            color: var(--accent-caramel) !important;
+        }
+
+        /* Forzar colores en todos los elementos del navbar */
+        .navbar-nav .nav-link,
+        .navbar-nav .nav-link:visited,
+        .navbar-nav .nav-link:active {
+            color: var(--text-dark) !important;
+        }
+
+        /* Asegurar que el dropdown toggle tenga el color correcto */
+        .dropdown-toggle::after {
+            border-top-color: var(--text-dark) !important;
         }
 
         /* Hero Section Moderno */
@@ -166,7 +275,7 @@
 
         .info-label {
             font-size: 0.85rem;
-            color: var(--text-light);
+            color: var(--text-gray);
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -577,14 +686,14 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background: var(--cappuccino) !important;">
         <div class="container">
             <a class="navbar-brand" href="{% url 'inicio_publico' %}">Re:Connect</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a>
                     </li>
@@ -594,19 +703,33 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'carrito' %}">
+                        <a class="nav-link" href="{% url 'carrito' %}" onclick="return verificarSesion()">
                             <i class="fas fa-shopping-cart"></i> Carrito
                         </a>
                     </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
                     {% if usuario_nombre %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user"></i> {{ usuario_nombre }}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="{% url 'perfil' %}"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}"><i class="fas fa-box"></i> Mis Pedidos</a></li>
+                            {% if es_admin %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_superusuario' %}"><i class="fas fa-user-shield"></i> Crear SuperUsuario</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar_superusuarios' %}"><i class="fas fa-users-cog"></i> Lista de SuperUsuarios</a></li>
+                            {% endif %}
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                         </ul>
@@ -643,6 +766,7 @@
                 Información del Pedido
             </h2>
             
+            <!-- Información del Pedido - Ordenada -->
             <div class="info-grid">
                 <div class="info-item">
                     <div class="info-label">
@@ -670,6 +794,12 @@
             </div>
 
             <hr class="divider">
+
+            <!-- Información del Cliente - Ordenada -->
+            <h3 class="card-title" style="font-size: 1.2rem; margin-top: 30px; margin-bottom: 20px;">
+                <i class="fas fa-user"></i>
+                Información del Cliente
+            </h3>
 
             <div class="info-grid">
                 <div class="info-item">
@@ -707,6 +837,7 @@
                 </div>
             </div>
 
+            {% if pedido_data.direccion %}
             <div class="info-item" style="margin-top: 20px;">
                 <div class="info-label">
                     <i class="fas fa-map-marker-alt"></i>
@@ -714,6 +845,7 @@
                 </div>
                 <p class="info-value" style="font-size: 1.1rem; font-weight: 400;">{{ pedido_data.direccion }}</p>
             </div>
+            {% endif %}
         </div>
 
                 <!-- Desglose de Precios -->
@@ -798,7 +930,7 @@
         <!-- Thank You -->
         <div class="thank-you-section fade-in delay-3">
             <p>¡Gracias por tu compra!</p>
-            <small>Te esperamos en Re:Connect</small>
+            <p>Te esperamos en Re:Connect</p>
         </div>
 
         <!-- Action Buttons -->
@@ -815,5 +947,14 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function verificarSesion() {
+            {% if not usuario_nombre %}
+                alert('Debes iniciar sesión primero para acceder al carrito');
+                return false;
+            {% endif %}
+            return true;
+        }
+    </script>
 </body>
 </html>

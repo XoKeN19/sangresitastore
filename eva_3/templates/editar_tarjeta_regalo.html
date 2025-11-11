@@ -103,9 +103,25 @@
             opacity: 0.9;
         }
 
+        .form-control {
+            background-color: var(--admin-bg-hover);
+            color: var(--admin-text-light);
+            border: 1px solid var(--admin-border);
+        }
+
         .form-control:focus {
+            background-color: var(--admin-bg-card);
+            color: var(--admin-text-white);
             border-color: var(--admin-accent-rose);
-            box-shadow: 0 0 0 0.2rem rgba(168, 230, 207, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--admin-text-gray);
+        }
+
+        .form-label {
+            color: var(--admin-text-white);
         }
 
         .alert-info {
@@ -192,7 +208,11 @@
                                     <i class="fas fa-dollar-sign"></i> Precio
                                 </label>
                                 <input type="number" class="form-control" id="precio" name="precio" 
-                                       value="{{ tarjeta_regalo.precio }}" step="0.01" required>
+                                       value="{{ tarjeta_regalo.precio|floatformat:0 }}" 
+                                       step="1" min="0" required style="color: var(--admin-text-white);">
+                                <small class="form-text" style="color: var(--admin-text-gray); margin-top: 5px;">
+                                    <i class="fas fa-info-circle"></i> Precio actual: ${{ tarjeta_regalo.precio|floatformat:0 }}
+                                </small>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="stock" class="form-label">
