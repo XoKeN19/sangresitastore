@@ -126,19 +126,34 @@
         }
 
         .form-wrapper {
-            background: white;
+            background: var(--admin-bg-card);
             border-radius: 20px;
             padding: 50px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
             border-top: 4px solid var(--admin-accent-rose);
+            color: var(--admin-text-light);
         }
 
         .alert-info-custom {
-            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
-            border-left: 4px solid #17a2b8;
+            background: var(--admin-bg-hover);
+            border-left: 4px solid var(--admin-accent-rose);
             padding: 15px 20px;
             border-radius: 10px;
             margin-bottom: 30px;
+            color: var(--admin-text-light);
+        }
+
+        .alert-info-custom p {
+            color: var(--admin-text-light);
+            margin: 0;
+        }
+
+        .alert-info-custom strong {
+            color: var(--admin-text-white);
+        }
+
+        .alert-info-custom i {
+            color: var(--admin-accent-rose);
         }
 
         .form-group {
@@ -147,7 +162,7 @@
 
         .form-label {
             font-weight: 500;
-            color: var(--admin-text-light);
+            color: var(--admin-text-white);
             margin-bottom: 8px;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -162,15 +177,24 @@
         }
 
         .form-control {
+            background: var(--admin-bg-hover);
             border: 2px solid var(--admin-border);
             border-radius: 8px;
             padding: 12px 16px;
             transition: all 0.3s ease;
+            color: var(--admin-text-light);
         }
 
         .form-control:focus {
+            background: var(--admin-bg-card);
             border-color: var(--admin-accent-rose);
-            box-shadow: 0 0 0 0.2rem rgba(240, 98, 146, 0.15);
+            box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+            color: var(--admin-text-white);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--admin-text-gray);
         }
 
         textarea.form-control {
@@ -189,26 +213,32 @@
             transition: all 0.3s ease;
             width: 100%;
             font-size: 1rem;
+            color: var(--admin-text-white);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(240, 98, 146, 0.3);
             background: linear-gradient(135deg, var(--admin-accent-rose), var(--anthracite));
+            color: var(--admin-text-white);
         }
 
         .btn-secondary {
-            background: #6c757d;
-            border: none;
+            background: var(--admin-bg-hover);
+            border: 2px solid var(--admin-border);
             padding: 12px 30px;
             border-radius: 8px;
             font-weight: 500;
             transition: all 0.3s ease;
+            color: var(--admin-text-light);
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            background: var(--admin-bg-card);
+            border-color: var(--admin-accent-rose);
             transform: translateY(-2px);
+            color: var(--admin-text-white);
         }
 
         .alert {
@@ -409,19 +439,27 @@
         }
 
         .dropdown-menu {
-            border: none;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             border-radius: 10px;
+            padding: 0.5rem 0;
         }
 
         .dropdown-item {
+            color: var(--admin-text-light);
             padding: 10px 20px;
             transition: all 0.2s ease;
         }
 
         .dropdown-item:hover {
-            background: var(--light-gray);
+            background: var(--admin-bg-hover);
             color: var(--admin-accent-rose);
+        }
+
+        .dropdown-divider {
+            border-color: var(--admin-border);
+            margin: 0.5rem 0;
         }
     </style>
 </head>
@@ -517,7 +555,7 @@
         <div class="form-wrapper">
             <!-- Info Alert -->
             <div class="alert-info-custom">
-                <p style="margin: 0; color: #0c5460;">
+                <p style="margin: 0; color: var(--admin-text-light);">
                     <i class="fas fa-info-circle"></i> 
                     <strong>Importante:</strong> Este usuario tendrá acceso completo al panel administrativo y podrá gestionar todos los aspectos de la tienda.
                 </p>
@@ -550,7 +588,7 @@
                         <i class="fas fa-envelope"></i> Email *
                     </label>
                     <input type="email" class="form-control" id="email" name="email" required>
-                    <small class="text-muted">Este será el email de inicio de sesión</small>
+                    <small style="color: var(--admin-text-gray);">Este será el email de inicio de sesión</small>
                 </div>
 
                 <div class="form-group">
@@ -558,7 +596,7 @@
                         <i class="fas fa-lock"></i> Contraseña *
                     </label>
                     <input type="password" class="form-control" id="password" name="password" minlength="6" required>
-                    <small class="text-muted">Mínimo 6 caracteres</small>
+                    <small style="color: var(--admin-text-gray);">Mínimo 6 caracteres</small>
                 </div>
 
                 <div class="form-group">
@@ -597,10 +635,10 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-links">
-                        <a href="#">Aviso Legal</a>
-                        <a href="#">Política de Privacidad</a>
-                        <a href="#">Política de Cookies</a>
-                        <a href="#">Términos y Condiciones</a>
+                        <a href="{% url 'aviso_legal' %}">Aviso Legal</a>
+                        <a href="{% url 'politica_privacidad' %}">Política de Privacidad</a>
+                        <a href="{% url 'politica_cookies' %}">Política de Cookies</a>
+                        <a href="{% url 'terminos_condiciones' %}">Términos y Condiciones</a>
                     </div>
                     
                     <div class="footer-brand-center">
@@ -639,7 +677,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <p class="footer-bottom-info">
-                    Re:Connect <span>|</span> Mall Plaza Oriente Rancagua, Piso 2 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
+                    Re:Connect <span>|</span> Rancagua Outlet Mall (ROM), 1er piso, 12 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
                 </p>
             </div>
         </div>

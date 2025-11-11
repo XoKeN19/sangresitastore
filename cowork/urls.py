@@ -48,6 +48,10 @@ urlpatterns = [
     path('procesar-superusuario', views.crearSuperusuario, name='procesar_superusuario'),
     path('listar-superusuarios', views.listarSuperusuarios, name='listar_superusuarios'),
     path('eliminar-superusuario/<int:usuario_id>', views.eliminarSuperusuario, name='eliminar_superusuario'),
+    path('aviso-legal', views.mostrarAvisoLegal, name='aviso_legal'),
+    path('politica-privacidad', views.mostrarPoliticaPrivacidad, name='politica_privacidad'),
+    path('politica-cookies', views.mostrarPoliticaCookies, name='politica_cookies'),
+    path('terminos-condiciones', views.mostrarTerminosCondiciones, name='terminos_condiciones'),
 ]
 
 # Configuración para servir archivos de medios en desarrollo

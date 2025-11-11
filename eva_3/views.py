@@ -1402,6 +1402,54 @@ def crearSuperusuario(request):
     
     return redirect('crear_superusuario')
 
+def mostrarAvisoLegal(request):
+    """Muestra la página de aviso legal"""
+    if not request.session.session_key:
+        request.session.create()
+    usuario_nombre = request.session.get('usuario_nombre', None)
+    es_admin = request.session.get('es_admin', False)
+    context = {
+        'usuario_nombre': usuario_nombre,
+        'es_admin': es_admin
+    }
+    return render(request, 'aviso_legal.html', context)
+
+def mostrarPoliticaPrivacidad(request):
+    """Muestra la página de política de privacidad"""
+    if not request.session.session_key:
+        request.session.create()
+    usuario_nombre = request.session.get('usuario_nombre', None)
+    es_admin = request.session.get('es_admin', False)
+    context = {
+        'usuario_nombre': usuario_nombre,
+        'es_admin': es_admin
+    }
+    return render(request, 'politica_privacidad.html', context)
+
+def mostrarPoliticaCookies(request):
+    """Muestra la página de política de cookies"""
+    if not request.session.session_key:
+        request.session.create()
+    usuario_nombre = request.session.get('usuario_nombre', None)
+    es_admin = request.session.get('es_admin', False)
+    context = {
+        'usuario_nombre': usuario_nombre,
+        'es_admin': es_admin
+    }
+    return render(request, 'politica_cookies.html', context)
+
+def mostrarTerminosCondiciones(request):
+    """Muestra la página de términos y condiciones"""
+    if not request.session.session_key:
+        request.session.create()
+    usuario_nombre = request.session.get('usuario_nombre', None)
+    es_admin = request.session.get('es_admin', False)
+    context = {
+        'usuario_nombre': usuario_nombre,
+        'es_admin': es_admin
+    }
+    return render(request, 'terminos_condiciones.html', context)
+
 def listarSuperusuarios(request):
     """Vista para listar todos los superusuarios"""
     if 'usuario_id' not in request.session or not request.session.get('es_admin', False):

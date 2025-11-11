@@ -1,0 +1,569 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}?v=3">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=3">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon.png' %}?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/favicon.png' %}?v=3">
+    <meta name="theme-color" content="#F5F1EB">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Cookies - Re:Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Variables CSS para Re:Connect - Tema Capuchino (Frontend) */
+        :root {
+            --cappuccino: #D4B5A0;
+            --cappuccino-dark: #C49B7A;
+            --cappuccino-light: #E8D5C4;
+            --bg-cream: #F5F1EB;
+            --bg-white: #ffffff;
+            --bg-beige: #F0E6D6;
+            --pure-white: #ffffff;
+            --text-dark: #5D4037;
+            --text-gray: #8D6E63;
+            --text-light: #ffffff;
+            --border-light: #D4B5A0;
+            --accent-caramel: #D2691E;
+            --accent-mocha: #6F4E37;
+            --shadow-soft: 0 2px 20px rgba(212, 181, 160, 0.15);
+            --shadow-medium: 0 8px 40px rgba(212, 181, 160, 0.2);
+            --shadow-strong: 0 15px 60px rgba(212, 181, 160, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-cream);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: var(--cappuccino);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--cappuccino-dark);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(212, 181, 160, 0.2);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--text-dark) !important;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--text-dark);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin: 0 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-caramel) !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--cappuccino) 0%, var(--cappuccino-dark) 100%);
+            color: var(--text-dark);
+            padding: 120px 0 80px;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            padding: 60px 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .legal-content {
+            background: var(--pure-white);
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 30px;
+        }
+
+        .legal-content h2 {
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--cappuccino-light);
+        }
+
+        .legal-content h3 {
+            color: var(--accent-caramel);
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .legal-content p {
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .legal-content ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .legal-content li {
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .legal-content strong {
+            color: var(--text-dark);
+        }
+
+        .footer {
+            background: var(--cappuccino-dark);
+            color: var(--text-dark);
+        }
+
+        .footer-top {
+            background: var(--cappuccino-dark);
+            padding: 60px 0 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-brand-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .footer-logo-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--text-dark);
+            margin: 8px 0;
+        }
+
+        .footer-year {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cappuccino-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            background: var(--accent-caramel);
+            color: var(--text-dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-quick-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            opacity: 0.95;
+        }
+
+        .footer-quick-links a:hover {
+            color: var(--accent-caramel);
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            background: var(--text-dark);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-bottom-info {
+            color: var(--pure-white);
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin: 0;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom-info span {
+            margin: 0 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .legal-content {
+                padding: 30px 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-brand-center {
+                grid-column: 1;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio_publico' %}">Re:Connect</a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio_publico' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'tienda' %}">Videojuegos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito' %}" onclick="return verificarSesion()">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                        </a>
+                    </li>
+                    {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_panel' %}">
+                            <i class="fas fa-cog"></i> Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if usuario_nombre %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i> {{ usuario_nombre }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{% url 'perfil' %}"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'mis_pedidos' %}"><i class="fas fa-box"></i> Mis Pedidos</a></li>
+                            {% if es_admin %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_superusuario' %}"><i class="fas fa-user-shield"></i> Crear SuperUsuario</a></li>
+                                <li><a class="dropdown-item" href="{% url 'listar_superusuarios' %}"><i class="fas fa-users-cog"></i> Lista de SuperUsuarios</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-cookie-bite"></i> Política de Cookies</h1>
+            <p>Uso de cookies en nuestro sitio web</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>1. ¿Qué son las Cookies?</h2>
+                <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo (computadora, tablet o móvil) cuando visita nuestro sitio web. Estas cookies nos permiten reconocer su navegador y capturar y recordar cierta información sobre sus preferencias o acciones pasadas.</p>
+                <p>Re:Connect utiliza cookies para mejorar su experiencia de navegación, analizar el tráfico del sitio web y personalizar el contenido según sus intereses.</p>
+
+                <h2>2. Tipos de Cookies que Utilizamos</h2>
+                <h3>2.1. Cookies Técnicas (Necesarias)</h3>
+                <p>Estas cookies son esenciales para el funcionamiento del sitio web y no pueden desactivarse. Incluyen:</p>
+                <ul>
+                    <li><strong>Cookies de sesión:</strong> Mantienen su sesión activa mientras navega por el sitio</li>
+                    <li><strong>Cookies de seguridad:</strong> Protegen contra accesos no autorizados y fraudes</li>
+                    <li><strong>Cookies de autenticación:</strong> Identifican al usuario cuando inicia sesión</li>
+                </ul>
+
+                <h3>2.2. Cookies de Funcionalidad</h3>
+                <p>Estas cookies permiten que el sitio web recuerde sus preferencias y elecciones:</p>
+                <ul>
+                    <li>Preferencias de idioma</li>
+                    <li>Productos en el carrito de compras</li>
+                    <li>Configuraciones de visualización</li>
+                    <li>Historial de navegación reciente</li>
+                </ul>
+
+                <h3>2.3. Cookies Analíticas</h3>
+                <p>Nos ayudan a entender cómo los visitantes interactúan con nuestro sitio web:</p>
+                <ul>
+                    <li>Número de visitantes y páginas vistas</li>
+                    <li>Tiempo de permanencia en el sitio</li>
+                    <li>Páginas más visitadas</li>
+                    <li>Origen del tráfico</li>
+                </ul>
+
+                <h3>2.4. Cookies de Marketing</h3>
+                <p>Se utilizan para mostrarle anuncios relevantes y rastrear la efectividad de nuestras campañas:</p>
+                <ul>
+                    <li>Productos que ha visto anteriormente</li>
+                    <li>Intereses basados en su navegación</li>
+                    <li>Medición de conversiones</li>
+                </ul>
+
+                <h2>3. Cookies de Terceros</h2>
+                <p>Algunas cookies son establecidas por servicios de terceros que aparecen en nuestras páginas:</p>
+                <ul>
+                    <li><strong>Google Analytics:</strong> Para análisis de tráfico web</li>
+                    <li><strong>Redes Sociales:</strong> Para compartir contenido en plataformas sociales</li>
+                    <li><strong>Proveedores de pago:</strong> Para procesar transacciones de forma segura</li>
+                </ul>
+                <p>Estas cookies están sujetas a las políticas de privacidad de los respectivos terceros.</p>
+
+                <h2>4. Finalidad del Uso de Cookies</h2>
+                <p>Utilizamos cookies para:</p>
+                <ul>
+                    <li>Garantizar el correcto funcionamiento del sitio web</li>
+                    <li>Mantener su sesión activa durante la navegación</li>
+                    <li>Recordar sus preferencias y configuraciones</li>
+                    <li>Mejorar la experiencia de usuario</li>
+                    <li>Analizar el comportamiento de los usuarios para mejorar nuestros servicios</li>
+                    <li>Personalizar el contenido y las ofertas según sus intereses</li>
+                    <li>Proporcionar funcionalidades de redes sociales</li>
+                </ul>
+
+                <h2>5. Duración de las Cookies</h2>
+                <h3>5.1. Cookies de Sesión</h3>
+                <p>Se eliminan automáticamente cuando cierra su navegador.</p>
+
+                <h3>5.2. Cookies Persistentes</h3>
+                <p>Permanecen en su dispositivo durante un período determinado o hasta que las elimine manualmente. La duración varía según el tipo de cookie:</p>
+                <ul>
+                    <li><strong>Cookies de funcionalidad:</strong> Hasta 1 año</li>
+                    <li><strong>Cookies analíticas:</strong> Hasta 2 años</li>
+                    <li><strong>Cookies de marketing:</strong> Hasta 1 año</li>
+                </ul>
+
+                <h2>6. Gestión de Cookies</h2>
+                <p>Usted tiene control sobre las cookies. Puede configurar su navegador para aceptar, rechazar o eliminar cookies. Sin embargo, tenga en cuenta que:</p>
+                <ul>
+                    <li>Si desactiva las cookies técnicas, algunas funcionalidades del sitio pueden no funcionar correctamente</li>
+                    <li>La experiencia de usuario puede verse afectada</li>
+                    <li>Algunos servicios pueden no estar disponibles</li>
+                </ul>
+
+                <h3>6.1. Cómo Gestionar Cookies en su Navegador</h3>
+                <p><strong>Google Chrome:</strong> Configuración > Privacidad y seguridad > Cookies y otros datos de sitios</p>
+                <p><strong>Mozilla Firefox:</strong> Opciones > Privacidad y seguridad > Cookies y datos del sitio</p>
+                <p><strong>Safari:</strong> Preferencias > Privacidad > Cookies y datos de sitios web</p>
+                <p><strong>Microsoft Edge:</strong> Configuración > Privacidad, búsqueda y servicios > Cookies</p>
+
+                <h2>7. Consentimiento</h2>
+                <p>Al continuar navegando en nuestro sitio web después de ver el aviso de cookies, usted consiente el uso de cookies de acuerdo con esta política. Puede retirar su consentimiento en cualquier momento modificando la configuración de su navegador.</p>
+
+                <h2>8. Actualizaciones de esta Política</h2>
+                <p>Nos reservamos el derecho de actualizar esta política de cookies en cualquier momento. Las modificaciones serán publicadas en esta página con la fecha de actualización.</p>
+
+                <h2>9. Más Información</h2>
+                <p>Para obtener más información sobre cookies y cómo funcionan, puede visitar:</p>
+                <ul>
+                    <li><a href="https://www.allaboutcookies.org" target="_blank" rel="noopener">www.allaboutcookies.org</a></li>
+                    <li><a href="https://www.youronlinechoices.com" target="_blank" rel="noopener">www.youronlinechoices.com</a></li>
+                </ul>
+
+                <h2>10. Contacto</h2>
+                <p>Si tiene preguntas sobre nuestra política de cookies, puede contactarnos:</p>
+                <ul>
+                    <li><strong>Email:</strong> info@reconnect.cl</li>
+                    <li><strong>Teléfono:</strong> +56 9 1234 5678</li>
+                    <li><strong>Dirección:</strong> Rancagua Outlet Mall (ROM), 1er piso, 12, Rancagua, Chile</li>
+                </ul>
+
+                <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--cappuccino-light);">
+                    <strong>Última actualización:</strong> Enero 2025
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="{% url 'aviso_legal' %}">Aviso Legal</a>
+                        <a href="{% url 'politica_privacidad' %}">Política de Privacidad</a>
+                        <a href="{% url 'politica_cookies' %}">Política de Cookies</a>
+                        <a href="{% url 'terminos_condiciones' %}">Términos y Condiciones</a>
+                    </div>
+                    <div class="footer-brand-center">
+                        <h2 class="footer-logo">Re:Connect</h2>
+                        <div class="footer-logo-divider"></div>
+                        <p class="footer-year">2025</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-quick-links">
+                        <a href="{% url 'inicio_publico' %}">Inicio</a>
+                        <a href="{% url 'tienda' %}">Videojuegos</a>
+                        <a href="{% url 'tarjetas_regalo' %}">Tarjetas de Regalo</a>
+                        <a href="{% url 'carrito' %}">Carrito</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-bottom-info">
+                    Re:Connect <span>|</span> Rancagua Outlet Mall (ROM), 1er piso, 12 <span>|</span> info@reconnect.cl <span>|</span> +56 9 1234 5678
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function verificarSesion() {
+            {% if not usuario_nombre %}
+                alert('Debes iniciar sesión primero para acceder al carrito');
+                return false;
+            {% endif %}
+            return true;
+        }
+    </script>
+</body>
+</html>
+

@@ -278,6 +278,7 @@
 
         .navbar-nav .nav-link:hover {
             color: var(--admin-accent-rose) !important;
+            background: transparent;
         }
 
         .navbar-nav .nav-link::after {
@@ -416,7 +417,7 @@
 
         /* Buttons */
         .btn-premium {
-            background: transparent;
+            background: var(--admin-bg-card);
             border: 2px solid var(--admin-accent-rose);
             color: var(--admin-accent-rose);
             padding: 10px 25px;
@@ -427,6 +428,7 @@
             position: relative;
             overflow: hidden;
             font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .btn-premium::before {
@@ -709,8 +711,22 @@
         .form-label {
             font-weight: 400;
             letter-spacing: 1px;
-            color: var(--admin-text-light);
+            color: var(--admin-text-white);
             margin-bottom: 8px;
+        }
+
+        .form-label strong {
+            color: var(--admin-text-white);
+            font-weight: 600;
+        }
+
+        .form-control-plaintext {
+            color: var(--admin-text-light);
+            font-size: 1rem;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
         }
 
         /* Modal */
@@ -752,6 +768,31 @@
 
         .btn-close:hover {
             opacity: 1;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            background: var(--admin-bg-card);
+            border: 1px solid var(--admin-border);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-item {
+            color: var(--admin-text-light);
+            padding: 10px 20px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--admin-bg-hover);
+            color: var(--admin-accent-rose);
+        }
+
+        .dropdown-divider {
+            border-color: var(--admin-border);
+            margin: 0.5rem 0;
         }
 
         /* Filtros y búsqueda */
